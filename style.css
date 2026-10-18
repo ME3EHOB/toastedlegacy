@@ -100,6 +100,29 @@ body::before {
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
+/* Счётчик онлайн в правом нижнем углу */
+#online-counter {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    color: #00ff88;
+    font-family: "Oswald", "Impact", sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    pointer-events: none;
+    text-shadow: 
+        0 0 10px rgba(0, 255, 136, 0.8),
+        0 0 20px rgba(0, 255, 136, 0.4);
+    animation: onlinePulse 2s infinite ease-in-out;
+}
+
+@keyframes onlinePulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
 @media (max-width: 600px) {
     .countdown {
         gap: 15px;
@@ -117,6 +140,11 @@ body::before {
     #video-date {
         font-size: 14px;
         top: 10px;
+        right: 10px;
+    }
+    #online-counter {
+        font-size: 12px;
+        bottom: 10px;
         right: 10px;
     }
 }
