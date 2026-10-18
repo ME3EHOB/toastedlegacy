@@ -1,38 +1,3 @@
-// ===== ФОНОВОЕ ВИДЕО =====
-const videos = [
-    { id: "YY0a-AQhVck", date: "22.12.25" },
-    { id: "Rvw4yWbrxVI", date: "02.01.26" },
-    { id: "fGRP7_R93-A", date: "17.01.26" },
-    { id: "41JJfVPjOWQ", date: "01.02.26" },
-    { id: "gLWZEREWPC8", date: "09.03.26" },
-    { id: "gj0izUkZf-U", date: "20.08.26" }
-];
-
-let currentVideo = 0;
-
-function loadVideo() {
-    const container = document.getElementById("bg-video");
-    const dateLabel = document.getElementById("video-date");
-    if (!container || videos.length === 0) return;
-
-    const video = videos[currentVideo];
-    container.innerHTML = `
-        <iframe
-            src="https://www.youtube.com/embed/${video.id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${video.id}&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3"
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
-        ></iframe>
-    `;
-
-    if (dateLabel) dateLabel.textContent = video.date;
-    currentVideo = (currentVideo + 1) % videos.length;
-}
-
-loadVideo();
-setInterval(loadVideo, 30000);
-
-
 // ===== ТАЙМЕР =====
 function updateCountdown() {
     const now = new Date();
@@ -59,6 +24,76 @@ function updateCountdown() {
 
 setInterval(updateCountdown, 1000);
 updateCountdown();
+
+
+// ===== ФОНОВОЕ ВИДЕО (до конца ролика) =====
+const videos = [
+    { id: "YY0a-AQhVck", date: "22.12.25" },
+    { id: "Rvw4yWbrxVI", date: "02.01.26" },
+    { id: "fGRP7_R93-A", date: "17.01.26" },
+    { id: "41JJfVPjOWQ", date: "01.02.26" },
+    { id: "gLWZEREWPC8", date: "09.03.26" },
+    { id: "gj0izUkZf-U", date: "20.08.26" }
+];
+
+let currentVideo = 0;
+let player = null;
+
+const tag = document.createElement("script");
+tag.src = "https://www.youtube.com/iframe_api";
+document.head.appendChild(tag);
+
+window.onYouTubeIframeAPIReady = function() {
+    createPlayer();
+};
+
+function createPlayer() {
+    const video = videos[currentVideo];
+    const dateLabel = document.getElementById("video-date");
+    if (dateLabel) dateLabel.textContent = video.date;
+
+    const container = document.getElementById("bg-video");
+    container.innerHTML = '<div id="yt-player"></div>';
+
+    player = new YT.Player("yt-player", {
+        videoId: video.id,
+        playerVars: {
+            autoplay: 1,
+            mute: 1,
+            controls: 0,
+            showinfo: 0,
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1,
+            disablekb: 1,
+            iv_load_policy: 3
+        },
+        events: {
+            onReady: function(event) {
+                event.target.playVideo();
+            },
+            onStateChange: function(event) {
+                if (event.data === YT.PlayerState.ENDED) {
+                    nextVideo();
+                }
+            }
+        }
+    });
+}
+
+function nextVideo() {
+    currentVideo = (currentVideo + 1) % videos.length;
+
+    if (player && player.loadVideoById) {
+        const video = videos[currentVideo];
+        const dateLabel = document.getElementById("video-date");
+        if (dateLabel) dateLabel.textContent = video.date;
+
+        player.loadVideoById(video.id);
+    } else {
+        createPlayer();
+    }
+}
 
 
 // ===== СЧЁТЧИК ОНЛАЙН (Firebase compat) =====
