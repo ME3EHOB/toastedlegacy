@@ -63,3 +63,48 @@ function updateCountdown() {
 
 setInterval(updateCountdown, 1000);
 updateCountdown();
+
+
+// ===== СЧЁТЧИК ОНЛАЙН (Firebase) =====
+// ⚠️ ЗАМЕНИ НА СВОЙ КОНФИГ ИЗ FIREBASE!
+const firebaseConfig = {
+    apiKey: "ВСТАВЬ_СВОЙ_API_KEY",
+    authDomain: "ВСТАВЬ.firebaseapp.com",
+    databaseURL: "https://ВСТАВЬ-default-rtdb.firebaseio.com",
+    projectId: "ВСТАВЬ",
+    storageBucket: "ВСТАВЬ.appspot.com",
+    messagingSenderId: "ВСТАВЬ",
+    appId: "ВСТАВЬ"
+};
+
+let database = null;
+let myConnectionRef = null;
+let onlineCountRef = null;
+
+try {
+    firebase.initializeApp(firebaseConfig);
+    database = firebase.database();
+    
+    // Уникальный ID для этого посетителя
+    const myId = "user_" + Math.random().toString(36).substr(2, 9);
+    myConnectionRef = database.ref("online/" + myId);
+    onlineCountRef = database.ref("online");
+    
+    // Добавляем себя
+    myConnectionRef.set(true);
+    
+    // Удаляем себя при закрытии
+    myConnectionRef.onDisconnect().remove();
+    
+    // Слушаем изменения количества онлайн
+    onlineCountRef.on("value", (snapshot) => {
+        const count = snapshot.numChildren();
+        const el = document.getElementById("online-count");
+        if (el) el.textContent = count;
+    });
+    
+} catch (error) {
+    console.error("Firebase error:", error);
+    const el = document.getElementById("online-counter");
+    if (el) el.style.display = "none";
+}
