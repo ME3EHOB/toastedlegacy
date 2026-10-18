@@ -12,9 +12,52 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
+/* Фон-видео */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+#bg-video iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw;
+    min-height: 100vh;
+    min-width: 177.77vh;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    border: none;
+}
+
+/* Затемнение поверх видео */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Таймер поверх всего */
 .countdown {
+    position: relative;
+    z-index: 2;
     display: flex;
     gap: 40px;
     flex-wrap: wrap;
@@ -43,6 +86,20 @@ body {
     font-family: "Oswald", "Impact", sans-serif;
 }
 
+/* Дата видео в левом верхнем углу */
+#video-date {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    color: #888888;
+    font-family: "Oswald", "Impact", sans-serif;
+    font-size: 18px;
+    letter-spacing: 3px;
+    pointer-events: none;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
 @media (max-width: 600px) {
     .countdown {
         gap: 15px;
@@ -53,5 +110,13 @@ body {
     .time-block p {
         font-size: 10px;
         letter-spacing: 2px;
+    }
+    #bg-video {
+        display: none;
+    }
+    #video-date {
+        font-size: 14px;
+        top: 10px;
+        left: 10px;
     }
 }
