@@ -6,7 +6,7 @@
 
 body {
     background: #000000;
-    font-family: "Oswald", "Impact", sans-serif;
+    font-family: "Impact", "Arial Narrow", sans-serif;
     color: #ffffff;
     min-height: 100vh;
     display: flex;
@@ -30,15 +30,17 @@ body {
     font-weight: bold;
     display: block;
     color: #ffffff;
-    font-family: "Oswald", "Impact", sans-serif;
+    font-family: "Impact", "Arial Narrow", sans-serif;
+    letter-spacing: 2px;
 }
 
 .time-block p {
     font-size: 14px;
     color: #666666;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     margin-top: 10px;
+    font-family: "Impact", "Arial Narrow", sans-serif;
 }
 
 @media (max-width: 600px) {
