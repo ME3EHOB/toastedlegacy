@@ -25,10 +25,7 @@ function loadVideo() {
         ></iframe>
     `;
 
-    if (dateLabel) {
-        dateLabel.textContent = video.date;
-    }
-
+    if (dateLabel) dateLabel.textContent = video.date;
     currentVideo = (currentVideo + 1) % videos.length;
 }
 
@@ -43,10 +40,9 @@ function updateCountdown() {
     const diff = targetDate - now;
 
     if (diff <= 0) {
-        document.getElementById("days").textContent = "00";
-        document.getElementById("hours").textContent = "00";
-        document.getElementById("minutes").textContent = "00";
-        document.getElementById("seconds").textContent = "00";
+        ["days", "hours", "minutes", "seconds"].forEach(id => {
+            document.getElementById(id).textContent = "00";
+        });
         return;
     }
 
@@ -65,46 +61,32 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
 
-// ===== СЧЁТЧИК ОНЛАЙН (Firebase) =====
-// ⚠️ ЗАМЕНИ НА СВОЙ КОНФИГ ИЗ FIREBASE!
+// ===== СЧЁТЧИК ОНЛАЙН (Firebase compat) =====
 const firebaseConfig = {
-    apiKey: "ВСТАВЬ_СВОЙ_API_KEY",
-    authDomain: "ВСТАВЬ.firebaseapp.com",
-    databaseURL: "https://ВСТАВЬ-default-rtdb.firebaseio.com",
-    projectId: "ВСТАВЬ",
-    storageBucket: "ВСТАВЬ.appspot.com",
-    messagingSenderId: "ВСТАВЬ",
-    appId: "ВСТАВЬ"
+    apiKey: "AIzaSyBw35A-ZB5HX4l30bpcodb9xtUSnHIz70w",
+    authDomain: "toastedlegacy.firebaseapp.com",
+    databaseURL: "https://toastedlegacy-default-rtdb.firebaseio.com",
+    projectId: "toastedlegacy",
+    storageBucket: "toastedlegacy.firebasestorage.app",
+    messagingSenderId: "112141364154",
+    appId: "1:112141364154:web:d69afa42ecfe2a79b40b83"
 };
-
-let database = null;
-let myConnectionRef = null;
-let onlineCountRef = null;
 
 try {
     firebase.initializeApp(firebaseConfig);
-    database = firebase.database();
-    
-    // Уникальный ID для этого посетителя
+    const database = firebase.database();
+
     const myId = "user_" + Math.random().toString(36).substr(2, 9);
-    myConnectionRef = database.ref("online/" + myId);
-    onlineCountRef = database.ref("online");
-    
-    // Добавляем себя
-    myConnectionRef.set(true);
-    
-    // Удаляем себя при закрытии
-    myConnectionRef.onDisconnect().remove();
-    
-    // Слушаем изменения количества онлайн
-    onlineCountRef.on("value", (snapshot) => {
+    const myRef = database.ref("online/" + myId);
+
+    myRef.set(true);
+    myRef.onDisconnect().remove();
+
+    database.ref("online").on("value", (snapshot) => {
         const count = snapshot.numChildren();
         const el = document.getElementById("online-count");
         if (el) el.textContent = count;
     });
-    
 } catch (error) {
     console.error("Firebase error:", error);
-    const el = document.getElementById("online-counter");
-    if (el) el.style.display = "none";
 }
