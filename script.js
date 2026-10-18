@@ -1,11 +1,11 @@
 // ===== ФОНОВОЕ ВИДЕО =====
 const videos = [
     { id: "YY0a-AQhVck", date: "22.12.25" },
-    { id: "Rvw4yWbrxVI", date: "??.??.??" },
-    { id: "fGRP7_R93-A", date: "??.??.??" },
-    { id: "41JJfVPjOWQ", date: "??.??.??" },
-    { id: "gLWZEREWPC8", date: "??.??.??" },
-    { id: "gj0izUkZf-U", date: "??.??.??" }
+    { id: "Rvw4yWbrxVI", date: "02.01.26" },
+    { id: "fGRP7_R93-A", date: "17.01.26" },
+    { id: "41JJfVPjOWQ", date: "01.02.26" },
+    { id: "gLWZEREWPC8", date: "09.03.26" },
+    { id: "gj0izUkZf-U", date: "20.08.26" }
 ];
 
 let currentVideo = 0;
