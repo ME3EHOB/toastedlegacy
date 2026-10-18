@@ -6,7 +6,7 @@
 
 body {
     background: #000000;
-    font-family: "Impact", "Arial Narrow", sans-serif;
+    font-family: "Oswald", "Impact", sans-serif;
     color: #ffffff;
     min-height: 100vh;
     display: flex;
@@ -16,7 +16,7 @@ body {
 
 .countdown {
     display: flex;
-    gap: 30px;
+    gap: 40px;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -26,11 +26,11 @@ body {
 }
 
 .time-block span {
-    font-size: 72px;
-    font-weight: bold;
+    font-size: 80px;
+    font-weight: 700;
     display: block;
     color: #ffffff;
-    font-family: "Impact", "Arial Narrow", sans-serif;
+    font-family: "Oswald", "Impact", sans-serif;
     letter-spacing: 2px;
 }
 
@@ -40,7 +40,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 4px;
     margin-top: 10px;
-    font-family: "Impact", "Arial Narrow", sans-serif;
+    font-family: "Oswald", "Impact", sans-serif;
 }
 
 @media (max-width: 600px) {
