@@ -53,20 +53,24 @@
             transition: left 0.4s ease-in-out;
             display: flex;
             flex-direction: column;
-            padding: 100px 30px 30px 30px;
+            justify-content: center;
+            padding: 80px 30px;
             border-right: 1px solid #333333;
+            gap: 10px;
         }
         #menu.open { left: 0; }
+
+        /* Кнопки меню — уменьшены */
         #menu button {
             background: transparent;
             border: none;
             border-bottom: 1px solid #222222;
             color: #cccccc;
             font-family: "Oswald", "Impact", sans-serif;
-            font-size: 22px;
+            font-size: 17px;
             letter-spacing: 3px;
             text-transform: uppercase;
-            padding: 20px 10px;
+            padding: 14px 10px;
             text-align: left;
             cursor: pointer;
             transition: all 0.3s;
@@ -76,28 +80,27 @@
             padding-left: 20px;
             border-color: #888888;
         }
+
+        /* Соцсети — отдельно снизу */
         #menu .socials-btn {
-            margin-top: auto;
+            margin-top: 40px;
             border-top: 1px solid #222222;
             border-bottom: none;
             color: #888888;
         }
 
-        /* ===== СЕКЦИИ ===== */
-        .page {
-            display: none;
-        }
-        .page.active {
-            display: block;
-        }
+        /* ===== СТРАНИЦЫ ===== */
+        .page { display: none; }
+        .page.active { display: block; }
 
-        /* ===== ГЛАВНАЯ СТРАНИЦА ===== */
+        /* ===== ГЛАВНАЯ ===== */
         /* Секция 1: Видео + название */
         .hero {
             position: relative;
             width: 100%;
             height: 100vh;
             overflow: hidden;
+            border-bottom: 1px solid #444444;
         }
         .hero iframe {
             position: absolute;
@@ -136,13 +139,14 @@
             align-items: center;
         }
 
-        /* Секция 2: Одно видео + 3 скриншота */
+        /* Секция 2: Видео + 3 скриншота */
         .media-section {
-            padding: 100px 40px;
+            padding: 80px 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 40px;
+            border-bottom: 1px solid #444444;
         }
         .media-section .video-container {
             width: 90%;
@@ -175,15 +179,16 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
         }
 
-        /* Секция 3: Три точки */
+        /* Секция 3: Три маленькие точки */
         .dots-section {
-            min-height: 400px;
+            min-height: 300px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 60px;
+            font-size: 18px;
             color: #666666;
-            letter-spacing: 30px;
+            letter-spacing: 12px;
+            border-bottom: 1px solid #444444;
         }
 
         /* Секция 4: Футер */
@@ -314,7 +319,7 @@
 
     <!-- ===== ГЛАВНАЯ ===== -->
     <div id="home" class="page active">
-        <!-- Секция 1: Видео + Toasted Legacy -->
+        <!-- Секция 1 -->
         <div class="hero">
             <iframe
                 src="https://www.youtube.com/embed/gj0izUkZf-U?autoplay=1&mute=1&controls=0&loop=1&playlist=gj0izUkZf-U&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3"
@@ -325,7 +330,7 @@
             <h1>Toasted Legacy</h1>
         </div>
 
-        <!-- Секция 2: Одно видео + 3 скриншота -->
+        <!-- Секция 2 -->
         <div class="media-section">
             <div class="video-container">
                 <iframe
@@ -342,13 +347,12 @@
             </div>
         </div>
 
-        <!-- Секция 3: Три точки -->
+        <!-- Секция 3 -->
         <div class="dots-section">• • •</div>
 
-        <!-- Секция 4: Футер -->
+        <!-- Секция 4 -->
         <footer>@ME3EH</footer>
 
-        <!-- Дата и счётчик (только на главной) -->
         <div id="video-date">20.08.26</div>
         <div id="online-counter"><span id="online-count">0</span> онлайн</div>
     </div>
@@ -403,7 +407,6 @@
         </div>
     </div>
 
-    <!-- ===== FIREBASE ===== -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
@@ -424,7 +427,6 @@
             window.location.href = "about:blank";
         }
 
-        // ===== Firebase счётчик онлайна =====
         const firebaseConfig = {
             apiKey: "AIzaSyBw35A-ZB5HX4l30bpcodb9xtUSnHIz70w",
             authDomain: "toastedlegacy.firebaseapp.com",
