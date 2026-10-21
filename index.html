@@ -8,28 +8,75 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="bg-video"></div>
-    <div id="video-date">--.--.--</div>
-    <div id="online-counter">
-        <span id="online-count">0</span> онлайн
+    <!-- ТАЙМЕР -->
+    <div id="timer-page">
+        <div class="countdown">
+            <div class="time-block"><span id="days">00</span><p>дней</p></div>
+            <div class="time-block"><span id="hours">00</span><p>часов</p></div>
+            <div class="time-block"><span id="minutes">00</span><p>минут</p></div>
+            <div class="time-block"><span id="seconds">00</span><p>секунд</p></div>
+        </div>
     </div>
 
-    <div class="countdown">
-        <div class="time-block">
-            <span id="days">00</span>
-            <p>дней</p>
+    <!-- ОСНОВНОЙ САЙТ -->
+    <div id="main-page">
+        <button id="menu-button" onclick="toggleMenu()">•••</button>
+
+        <div id="menu">
+            <button onclick="showPage('home')">Главная</button>
+            <button onclick="showPage('history')">История</button>
+            <button onclick="showPage('archive')">Архив</button>
+            <button onclick="showPage('theme')">Тематика</button>
+            <button onclick="showPage('creators')">Создатели</button>
+            <button onclick="closeSite()">R.</button>
+            <button class="socials-btn" onclick="showPage('socials')">Соцсети</button>
         </div>
-        <div class="time-block">
-            <span id="hours">00</span>
-            <p>часов</p>
+
+        <div id="home" class="page active">
+            <div class="hero">
+                <iframe src="https://www.youtube.com/embed/gj0izUkZf-U?autoplay=1&mute=1&controls=0&loop=1&playlist=gj0izUkZf-U&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <h1>Toasted Legacy</h1>
+            </div>
+            <div class="media-section">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/gj0izUkZf-U?rel=0&modestbranding=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                <div class="screenshots-row">
+                    <img src="image1TL.jpg" alt="Скриншот 1">
+                    <img src="image2TL.jpg" alt="Скриншот 2">
+                    <img src="image3TL.jpg" alt="Скриншот 3">
+                </div>
+            </div>
+            <div class="dots-section">• • •</div>
+            <footer>@ME3EH</footer>
+            <div id="video-date">20.08.26</div>
+            <div id="online-counter"><span id="online-count">0</span> онлайн</div>
         </div>
-        <div class="time-block">
-            <span id="minutes">00</span>
-            <p>минут</p>
+
+        <div id="history" class="page">
+            <div class="sub-page"><h2>История</h2><p>Скоро</p></div>
         </div>
-        <div class="time-block">
-            <span id="seconds">00</span>
-            <p>секунд</p>
+        <div id="archive" class="page">
+            <div class="sub-page"><h2>Архив</h2>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/gj0izUkZf-U?rel=0&modestbranding=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <div id="theme" class="page">
+            <div class="sub-page"><h2>Тематика</h2><p>Скоро</p></div>
+        </div>
+        <div id="creators" class="page">
+            <div class="sub-page"><h2>Создатели</h2></div>
+        </div>
+        <div id="socials" class="page">
+            <div class="sub-page"><h2>Соцсети</h2>
+                <div class="socials-list">
+                    <a href="https://youtube.com/@me3eh_gd" target="_blank">YouTube</a>
+                    <a href="https://t.me/ME3EHOB" target="_blank">Telegram</a>
+                    <a href="https://t.me/ToastGDTeam" target="_blank">Telegram команды</a>
+                </div>
+            </div>
         </div>
     </div>
 
