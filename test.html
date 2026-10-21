@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toasted Legacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000000;
+            font-family: "Oswald", "Impact", sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Фон-видео (фиксированный) */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        #bg-video iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 56.25vw;
+            min-height: 100vh;
+            min-width: 177.77vh;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            border: none;
+        }
+
+        /* Затемнение поверх видео */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Контент */
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Главный заголовок */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .hero h1 {
+            font-size: 80px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: #ffffff;
+            text-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Скриншоты */
+        .screenshots {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 100px 20px;
+        }
+
+        .screenshots img {
+            max-width: 90%;
+            width: 900px;
+            border: 1px solid #333333;
+            border-radius: 5px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Три точки */
+        .dots {
+            text-align: center;
+            padding: 150px 20px;
+            font-size: 60px;
+            color: #666666;
+            letter-spacing: 30px;
+        }
+
+        /* Футер */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666666;
+            font-size: 18px;
+            letter-spacing: 4px;
+        }
+
+        /* Кнопка меню */
+        #menu-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid #444444;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            letter-spacing: 2px;
+        }
+
+        #menu-button:hover {
+            background: #1a1a1a;
+            border-color: #888888;
+            transform: scale(1.1);
+        }
+
+        /* Меню */
+        #menu {
+            position: fixed;
+            top: 0;
+            left: -33.33vw;
+            width: 33.33vw;
+            height: 100vh;
+            background: rgba(5, 5, 5, 0.98);
+            z-index: 99;
+            transition: left 0.4s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            padding: 100px 30px 30px 30px;
+            border-right: 1px solid #333333;
+        }
+
+        #menu.open {
+            left: 0;
+        }
+
+        #menu button {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #222222;
+            color: #cccccc;
+            font-family: "Oswald", "Impact", sans-serif;
+            font-size: 22px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 20px 10px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #menu button:hover {
+            color: #ffffff;
+            padding-left: 20px;
+            border-color: #888888;
+        }
+
+        #menu .socials-btn {
+            margin-top: auto;
+            border-top: 1px solid #222222;
+            border-bottom: none;
+            color: #888888;
+        }
+
+        /* Разделы */
+        .section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 50;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 40px;
+        }
+
+        .section.active {
+            display: flex;
+        }
+
+        .section h2 {
+            font-size: 60px;
+            letter-spacing: 6px;
+            margin-bottom: 40px;
+            color: #ffffff;
+        }
+
+        .section p {
+            font-size: 24px;
+            color: #888888;
+            letter-spacing: 3px;
+        }
+
+        .section .back-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: 1px solid #444444;
+            color: #cccccc;
+            font-family: "Oswald", "Impact", sans-serif;
+            padding: 10px 20px;
+            font-size: 16px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .section .back-btn:hover {
+            background: #1a1a1a;
+            border-color: #888888;
+        }
+
+        .section .video-container {
+            width: 90%;
+            max-width: 900px;
+            aspect-ratio: 16 / 9;
+        }
+
+        .section .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #333333;
+            border-radius: 5px;
+        }
+
+        .section .socials-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .section .socials-list a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 24px;
+            letter-spacing: 3px;
+            transition: all 0.3s;
+            border: 1px solid #333333;
+            padding: 20px 40px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .section .socials-list a:hover {
+            color: #ffffff;
+            border-color: #888888;
+            background: #0a0a0a;
+        }
+
+        @media (max-width: 600px) {
+            #menu {
+                width: 80vw;
+                left: -80vw;
+            }
+            .hero h1 {
+                font-size: 40px;
+                letter-spacing: 4px;
+            }
+            .screenshots img {
+                width: 100%;
+            }
+            #menu-button {
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
+            .section h2 {
+                font-size: 36px;
+            }
+            .section p {
+                font-size: 16px;
+            }
+            .section .socials-list a {
+                font-size: 16px;
+                padding: 15px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="bg-video">
+        <iframe
+            src="https://www.youtube.com/embed/gj0izUkZf-U?autoplay=1&mute=1&controls=0&loop=1&playlist=gj0izUkZf-U&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+        ></iframe>
+    </div>
+
+    <button id="menu-button" onclick="toggleMenu()">•••</button>
+
+    <div id="menu">
+        <button onclick="showSection('history')">История</button>
+        <button onclick="showSection('archive')">Архив</button>
+        <button onclick="showSection('theme')">Тематика</button>
+        <button onclick="showSection('creators')">Создатели</button>
+        <button onclick="closeSite()">R.</button>
+        <button class="socials-btn" onclick="showSection('socials')">Соцсети</button>
+    </div>
+
+    <div class="content">
+        <div class="hero">
+            <h1>Toasted Legacy</h1>
+        </div>
+
+        <div class="screenshots">
+            <img src="image1TL.jpg" alt="Скриншот 1">
+            <img src="image2TL.jpg" alt="Скриншот 2">
+            <img src="image3TL.jpg" alt="Скриншот 3">
+        </div>
+
+        <div class="dots">• • •</div>
+
+        <footer>@ME3EH</footer>
+    </div>
+
+    <div id="history" class="section">
+        <button class="back-btn" onclick="hideSections()">✕</button>
+        <h2>История</h2>
+        <p>Скоро</p>
+    </div>
+
+    <div id="archive" class="section">
+        <button class="back-btn" onclick="hideSections()">✕</button>
+        <h2>Архив</h2>
+        <div class="video-container">
+            <iframe
+                src="https://www.youtube.com/embed/gj0izUkZf-U?rel=0&modestbranding=1"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+            ></iframe>
+        </div>
+    </div>
+
+    <div id="theme" class="section">
+        <button class="back-btn" onclick="hideSections()">✕</button>
+        <h2>Тематика</h2>
+        <p>Скоро</p>
+    </div>
+
+    <div id="creators" class="section">
+        <button class="back-btn" onclick="hideSections()">✕</button>
+        <h2>Создатели</h2>
+    </div>
+
+    <div id="socials" class="section">
+        <button class="back-btn" onclick="hideSections()">✕</button>
+        <h2>Соцсети</h2>
+        <div class="socials-list">
+            <a href="https://youtube.com/@me3eh_gd" target="_blank">YouTube</a>
+            <a href="https://t.me/ME3EHOB" target="_blank">Telegram</a>
+            <a href="https://t.me/ToastGDTeam" target="_blank">Telegram команды</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("menu").classList.toggle("open");
+        }
+
+        function showSection(id) {
+            hideSections();
+            document.getElementById(id).classList.add("active");
+            document.getElementById("menu").classList.remove("open");
+        }
+
+        function hideSections() {
+            document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+        }
+
+        function closeSite() {
+            window.close();
+            window.location.href = "about:blank";
+        }
+    </script>
+</body>
+</html>
