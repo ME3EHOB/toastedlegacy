@@ -6,11 +6,7 @@
     <title>Toasted Legacy</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background: #000000;
@@ -19,104 +15,7 @@
             overflow-x: hidden;
         }
 
-        /* Фон-видео (фиксированный) */
-        #bg-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-            opacity: 0.5;
-        }
-
-        #bg-video iframe {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100vw;
-            height: 56.25vw;
-            min-height: 100vh;
-            min-width: 177.77vh;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            border: none;
-        }
-
-        /* Затемнение поверх видео */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Контент */
-        .content {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Главный заголовок */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .hero h1 {
-            font-size: 80px;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            color: #ffffff;
-            text-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
-        }
-
-        /* Скриншоты */
-        .screenshots {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-            padding: 100px 20px;
-        }
-
-        .screenshots img {
-            max-width: 90%;
-            width: 900px;
-            border: 1px solid #333333;
-            border-radius: 5px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-        }
-
-        /* Три точки */
-        .dots {
-            text-align: center;
-            padding: 150px 20px;
-            font-size: 60px;
-            color: #666666;
-            letter-spacing: 30px;
-        }
-
-        /* Футер */
-        footer {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666666;
-            font-size: 18px;
-            letter-spacing: 4px;
-        }
-
-        /* Кнопка меню */
+        /* ===== КНОПКА МЕНЮ ===== */
         #menu-button {
             position: fixed;
             top: 20px;
@@ -136,14 +35,13 @@
             align-items: center;
             letter-spacing: 2px;
         }
-
         #menu-button:hover {
             background: #1a1a1a;
             border-color: #888888;
             transform: scale(1.1);
         }
 
-        /* Меню */
+        /* ===== МЕНЮ ===== */
         #menu {
             position: fixed;
             top: 0;
@@ -158,11 +56,7 @@
             padding: 100px 30px 30px 30px;
             border-right: 1px solid #333333;
         }
-
-        #menu.open {
-            left: 0;
-        }
-
+        #menu.open { left: 0; }
         #menu button {
             background: transparent;
             border: none;
@@ -177,13 +71,11 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
         #menu button:hover {
             color: #ffffff;
             padding-left: 20px;
             border-color: #888888;
         }
-
         #menu .socials-btn {
             margin-top: auto;
             border-top: 1px solid #222222;
@@ -191,79 +83,158 @@
             color: #888888;
         }
 
-        /* Разделы */
-        .section {
-            position: fixed;
+        /* ===== СЕКЦИИ ===== */
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+
+        /* ===== ГЛАВНАЯ СТРАНИЦА ===== */
+        /* Секция 1: Видео + название */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .hero iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 56.25vw;
+            min-height: 100vh;
+            min-width: 177.77vh;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            border: none;
+            opacity: 0.5;
+        }
+        .hero::after {
+            content: "";
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 50;
-            display: none;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+        .hero h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 80px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: #ffffff;
+            text-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+            height: 100%;
+            display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            padding: 40px;
         }
 
-        .section.active {
+        /* Секция 2: Одно видео + 3 скриншота */
+        .media-section {
+            padding: 100px 40px;
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
         }
-
-        .section h2 {
-            font-size: 60px;
-            letter-spacing: 6px;
-            margin-bottom: 40px;
-            color: #ffffff;
-        }
-
-        .section p {
-            font-size: 24px;
-            color: #888888;
-            letter-spacing: 3px;
-        }
-
-        .section .back-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: transparent;
-            border: 1px solid #444444;
-            color: #cccccc;
-            font-family: "Oswald", "Impact", sans-serif;
-            padding: 10px 20px;
-            font-size: 16px;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .section .back-btn:hover {
-            background: #1a1a1a;
-            border-color: #888888;
-        }
-
-        .section .video-container {
+        .media-section .video-container {
             width: 90%;
             max-width: 900px;
             aspect-ratio: 16 / 9;
-        }
-
-        .section .video-container iframe {
-            width: 100%;
-            height: 100%;
             border: 1px solid #333333;
             border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+        .media-section .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .screenshots-row {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .screenshots-row img {
+            width: 30%;
+            min-width: 250px;
+            border: 1px solid #333333;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
         }
 
-        .section .socials-list {
+        /* Секция 3: Три точки */
+        .dots-section {
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 60px;
+            color: #666666;
+            letter-spacing: 30px;
+        }
+
+        /* Секция 4: Футер */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666666;
+            font-size: 18px;
+            letter-spacing: 4px;
+        }
+
+        /* ===== ДРУГИЕ СТРАНИЦЫ ===== */
+        .sub-page {
+            min-height: 100vh;
+            padding: 120px 60px 60px 60px;
+        }
+        .sub-page h2 {
+            font-size: 60px;
+            letter-spacing: 6px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-align: left;
+        }
+        .sub-page p {
+            font-size: 24px;
+            color: #888888;
+            letter-spacing: 3px;
+            text-align: left;
+        }
+        .sub-page .video-container {
+            width: 90%;
+            max-width: 900px;
+            aspect-ratio: 16 / 9;
+            border: 1px solid #333333;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+        .sub-page .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .sub-page .socials-list {
             display: flex;
             flex-direction: column;
             gap: 30px;
+            margin-top: 40px;
+            max-width: 600px;
         }
-
-        .section .socials-list a {
+        .sub-page .socials-list a {
             color: #cccccc;
             text-decoration: none;
             font-size: 24px;
@@ -274,138 +245,210 @@
             border-radius: 5px;
             text-align: center;
         }
-
-        .section .socials-list a:hover {
+        .sub-page .socials-list a:hover {
             color: #ffffff;
             border-color: #888888;
             background: #0a0a0a;
         }
 
+        /* ===== ДАТА И СЧЁТЧИК ===== */
+        #video-date {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            color: #888888;
+            font-family: "Oswald", "Impact", sans-serif;
+            font-size: 18px;
+            letter-spacing: 3px;
+            pointer-events: none;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+        #online-counter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+            color: #00ff88;
+            font-family: "Oswald", "Impact", sans-serif;
+            font-size: 16px;
+            letter-spacing: 2px;
+            pointer-events: none;
+            text-shadow:
+                0 0 10px rgba(0, 255, 136, 0.8),
+                0 0 20px rgba(0, 255, 136, 0.4);
+            animation: onlinePulse 2s infinite ease-in-out;
+        }
+        @keyframes onlinePulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
         @media (max-width: 600px) {
-            #menu {
-                width: 80vw;
-                left: -80vw;
-            }
-            .hero h1 {
-                font-size: 40px;
-                letter-spacing: 4px;
-            }
-            .screenshots img {
-                width: 100%;
-            }
-            #menu-button {
-                width: 50px;
-                height: 50px;
-                font-size: 18px;
-            }
-            .section h2 {
-                font-size: 36px;
-            }
-            .section p {
-                font-size: 16px;
-            }
-            .section .socials-list a {
-                font-size: 16px;
-                padding: 15px 25px;
-            }
+            #menu { width: 80vw; left: -80vw; }
+            .hero h1 { font-size: 40px; letter-spacing: 4px; }
+            .screenshots-row img { width: 100%; }
+            #menu-button { width: 50px; height: 50px; font-size: 18px; }
+            .sub-page h2 { font-size: 36px; }
+            .sub-page p { font-size: 16px; }
+            .sub-page .socials-list a { font-size: 16px; padding: 15px 25px; }
+            .sub-page { padding: 100px 20px 40px 20px; }
+            #video-date { font-size: 14px; top: 10px; right: 10px; }
+            #online-counter { font-size: 12px; bottom: 10px; right: 10px; }
         }
     </style>
 </head>
 <body>
-    <div id="bg-video">
-        <iframe
-            src="https://www.youtube.com/embed/gj0izUkZf-U?autoplay=1&mute=1&controls=0&loop=1&playlist=gj0izUkZf-U&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3"
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
-        ></iframe>
-    </div>
-
     <button id="menu-button" onclick="toggleMenu()">•••</button>
 
     <div id="menu">
-        <button onclick="showSection('history')">История</button>
-        <button onclick="showSection('archive')">Архив</button>
-        <button onclick="showSection('theme')">Тематика</button>
-        <button onclick="showSection('creators')">Создатели</button>
+        <button onclick="showPage('home')">Главная</button>
+        <button onclick="showPage('history')">История</button>
+        <button onclick="showPage('archive')">Архив</button>
+        <button onclick="showPage('theme')">Тематика</button>
+        <button onclick="showPage('creators')">Создатели</button>
         <button onclick="closeSite()">R.</button>
-        <button class="socials-btn" onclick="showSection('socials')">Соцсети</button>
+        <button class="socials-btn" onclick="showPage('socials')">Соцсети</button>
     </div>
 
-    <div class="content">
+    <!-- ===== ГЛАВНАЯ ===== -->
+    <div id="home" class="page active">
+        <!-- Секция 1: Видео + Toasted Legacy -->
         <div class="hero">
-            <h1>Toasted Legacy</h1>
-        </div>
-
-        <div class="screenshots">
-            <img src="image1TL.jpg" alt="Скриншот 1">
-            <img src="image2TL.jpg" alt="Скриншот 2">
-            <img src="image3TL.jpg" alt="Скриншот 3">
-        </div>
-
-        <div class="dots">• • •</div>
-
-        <footer>@ME3EH</footer>
-    </div>
-
-    <div id="history" class="section">
-        <button class="back-btn" onclick="hideSections()">✕</button>
-        <h2>История</h2>
-        <p>Скоро</p>
-    </div>
-
-    <div id="archive" class="section">
-        <button class="back-btn" onclick="hideSections()">✕</button>
-        <h2>Архив</h2>
-        <div class="video-container">
             <iframe
-                src="https://www.youtube.com/embed/gj0izUkZf-U?rel=0&modestbranding=1"
+                src="https://www.youtube.com/embed/gj0izUkZf-U?autoplay=1&mute=1&controls=0&loop=1&playlist=gj0izUkZf-U&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3"
                 frameborder="0"
                 allow="autoplay; encrypted-media"
                 allowfullscreen
             ></iframe>
+            <h1>Toasted Legacy</h1>
+        </div>
+
+        <!-- Секция 2: Одно видео + 3 скриншота -->
+        <div class="media-section">
+            <div class="video-container">
+                <iframe
+                    src="https://www.youtube.com/embed/gj0izUkZf-U?rel=0&modestbranding=1"
+                    frameborder="0"
+                    allow="autoplay; encrypted-media"
+                    allowfullscreen
+                ></iframe>
+            </div>
+            <div class="screenshots-row">
+                <img src="image1TL.jpg" alt="Скриншот 1">
+                <img src="image2TL.jpg" alt="Скриншот 2">
+                <img src="image3TL.jpg" alt="Скриншот 3">
+            </div>
+        </div>
+
+        <!-- Секция 3: Три точки -->
+        <div class="dots-section">• • •</div>
+
+        <!-- Секция 4: Футер -->
+        <footer>@ME3EH</footer>
+
+        <!-- Дата и счётчик (только на главной) -->
+        <div id="video-date">20.08.26</div>
+        <div id="online-counter"><span id="online-count">0</span> онлайн</div>
+    </div>
+
+    <!-- ===== ИСТОРИЯ ===== -->
+    <div id="history" class="page">
+        <div class="sub-page">
+            <h2>История</h2>
+            <p>Скоро</p>
         </div>
     </div>
 
-    <div id="theme" class="section">
-        <button class="back-btn" onclick="hideSections()">✕</button>
-        <h2>Тематика</h2>
-        <p>Скоро</p>
-    </div>
-
-    <div id="creators" class="section">
-        <button class="back-btn" onclick="hideSections()">✕</button>
-        <h2>Создатели</h2>
-    </div>
-
-    <div id="socials" class="section">
-        <button class="back-btn" onclick="hideSections()">✕</button>
-        <h2>Соцсети</h2>
-        <div class="socials-list">
-            <a href="https://youtube.com/@me3eh_gd" target="_blank">YouTube</a>
-            <a href="https://t.me/ME3EHOB" target="_blank">Telegram</a>
-            <a href="https://t.me/ToastGDTeam" target="_blank">Telegram команды</a>
+    <!-- ===== АРХИВ ===== -->
+    <div id="archive" class="page">
+        <div class="sub-page">
+            <h2>Архив</h2>
+            <div class="video-container">
+                <iframe
+                    src="https://www.youtube.com/embed/gj0izUkZf-U?rel=0&modestbranding=1"
+                    frameborder="0"
+                    allow="autoplay; encrypted-media"
+                    allowfullscreen
+                ></iframe>
+            </div>
         </div>
     </div>
+
+    <!-- ===== ТЕМАТИКА ===== -->
+    <div id="theme" class="page">
+        <div class="sub-page">
+            <h2>Тематика</h2>
+            <p>Скоро</p>
+        </div>
+    </div>
+
+    <!-- ===== СОЗДАТЕЛИ ===== -->
+    <div id="creators" class="page">
+        <div class="sub-page">
+            <h2>Создатели</h2>
+        </div>
+    </div>
+
+    <!-- ===== СОЦСЕТИ ===== -->
+    <div id="socials" class="page">
+        <div class="sub-page">
+            <h2>Соцсети</h2>
+            <div class="socials-list">
+                <a href="https://youtube.com/@me3eh_gd" target="_blank">YouTube</a>
+                <a href="https://t.me/ME3EHOB" target="_blank">Telegram</a>
+                <a href="https://t.me/ToastGDTeam" target="_blank">Telegram команды</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FIREBASE ===== -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <script>
         function toggleMenu() {
             document.getElementById("menu").classList.toggle("open");
         }
 
-        function showSection(id) {
-            hideSections();
+        function showPage(id) {
+            document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
             document.getElementById(id).classList.add("active");
             document.getElementById("menu").classList.remove("open");
-        }
-
-        function hideSections() {
-            document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+            window.scrollTo(0, 0);
         }
 
         function closeSite() {
             window.close();
             window.location.href = "about:blank";
+        }
+
+        // ===== Firebase счётчик онлайна =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyBw35A-ZB5HX4l30bpcodb9xtUSnHIz70w",
+            authDomain: "toastedlegacy.firebaseapp.com",
+            databaseURL: "https://toastedlegacy-default-rtdb.firebaseio.com",
+            projectId: "toastedlegacy",
+            storageBucket: "toastedlegacy.firebasestorage.app",
+            messagingSenderId: "112141364154",
+            appId: "1:112141364154:web:d69afa42ecfe2a79b40b83"
+        };
+
+        try {
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+            const myId = "user_" + Math.random().toString(36).substr(2, 9);
+            const myRef = database.ref("online/" + myId);
+            myRef.set(true);
+            myRef.onDisconnect().remove();
+            database.ref("online").on("value", (snapshot) => {
+                const count = snapshot.numChildren();
+                const el = document.getElementById("online-count");
+                if (el) el.textContent = count;
+            });
+        } catch (error) {
+            console.error("Firebase error:", error);
         }
     </script>
 </body>
