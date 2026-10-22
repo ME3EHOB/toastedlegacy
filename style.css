@@ -7,41 +7,6 @@ body {
     overflow-x: hidden;
 }
 
-/* ===== ТАЙМЕР ===== */
-#timer-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-#timer-page.hidden { display: none; }
-
-.countdown {
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.time-block { text-align: center; }
-.time-block span {
-    font-size: 80px;
-    font-weight: 700;
-    display: block;
-    color: #ffffff;
-    letter-spacing: 2px;
-}
-.time-block p {
-    font-size: 14px;
-    color: #666666;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    margin-top: 10px;
-}
-
-/* ===== ОСНОВНОЙ САЙТ ===== */
-#main-page { display: none; }
-#main-page.active { display: block; }
-
 #menu-button {
     position: fixed;
     top: 20px;
@@ -113,7 +78,6 @@ body {
 .page { display: none; }
 .page.active { display: block; }
 
-/* Hero с видео */
 .hero {
     position: relative;
     width: 100%;
@@ -317,9 +281,6 @@ footer {
     .sub-page p { font-size: 16px; }
     .sub-page .socials-list a { font-size: 16px; padding: 15px 25px; }
     .sub-page { padding: 100px 20px 40px 20px; }
-    .time-block span { font-size: 40px; }
-    .time-block p { font-size: 10px; letter-spacing: 2px; }
-    .countdown { gap: 15px; }
     #video-date { font-size: 14px; top: 10px; right: 10px; }
     #online-counter { font-size: 12px; bottom: 10px; right: 10px; }
 }
