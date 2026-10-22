@@ -79,6 +79,37 @@ function closeSite() {
     window.location.href = "about:blank";
 }
 
+// ===== ЛАЙТБОКС =====
+function openLightbox(src) {
+    const lb = document.getElementById("lightbox");
+    const img = document.getElementById("lightbox-img");
+    if (!lb || !img) return;
+    img.src = src;
+    lb.classList.add("active");
+}
+
+function closeLightbox() {
+    const lb = document.getElementById("lightbox");
+    if (lb) lb.classList.remove("active");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const lb = document.getElementById("lightbox");
+    const closeBtn = document.getElementById("lightbox-close");
+
+    if (lb) {
+        lb.addEventListener("click", (e) => {
+            if (e.target === lb) closeLightbox();
+        });
+    }
+    if (closeBtn) {
+        closeBtn.addEventListener("click", closeLightbox);
+    }
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+    });
+});
+
 // ===== FIREBASE =====
 const firebaseConfig = {
     apiKey: "AIzaSyBw35A-ZB5HX4l30bpcodb9xtUSnHIz70w",
