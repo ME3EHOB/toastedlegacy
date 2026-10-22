@@ -165,6 +165,7 @@ body {
     border: 1px solid #333333;
     border-radius: 5px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    cursor: zoom-in;
 }
 
 .dots-section {
@@ -270,6 +271,45 @@ footer {
     0% { opacity: 0.7; }
     50% { opacity: 1; }
     100% { opacity: 0.7; }
+}
+
+/* ===== ЛАЙТБОКС ===== */
+#lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+}
+#lightbox.active {
+    display: flex;
+}
+#lightbox-img {
+    max-width: 95vw;
+    max-height: 90vh;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+}
+#lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #ffffff;
+    font-size: 40px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: "Oswald", "Impact", sans-serif;
+}
+#lightbox-close:hover {
+    color: #888888;
+    transform: scale(1.2);
 }
 
 @media (max-width: 600px) {
