@@ -6,6 +6,7 @@ if (now >= targetDate) {
     document.getElementById("timer-page").classList.add("hidden");
     document.getElementById("main-page").classList.add("active");
     initFirebase();
+    initVideoPlayer();
 } else {
     startCountdown();
 }
@@ -20,6 +21,7 @@ function startCountdown() {
             document.getElementById("timer-page").classList.add("hidden");
             document.getElementById("main-page").classList.add("active");
             initFirebase();
+            initVideoPlayer();
             return;
         }
 
@@ -36,6 +38,72 @@ function startCountdown() {
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
+}
+
+// ===== ФОНОВОЕ ВИДЕО (все 6 по кругу, до конца) =====
+const videos = [
+    { id: "YY0a-AQhVck", date: "22.12.25" },
+    { id: "Rvw4yWbrxVI", date: "02.01.26" },
+    { id: "fGRP7_R93-A", date: "17.01.26" },
+    { id: "41JJfVPjOWQ", date: "01.02.26" },
+    { id: "gLWZEREWPC8", date: "09.03.26" },
+    { id: "gj0izUkZf-U", date: "20.08.26" }
+];
+
+let currentVideo = 0;
+let player = null;
+
+function initVideoPlayer() {
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+}
+
+window.onYouTubeIframeAPIReady = function() {
+    createPlayer();
+};
+
+function createPlayer() {
+    const video = videos[currentVideo];
+    const dateLabel = document.getElementById("video-date");
+    if (dateLabel) dateLabel.textContent = video.date;
+
+    const container = document.getElementById("bg-video");
+    if (!container) return;
+    container.innerHTML = '<div id="yt-player"></div>';
+
+    player = new YT.Player("yt-player", {
+        videoId: video.id,
+        playerVars: {
+            autoplay: 1,
+            mute: 1,
+            controls: 0,
+            showinfo: 0,
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1,
+            disablekb: 1,
+            iv_load_policy: 3
+        },
+        events: {
+            onReady: function(event) { event.target.playVideo(); },
+            onStateChange: function(event) {
+                if (event.data === YT.PlayerState.ENDED) {
+                    nextVideo();
+                }
+            }
+        }
+    });
+}
+
+function nextVideo() {
+    currentVideo = (currentVideo + 1) % videos.length;
+    if (player && player.loadVideoById) {
+        const video = videos[currentVideo];
+        const dateLabel = document.getElementById("video-date");
+        if (dateLabel) dateLabel.textContent = video.date;
+        player.loadVideoById(video.id);
+    }
 }
 
 // ===== МЕНЮ =====
