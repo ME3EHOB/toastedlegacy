@@ -5,7 +5,7 @@ const videos = [
     { id: "fGRP7_R93-A", date: "17.01.26" },
     { id: "41JJfVPjOWQ", date: "01.02.26" },
     { id: "gLWZEREWPC8", date: "09.03.26" },
-    { id: "gj0izUkZf-U", date: "20.08.26" }
+    { id: "5yPU29pTQDA", date: "--.--.--" }
 ];
 
 let currentVideo = 0;
