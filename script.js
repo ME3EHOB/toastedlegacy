@@ -110,6 +110,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// ===== СПЛЕШИ =====
+async function loadSplash() {
+    try {
+        const response = await fetch("splashes.txt");
+        const text = await response.text();
+        const splashes = text
+            .split("\n")
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
+
+        if (splashes.length === 0) return;
+
+        const randomSplash = splashes[Math.floor(Math.random() * splashes.length)];
+        const splashEl = document.getElementById("splash");
+        if (splashEl) splashEl.textContent = randomSplash;
+    } catch (error) {
+        console.error("Splash error:", error);
+    }
+}
+
+loadSplash();
+
 // ===== FIREBASE =====
 const firebaseConfig = {
     apiKey: "AIzaSyBw35A-ZB5HX4l30bpcodb9xtUSnHIz70w",
