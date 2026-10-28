@@ -419,14 +419,14 @@ footer:hover {
 
 .news-item {
     display: flex;
-    flex-direction: row;
-    gap: 30px;
+    flex-direction: column;
+    gap: 20px;
     background: var(--glass);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 30px;
+    padding: 35px;
     text-align: left;
     transition: all 0.35s;
 }
@@ -434,22 +434,6 @@ footer:hover {
 .news-item:hover {
     border-color: var(--accent);
     box-shadow: 0 0 25px rgba(224, 74, 31, 0.15);
-}
-
-.news-item img {
-    width: 250px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    flex-shrink: 0;
-}
-
-.news-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 12px;
 }
 
 .news-date {
@@ -461,7 +445,7 @@ footer:hover {
 
 .news-title {
     color: var(--text);
-    font-size: 26px;
+    font-size: 28px;
     letter-spacing: 3px;
 }
 
@@ -470,6 +454,14 @@ footer:hover {
     font-size: 18px;
     line-height: 1.6;
     letter-spacing: 1px;
+}
+
+.news-item img {
+    width: 100%;
+    max-width: 700px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    align-self: flex-start;
 }
 
 .news-empty {
@@ -641,8 +633,7 @@ footer:hover {
     .description-section p { font-size: 16px; }
     .description-section .description-wait { font-size: 20px; }
     #splash { font-size: 14px; top: 60%; letter-spacing: 2px; }
-    .news-item { flex-direction: column; padding: 20px; }
-    .news-item img { width: 100%; height: auto; }
-    .news-title { font-size: 20px; }
+    .news-item { padding: 25px; }
+    .news-title { font-size: 22px; }
     .news-text { font-size: 15px; }
 }
