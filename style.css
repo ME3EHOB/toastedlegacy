@@ -203,7 +203,7 @@ body::before {
 /* ===== СПЛЕШ ===== */
 #splash {
     position: absolute;
-    top: 62%;
+    top: 72%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
@@ -407,6 +407,79 @@ footer:hover {
     margin-top: 40px;
 }
 
+/* ===== НОВОСТИ ===== */
+.news-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.news-item {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 30px;
+    text-align: left;
+    transition: all 0.35s;
+}
+
+.news-item:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 25px rgba(224, 74, 31, 0.15);
+}
+
+.news-item img {
+    width: 250px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.news-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+}
+
+.news-date {
+    color: var(--accent-light);
+    font-size: 16px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.news-title {
+    color: var(--text);
+    font-size: 26px;
+    letter-spacing: 3px;
+}
+
+.news-text {
+    color: var(--text-dim);
+    font-size: 18px;
+    line-height: 1.6;
+    letter-spacing: 1px;
+}
+
+.news-empty {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 22px;
+    letter-spacing: 3px;
+    padding: 60px 0;
+}
+
 /* ===== СОЦСЕТИ ===== */
 .sub-page .socials-list {
     display: flex;
@@ -567,5 +640,9 @@ footer:hover {
     #lightbox-close { top: 15px; right: 15px; width: 45px; height: 45px; font-size: 30px; }
     .description-section p { font-size: 16px; }
     .description-section .description-wait { font-size: 20px; }
-    #splash { font-size: 14px; top: 60%; letter-spacing: 2px; }
+    #splash { font-size: 14px; top: 70%; letter-spacing: 2px; }
+    .news-item { flex-direction: column; padding: 20px; }
+    .news-item img { width: 100%; height: auto; }
+    .news-title { font-size: 20px; }
+    .news-text { font-size: 15px; }
 }
