@@ -254,7 +254,6 @@ body::before {
 .media-section .video-container:hover {
     border-color: var(--accent);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(224, 74, 31, 0.15);
-    transform: translateY(-4px);
 }
 .media-section .video-container iframe {
     width: 100%;
@@ -286,13 +285,12 @@ body::before {
     border-radius: 14px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
     cursor: zoom-in;
-    transition: all 0.35s;
+    transition: border-color 0.35s, filter 0.35s, box-shadow 0.35s;
     filter: grayscale(30%);
 }
 .screenshots-row img:hover {
     border-color: var(--accent);
     filter: grayscale(0%);
-    transform: translateY(-6px);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(224, 74, 31, 0.15);
 }
 
@@ -394,7 +392,7 @@ footer:hover {
     overflow: hidden;
     margin-top: 50px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-    transition: all 0.4s;
+    transition: border-color 0.4s, box-shadow 0.4s;
 }
 .sub-page .video-container:hover {
     border-color: var(--accent);
@@ -437,7 +435,7 @@ footer:hover {
     border-radius: 14px;
     padding: 35px;
     text-align: left;
-    transition: all 0.35s;
+    transition: border-color 0.35s, box-shadow 0.35s;
 }
 
 .news-item:hover {
@@ -618,6 +616,52 @@ footer:hover {
     color: var(--accent-light);
     border-color: var(--accent);
     transform: scale(1.15) rotate(90deg);
+}
+
+/* ===== 2) GLITCH НА ЗАГОЛОВКЕ ===== */
+.hero h1.glitch {
+    animation: heroGlitch 0.3s ease-in-out;
+}
+
+@keyframes heroGlitch {
+    0%, 100% { 
+        transform: translate(0, 0); 
+        text-shadow: 0 0 30px rgba(224, 74, 31, 0.4), 0 0 60px rgba(224, 74, 31, 0.2); 
+    }
+    20% { 
+        transform: translate(-4px, 2px); 
+        text-shadow: 4px 0 0 rgba(255, 0, 0, 0.8), -4px 0 0 rgba(0, 217, 255, 0.8); 
+    }
+    40% { 
+        transform: translate(4px, -2px); 
+        text-shadow: -4px 0 0 rgba(255, 0, 0, 0.8), 4px 0 0 rgba(0, 217, 255, 0.8); 
+    }
+    60% { 
+        transform: translate(-2px, -1px); 
+        text-shadow: 2px 0 0 rgba(255, 0, 0, 0.8), -2px 0 0 rgba(0, 217, 255, 0.8); 
+    }
+    80% { 
+        transform: translate(2px, 1px); 
+        text-shadow: -2px 0 0 rgba(255, 0, 0, 0.8), 2px 0 0 rgba(0, 217, 255, 0.8); 
+    }
+}
+
+/* ===== 5) ПОЯВЛЕНИЕ БЛОКОВ ПРИ СКРОЛЛЕ ===== */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== 11) РАЗМЫТИЕ ВИДЕО НА ПАУЗЕ ===== */
+.media-section .video-container.blurred {
+    filter: blur(2px) brightness(0.7);
+    transition: filter 0.3s;
 }
 
 /* ===== МОБИЛЬНАЯ ===== */
