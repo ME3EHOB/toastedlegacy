@@ -91,24 +91,20 @@ function toggleMenu() {
 }
 
 function showPage(id) {
-    // Останавливаем HTML5-видео
     document.querySelectorAll("video").forEach(v => {
         v.pause();
         v.currentTime = 0;
     });
 
-    // Ставим на паузу видео возле скриншотов
     if (mediaPlayer && mediaPlayer.pauseVideo) {
         mediaPlayer.pauseVideo();
     }
 
-    // Переключаем страницу
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
     document.getElementById(id).classList.add("active");
     document.getElementById("menu").classList.remove("open");
     window.scrollTo(0, 0);
 
-    // Если вернулись на главную — возобновляем видео возле скриншотов
     if (id === "home" && mediaPlayer && mediaPlayer.playVideo) {
         mediaPlayer.playVideo();
     }
@@ -171,6 +167,65 @@ async function loadSplash() {
 }
 
 loadSplash();
+
+// ===== 2) GLITCH НА ЗАГОЛОВКЕ =====
+const titleEl = document.querySelector(".hero h1");
+if (titleEl) {
+    function triggerTitleGlitch() {
+        titleEl.classList.add("glitch");
+        setTimeout(() => titleEl.classList.remove("glitch"), 300);
+    }
+    function scheduleTitleGlitch() {
+        const delay = 8000 + Math.random() * 12000;
+        setTimeout(() => {
+            triggerTitleGlitch();
+            scheduleTitleGlitch();
+        }, delay);
+    }
+    scheduleTitleGlitch();
+}
+
+// ===== 3) ПАРАЛЛАКС ПРИ СКРОЛЛЕ =====
+const parallaxElements = document.querySelectorAll(".media-section .video-container, .screenshots-row img");
+
+window.addEventListener("scroll", () => {
+    const scrollY = window.scrollY;
+    parallaxElements.forEach((el, index) => {
+        const speed = 0.05 + (index % 3) * 0.03;
+        el.style.transform = `translateY(${scrollY * speed}px)`;
+    });
+});
+
+// ===== 5) ПОЯВЛЕНИЕ БЛОКОВ ПРИ СКРОЛЛЕ =====
+const revealTargets = document.querySelectorAll(
+    ".media-section, .screenshots-row img, .description-section p, .description-section .description-wait, footer, .news-item, .sub-page h2, .sub-page p"
+);
+revealTargets.forEach(el => el.classList.add("reveal"));
+
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, {
+    threshold: 0.15
+});
+
+revealTargets.forEach(el => revealObserver.observe(el));
+
+// ===== 11) РАЗМЫТИЕ ВИДЕО НА ПАУЗЕ =====
+const videoEl = document.querySelector("#archive video");
+if (videoEl) {
+    const videoContainer = videoEl.closest(".video-container");
+    videoEl.addEventListener("pause", () => {
+        if (videoContainer) videoContainer.classList.add("blurred");
+    });
+    videoEl.addEventListener("play", () => {
+        if (videoContainer) videoContainer.classList.remove("blurred");
+    });
+}
 
 // ===== FIREBASE =====
 const firebaseConfig = {
