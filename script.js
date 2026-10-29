@@ -10,6 +10,7 @@ const videos = [
 
 let currentVideo = 0;
 let player = null;
+let mediaPlayer = null;
 
 const tag = document.createElement("script");
 tag.src = "https://www.youtube.com/iframe_api";
@@ -17,6 +18,7 @@ document.head.appendChild(tag);
 
 window.onYouTubeIframeAPIReady = function() {
     createPlayer();
+    createMediaPlayer();
 };
 
 function createPlayer() {
@@ -62,23 +64,54 @@ function nextVideo() {
     }
 }
 
+function createMediaPlayer() {
+    const container = document.getElementById("media-player");
+    if (!container) return;
+
+    mediaPlayer = new YT.Player("media-player", {
+        videoId: "5yPU29pTQDA",
+        playerVars: {
+            autoplay: 1,
+            mute: 1,
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1
+        },
+        events: {
+            onReady: function(event) {
+                event.target.playVideo();
+            }
+        }
+    });
+}
+
 // ===== МЕНЮ =====
 function toggleMenu() {
     document.getElementById("menu").classList.toggle("open");
 }
 
 function showPage(id) {
-    // Останавливаем только HTML5-видео (архив и видео возле скриншотов)
+    // Останавливаем HTML5-видео
     document.querySelectorAll("video").forEach(v => {
         v.pause();
         v.currentTime = 0;
     });
+
+    // Ставим на паузу видео возле скриншотов
+    if (mediaPlayer && mediaPlayer.pauseVideo) {
+        mediaPlayer.pauseVideo();
+    }
 
     // Переключаем страницу
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
     document.getElementById(id).classList.add("active");
     document.getElementById("menu").classList.remove("open");
     window.scrollTo(0, 0);
+
+    // Если вернулись на главную — возобновляем видео возле скриншотов
+    if (id === "home" && mediaPlayer && mediaPlayer.playVideo) {
+        mediaPlayer.playVideo();
+    }
 }
 
 function closeSite() {
