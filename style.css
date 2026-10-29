@@ -261,6 +261,15 @@ body::before {
     height: 100%;
     border: none;
 }
+#media-player {
+    width: 100%;
+    height: 100%;
+}
+#media-player iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
 .screenshots-row {
     display: flex;
     flex-direction: row;
