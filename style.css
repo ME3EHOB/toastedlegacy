@@ -200,34 +200,34 @@ body::before {
     }
 }
 
-/* ===== СПЛЕШ ===== */
+/* ===== СПЛЕШ (жёлтый) ===== */
 #splash {
     position: absolute;
     top: 60%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
-    color: var(--accent-light);
+    color: #ffd700;
     font-size: 22px;
     letter-spacing: 3px;
     text-align: center;
     pointer-events: none;
     text-shadow:
-        0 0 10px rgba(224, 74, 31, 0.5),
-        0 0 20px rgba(224, 74, 31, 0.3);
+        0 0 10px rgba(255, 215, 0, 0.5),
+        0 0 20px rgba(255, 215, 0, 0.3);
     animation: splashPulse 3s infinite ease-in-out;
     white-space: nowrap;
 }
 
 @keyframes splashPulse {
     0%, 100% {
-        color: var(--accent-light);
-        text-shadow: 0 0 10px rgba(224, 74, 31, 0.5), 0 0 20px rgba(224, 74, 31, 0.3);
-        opacity: 0.8;
+        color: #ffd700;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.3);
+        opacity: 0.85;
     }
     50% {
-        color: #ffb380;
-        text-shadow: 0 0 15px rgba(255, 140, 66, 0.8), 0 0 30px rgba(255, 140, 66, 0.5);
+        color: #ffea70;
+        text-shadow: 0 0 15px rgba(255, 234, 112, 0.8), 0 0 30px rgba(255, 215, 0, 0.5);
         opacity: 1;
     }
 }
