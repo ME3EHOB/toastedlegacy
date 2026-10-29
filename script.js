@@ -68,27 +68,17 @@ function toggleMenu() {
 }
 
 function showPage(id) {
-    // Останавливаем все HTML5-видео
+    // Останавливаем только HTML5-видео (архив и видео возле скриншотов)
     document.querySelectorAll("video").forEach(v => {
         v.pause();
         v.currentTime = 0;
     });
-
-    // Ставим на паузу YouTube-плеер (фоновое видео)
-    if (player && player.pauseVideo) {
-        player.pauseVideo();
-    }
 
     // Переключаем страницу
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
     document.getElementById(id).classList.add("active");
     document.getElementById("menu").classList.remove("open");
     window.scrollTo(0, 0);
-
-    // Если вернулись на главную — возобновляем фоновое видео
-    if (id === "home" && player && player.playVideo) {
-        player.playVideo();
-    }
 }
 
 function closeSite() {
