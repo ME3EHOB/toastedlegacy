@@ -442,6 +442,34 @@ footer:hover {
 .archive-screenshots {
     margin-top: 40px;
 }
+
+/* ===== КНОПКА АУДИО ===== */
+.audio-btn {
+    margin-top: 20px;
+    padding: 15px 35px;
+    font-family: "Oswald", sans-serif;
+    font-size: 18px;
+    letter-spacing: 3px;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.35s;
+}
+
+.audio-btn:hover {
+    background: rgba(224, 74, 31, 0.2);
+    border-color: var(--accent);
+    color: var(--accent-light);
+    transform: translateY(-2px);
+}
+
+.audio-btn.playing {
+    border-color: var(--accent);
+    color: var(--accent-light);
+    box-shadow: 0 0 20px rgba(224, 74, 31, 0.3);
+}
 /* ===== НОВОСТИ ===== */
 .news-container {
     display: flex;
