@@ -442,7 +442,6 @@ footer:hover {
 .archive-screenshots {
     margin-top: 40px;
 }
-
 /* ===== НОВОСТИ ===== */
 .news-container {
     display: flex;
@@ -664,7 +663,6 @@ footer:hover {
     text-shadow: 0 0 30px rgba(224, 74, 31, 0.3);
 }
 
-/* ===== ЭКРАН СТАРТА ИГРЫ ===== */
 .game-start {
     display: flex;
     flex-direction: column;
@@ -781,11 +779,13 @@ footer:hover {
     font-size: 32px;
     color: var(--accent-light);
     letter-spacing: 4px;
+    text-shadow: 0 0 20px rgba(224, 74, 31, 0.6);
 }
 
 .game-over-score {
     font-size: 24px;
     color: var(--text);
+    text-shadow: 0 0 15px rgba(224, 74, 31, 0.4);
 }
 
 .game-over-record {
@@ -813,6 +813,8 @@ footer:hover {
     border-radius: 14px;
     cursor: pointer;
     transition: all 0.3s;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .game-buttons button:hover {
@@ -822,7 +824,7 @@ footer:hover {
     transform: translateY(-2px);
 }
 
-/* ===== ЭФФЕКТЫ СКОРОСТИ (плавные) ===== */
+/* ===== ЭФФЕКТЫ СКОРОСТИ ===== */
 .game-area.speed-1 {
     box-shadow: inset 0 0 40px rgba(224, 74, 31, 0.05);
 }
@@ -880,46 +882,6 @@ footer:hover {
     filter: drop-shadow(0 0 15px rgba(255, 100, 0, 0.8));
 }
 
-/* ===== МОБИЛЬНАЯ ===== */
-@media (max-width: 900px) {
-    .hero h1 { font-size: 60px; letter-spacing: 6px; }
-}
-
-@media (max-width: 600px) {
-    #menu { width: 80vw; left: -80vw; }
-    #menu button { font-size: 16px; padding: 15px 10px; }
-    .hero h1 { font-size: 38px; letter-spacing: 4px; }
-    .screenshots-row img { width: 100%; }
-    #menu-button { width: 44px; height: 44px; font-size: 14px; top: 15px; left: 15px; }
-    #game-button { left: 70px; width: 44px; height: 44px; font-size: 18px; top: 15px; }
-    .sub-page h2 { font-size: 40px; letter-spacing: 5px; }
-    .sub-page p { font-size: 18px; }
-    .sub-page .socials-list { flex-direction: column; }
-    .sub-page .socials-list a { font-size: 18px; padding: 18px 25px; min-width: auto; }
-    .sub-page { padding: 110px 20px 40px 20px; }
-    #video-date { font-size: 14px; top: 15px; right: 15px; padding: 8px 14px; }
-    #online-counter { font-size: 13px; bottom: 15px; right: 15px; padding: 8px 14px; }
-    #lightbox-close { top: 15px; right: 15px; width: 45px; height: 45px; font-size: 30px; }
-    .description-section p { font-size: 16px; }
-    .description-section .description-wait { font-size: 20px; }
-    #splash { font-size: 14px; top: 60%; letter-spacing: 2px; }
-    .news-item { padding: 25px; }
-    .news-title { font-size: 22px; }
-    .news-text { font-size: 15px; }
-    .game-page h2 { font-size: 32px; }
-    .game-info { font-size: 16px; gap: 20px; }
-    .game-area { height: 60vh; }
-    .player { font-size: 40px; }
-    .toast { font-size: 32px; }
-    .game-buttons { flex-direction: column; }
-    .game-buttons button { width: 100%; }
-    .game-start-text { font-size: 22px; }
-    .game-start-hint { font-size: 14px; }
-    .game-start-btn { font-size: 22px; padding: 16px 40px; letter-spacing: 4px; }
-    .game-over { padding: 30px 25px; min-width: 280px; }
-    .game-over-title { font-size: 24px; }
-    .game-over-score { font-size: 18px; }
-}
 /* ===== СОЗДАТЕЛИ ===== */
 .creators-container {
     width: 100%;
@@ -1007,31 +969,50 @@ footer:hover {
     object-fit: cover;
 }
 
+/* ===== МОБИЛЬНАЯ ===== */
 @media (max-width: 900px) {
-    .creators-row {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .creators-block-title {
-        font-size: 24px;
-    }
+    .hero h1 { font-size: 60px; letter-spacing: 6px; }
+    .creators-row { grid-template-columns: repeat(2, 1fr); }
+    .creators-block-title { font-size: 24px; }
 }
 
 @media (max-width: 600px) {
-    .creators-row {
-        grid-template-columns: 1fr;
-    }
-    .creators-block-title {
-        font-size: 20px;
-        letter-spacing: 2px;
-    }
-    .creator-avatar {
-        width: 80px;
-        height: 80px;
-    }
-    .creator-nick {
-        font-size: 20px;
-    }
-    .creator-info {
-        font-size: 14px;
-    }
+    #menu { width: 80vw; left: -80vw; }
+    #menu button { font-size: 16px; padding: 15px 10px; }
+    .hero h1 { font-size: 38px; letter-spacing: 4px; }
+    .screenshots-row img { width: 100%; }
+    #menu-button { width: 44px; height: 44px; font-size: 14px; top: 15px; left: 15px; }
+    #game-button { left: 70px; width: 44px; height: 44px; font-size: 18px; top: 15px; }
+    .sub-page h2 { font-size: 40px; letter-spacing: 5px; }
+    .sub-page p { font-size: 18px; }
+    .sub-page .socials-list { flex-direction: column; }
+    .sub-page .socials-list a { font-size: 18px; padding: 18px 25px; min-width: auto; }
+    .sub-page { padding: 110px 20px 40px 20px; }
+    #video-date { font-size: 14px; top: 15px; right: 15px; padding: 8px 14px; }
+    #online-counter { font-size: 13px; bottom: 15px; right: 15px; padding: 8px 14px; }
+    #lightbox-close { top: 15px; right: 15px; width: 45px; height: 45px; font-size: 30px; }
+    .description-section p { font-size: 16px; }
+    .description-section .description-wait { font-size: 20px; }
+    #splash { font-size: 14px; top: 60%; letter-spacing: 2px; }
+    .news-item { padding: 25px; }
+    .news-title { font-size: 22px; }
+    .news-text { font-size: 15px; }
+    .game-page h2 { font-size: 32px; }
+    .game-info { font-size: 16px; gap: 20px; }
+    .game-area { height: 60vh; }
+    .player { font-size: 40px; }
+    .toast { font-size: 32px; }
+    .game-buttons { flex-direction: column; }
+    .game-buttons button { width: 100%; }
+    .game-start-text { font-size: 22px; }
+    .game-start-hint { font-size: 14px; }
+    .game-start-btn { font-size: 22px; padding: 16px 40px; letter-spacing: 4px; }
+    .game-over { padding: 0; min-width: auto; }
+    .game-over-title { font-size: 24px; }
+    .game-over-score { font-size: 18px; }
+    .creators-row { grid-template-columns: 1fr; }
+    .creators-block-title { font-size: 20px; letter-spacing: 2px; }
+    .creator-avatar { width: 80px; height: 80px; }
+    .creator-nick { font-size: 20px; }
+    .creator-info { font-size: 14px; }
 }
