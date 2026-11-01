@@ -920,3 +920,118 @@ footer:hover {
     .game-over-title { font-size: 24px; }
     .game-over-score { font-size: 18px; }
 }
+/* ===== СОЗДАТЕЛИ ===== */
+.creators-container {
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 40px;
+}
+
+.creators-block-title {
+    font-size: 32px;
+    letter-spacing: 4px;
+    color: var(--accent-light);
+    margin: 50px 0 30px 0;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(224, 74, 31, 0.3);
+}
+
+.creators-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    justify-items: center;
+    width: 100%;
+}
+
+.creator-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 25px 20px;
+    width: 100%;
+    max-width: 320px;
+    transition: all 0.35s;
+}
+
+.creator-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 25px rgba(224, 74, 31, 0.15);
+    transform: translateY(-4px);
+}
+
+.creator-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    object-fit: cover;
+    margin-bottom: 15px;
+    box-shadow: 0 0 20px rgba(224, 74, 31, 0.2);
+}
+
+.creator-nick {
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--text);
+    margin-bottom: 5px;
+}
+
+.creator-name {
+    font-size: 14px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.creator-info {
+    font-size: 16px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.creator-work {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    object-fit: cover;
+}
+
+@media (max-width: 900px) {
+    .creators-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .creators-block-title {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .creators-row {
+        grid-template-columns: 1fr;
+    }
+    .creators-block-title {
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
+    .creator-avatar {
+        width: 80px;
+        height: 80px;
+    }
+    .creator-nick {
+        font-size: 20px;
+    }
+    .creator-info {
+        font-size: 14px;
+    }
+}
