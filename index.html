@@ -91,7 +91,11 @@
     </div>
 
     <div id="history" class="page">
-        <div class="sub-page"><h2>История</h2><p>Скоро</p></div>
+        <div class="sub-page">
+            <h2>История</h2>
+            <button class="audio-btn" id="audio-btn-history" onclick="playAudio()">▶ Воспроизвести</button>
+            <p>Скоро</p>
+        </div>
     </div>
 
     <div id="archive" class="page">
@@ -112,7 +116,11 @@
     </div>
 
     <div id="theme" class="page">
-        <div class="sub-page"><h2>Тематика</h2><p>Скоро</p></div>
+        <div class="sub-page">
+            <h2>Тематика</h2>
+            <button class="audio-btn" id="audio-btn-theme" onclick="playAudio()">▶ Воспроизвести</button>
+            <p>Скоро</p>
+        </div>
     </div>
 
     <div id="creators" class="page">
@@ -267,6 +275,10 @@
         <span id="lightbox-close">✕</span>
         <img id="lightbox-img" src="" alt="">
     </div>
+
+    <audio id="bg-audio">
+        <source src="media/aHUItebe.mp3" type="audio/mpeg">
+    </audio>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
