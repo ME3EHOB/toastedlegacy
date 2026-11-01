@@ -1009,6 +1009,23 @@ footer:hover {
     object-fit: cover;
 }
 
+/* ===== ID УРОВНЯ ===== */
+.level-id {
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    margin-top: 30px;
+    font-family: "Oswald", sans-serif;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.level-id:hover {
+    opacity: 1;
+    color: var(--accent-light);
+}
+
 /* ===== МОБИЛЬНАЯ ===== */
 @media (max-width: 900px) {
     .hero h1 { font-size: 60px; letter-spacing: 6px; }
@@ -1055,4 +1072,5 @@ footer:hover {
     .creator-avatar { width: 80px; height: 80px; }
     .creator-nick { font-size: 20px; }
     .creator-info { font-size: 14px; }
+    .level-id { font-size: 12px; margin-top: 20px; }
 }
