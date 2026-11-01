@@ -100,7 +100,6 @@ function showPage(id) {
         mediaPlayer.pauseVideo();
     }
 
-    // Останавливаем игру, если уходим с неё
     if (gameState.running && id !== "toastgame") {
         stopGame();
     }
@@ -114,9 +113,8 @@ function showPage(id) {
         mediaPlayer.playVideo();
     }
 
-    // Автозапуск игры при переходе
-    if (id === "toastgame" && !gameState.running) {
-        startGame();
+    if (id === "toastgame") {
+        showGameStart();
     }
 }
 
@@ -221,6 +219,11 @@ document.addEventListener("DOMContentLoaded", () => {
 function startGame() {
     if (!gameArea || !playerEl) return;
 
+    document.getElementById("game-start").style.display = "none";
+    document.getElementById("game-info").style.display = "flex";
+    document.getElementById("game-area").style.display = "block";
+    document.getElementById("game-over").style.display = "none";
+
     gameState.running = true;
     gameState.score = 0;
     gameState.misses = 0;
@@ -232,13 +235,36 @@ function startGame() {
     playerEl.style.left = "50%";
     document.getElementById("game-score").textContent = "0";
     document.getElementById("game-misses").textContent = "0";
-    document.getElementById("game-over").style.display = "none";
 
     const record = parseInt(localStorage.getItem("toastRecord") || "0");
     document.getElementById("game-record").textContent = record;
 
+    updateSpeedEffects();
     gameLoop();
     scheduleToast();
+}
+
+function showGameStart() {
+    document.getElementById("game-start").style.display = "flex";
+    document.getElementById("game-info").style.display = "none";
+    document.getElementById("game-area").style.display = "none";
+    document.getElementById("game-over").style.display = "none";
+
+    const record = parseInt(localStorage.getItem("toastRecord") || "0");
+    const recEl = document.getElementById("game-record");
+    if (recEl) recEl.textContent = record;
+}
+
+function updateSpeedEffects() {
+    if (!gameArea) return;
+    gameArea.classList.remove("speed-1", "speed-2", "speed-3", "speed-4", "speed-5");
+
+    const s = gameState.speed;
+    if (s >= 6) gameArea.classList.add("speed-5");
+    else if (s >= 5) gameArea.classList.add("speed-4");
+    else if (s >= 4) gameArea.classList.add("speed-3");
+    else if (s >= 3) gameArea.classList.add("speed-2");
+    else gameArea.classList.add("speed-1");
 }
 
 function scheduleToast() {
@@ -289,6 +315,7 @@ function gameLoop() {
                 gameState.score++;
                 gameState.speed += 0.15;
                 document.getElementById("game-score").textContent = gameState.score;
+                updateSpeedEffects();
             } else if (t.y >= areaHeight) {
                 t.caught = true;
                 t.el.remove();
@@ -335,8 +362,8 @@ function stopGame() {
     clearTimeout(gameState.toastTimer);
     gameState.toasts.forEach(t => t.el.remove());
     gameState.toasts = [];
-    const overEl = document.getElementById("game-over");
-    if (overEl) overEl.style.display = "none";
+    if (gameArea) gameArea.classList.remove("speed-1", "speed-2", "speed-3", "speed-4", "speed-5");
+    showGameStart();
 }
 
 function shareRecord() {
