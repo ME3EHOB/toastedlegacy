@@ -64,6 +64,33 @@ body::before {
     transform: scale(1.08) rotate(90deg);
 }
 
+/* ===== КНОПКА ИГРЫ ===== */
+#game-button {
+    position: fixed;
+    top: 20px;
+    left: 80px;
+    z-index: 100;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 22px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#game-button:hover {
+    background: rgba(224, 74, 31, 0.3);
+    border-color: var(--accent);
+    transform: scale(1.08);
+}
+
 /* ===== МЕНЮ ===== */
 #menu {
     position: fixed;
@@ -620,6 +647,122 @@ footer:hover {
     transform: scale(1.15) rotate(90deg);
 }
 
+/* ===== МИНИ-ИГРА ===== */
+.game-page {
+    min-height: 100vh;
+    padding: 120px 20px 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.game-page h2 {
+    font-size: 48px;
+    letter-spacing: 6px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 30px rgba(224, 74, 31, 0.3);
+}
+
+.game-info {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--text);
+}
+
+.game-info span {
+    color: var(--accent-light);
+}
+
+.game-area {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 70vh;
+    max-height: 600px;
+    background: linear-gradient(180deg, rgba(20, 20, 28, 0.9), rgba(10, 10, 14, 0.9));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: none;
+    user-select: none;
+    touch-action: none;
+}
+
+.player {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 50px;
+    transition: left 0.05s;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.toast {
+    position: absolute;
+    top: -60px;
+    font-size: 40px;
+    pointer-events: none;
+}
+
+.game-over {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.game-over-title {
+    font-size: 32px;
+    color: var(--accent-light);
+    letter-spacing: 4px;
+}
+
+.game-over-score {
+    font-size: 24px;
+    color: var(--text);
+}
+
+.game-over-record {
+    font-size: 20px;
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.game-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.game-buttons button {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 15px 30px;
+    font-family: "Oswald", sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.game-buttons button:hover {
+    background: rgba(224, 74, 31, 0.2);
+    border-color: var(--accent);
+    color: var(--accent-light);
+    transform: translateY(-2px);
+}
+
 /* ===== МОБИЛЬНАЯ ===== */
 @media (max-width: 900px) {
     .hero h1 { font-size: 60px; letter-spacing: 6px; }
@@ -631,6 +774,7 @@ footer:hover {
     .hero h1 { font-size: 38px; letter-spacing: 4px; }
     .screenshots-row img { width: 100%; }
     #menu-button { width: 44px; height: 44px; font-size: 14px; top: 15px; left: 15px; }
+    #game-button { left: 70px; width: 44px; height: 44px; font-size: 18px; top: 15px; }
     .sub-page h2 { font-size: 40px; letter-spacing: 5px; }
     .sub-page p { font-size: 18px; }
     .sub-page .socials-list { flex-direction: column; }
@@ -645,4 +789,11 @@ footer:hover {
     .news-item { padding: 25px; }
     .news-title { font-size: 22px; }
     .news-text { font-size: 15px; }
+    .game-page h2 { font-size: 32px; }
+    .game-info { font-size: 16px; gap: 20px; }
+    .game-area { height: 60vh; }
+    .player { font-size: 40px; }
+    .toast { font-size: 32px; }
+    .game-buttons { flex-direction: column; }
+    .game-buttons button { width: 100%; }
 }
