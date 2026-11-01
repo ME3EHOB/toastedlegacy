@@ -104,6 +104,14 @@ function showPage(id) {
         stopGame();
     }
 
+    // Останавливаем аудио при любом переходе
+    const audio = document.getElementById("bg-audio");
+    if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+        resetAudioButtons();
+    }
+
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
     document.getElementById(id).classList.add("active");
     document.getElementById("menu").classList.remove("open");
@@ -176,6 +184,45 @@ async function loadSplash() {
 
 loadSplash();
 
+// ===== АУДИО В ИСТОРИИ И ТЕМАТИКЕ =====
+function playAudio() {
+    const audio = document.getElementById("bg-audio");
+    if (!audio) return;
+
+    audio.currentTime = 0;
+    audio.play();
+
+    const btnHistory = document.getElementById("audio-btn-history");
+    const btnTheme = document.getElementById("audio-btn-theme");
+
+    if (btnHistory) {
+        btnHistory.textContent = "⏸ Играет...";
+        btnHistory.classList.add("playing");
+    }
+    if (btnTheme) {
+        btnTheme.textContent = "⏸ Играет...";
+        btnTheme.classList.add("playing");
+    }
+
+    audio.onended = () => {
+        resetAudioButtons();
+    };
+}
+
+function resetAudioButtons() {
+    const btnHistory = document.getElementById("audio-btn-history");
+    const btnTheme = document.getElementById("audio-btn-theme");
+
+    if (btnHistory) {
+        btnHistory.textContent = "▶ Воспроизвести";
+        btnHistory.classList.remove("playing");
+    }
+    if (btnTheme) {
+        btnTheme.textContent = "▶ Воспроизвести";
+        btnTheme.classList.remove("playing");
+    }
+}
+
 // ===== МИНИ-ИГРА TOAST CATCHER =====
 let gameState = {
     running: false,
@@ -224,7 +271,6 @@ function startGame() {
     document.getElementById("game-area").style.display = "block";
     document.getElementById("game-over").style.display = "none";
 
-    // Показываем корзину
     playerEl.style.display = "flex";
 
     gameState.running = true;
@@ -253,7 +299,6 @@ function showGameStart() {
     document.getElementById("game-area").style.display = "none";
     document.getElementById("game-over").style.display = "none";
 
-    // Прячем корзину на экране старта
     if (playerEl) playerEl.style.display = "none";
 
     const record = parseInt(localStorage.getItem("toastRecord") || "0");
@@ -346,12 +391,10 @@ function endGame() {
     cancelAnimationFrame(gameState.animationId);
     clearTimeout(gameState.toastTimer);
 
-    // Убираем тосты и эффекты
     gameState.toasts.forEach(t => t.el.remove());
     gameState.toasts = [];
     if (gameArea) gameArea.classList.remove("speed-1", "speed-2", "speed-3", "speed-4", "speed-5");
 
-    // Прячем корзину
     if (playerEl) playerEl.style.display = "none";
 
     document.getElementById("final-score").textContent = gameState.score;
