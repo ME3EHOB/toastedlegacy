@@ -763,20 +763,18 @@ footer:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(10, 10, 14, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 2px solid var(--accent);
-    border-radius: 20px;
-    padding: 40px 50px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
     display: none;
     flex-direction: column;
     gap: 20px;
     align-items: center;
     z-index: 100;
-    box-shadow: 0 0 60px rgba(224, 74, 31, 0.4);
+    box-shadow: none;
     animation: fadeIn 0.4s ease;
-    min-width: 320px;
+    min-width: auto;
 }
 
 .game-over-title {
