@@ -224,6 +224,9 @@ function startGame() {
     document.getElementById("game-area").style.display = "block";
     document.getElementById("game-over").style.display = "none";
 
+    // Показываем корзину
+    playerEl.style.display = "flex";
+
     gameState.running = true;
     gameState.score = 0;
     gameState.misses = 0;
@@ -249,6 +252,9 @@ function showGameStart() {
     document.getElementById("game-info").style.display = "none";
     document.getElementById("game-area").style.display = "none";
     document.getElementById("game-over").style.display = "none";
+
+    // Прячем корзину на экране старта
+    if (playerEl) playerEl.style.display = "none";
 
     const record = parseInt(localStorage.getItem("toastRecord") || "0");
     const recEl = document.getElementById("game-record");
@@ -340,8 +346,13 @@ function endGame() {
     cancelAnimationFrame(gameState.animationId);
     clearTimeout(gameState.toastTimer);
 
+    // Убираем тосты и эффекты
     gameState.toasts.forEach(t => t.el.remove());
     gameState.toasts = [];
+    if (gameArea) gameArea.classList.remove("speed-1", "speed-2", "speed-3", "speed-4", "speed-5");
+
+    // Прячем корзину
+    if (playerEl) playerEl.style.display = "none";
 
     document.getElementById("final-score").textContent = gameState.score;
     document.getElementById("game-over").style.display = "flex";
