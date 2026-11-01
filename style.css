@@ -664,6 +664,52 @@ footer:hover {
     text-shadow: 0 0 30px rgba(224, 74, 31, 0.3);
 }
 
+/* ===== ЭКРАН СТАРТА ИГРЫ ===== */
+.game-start {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 60px;
+}
+
+.game-start-text {
+    font-size: 32px;
+    color: var(--text);
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px rgba(224, 74, 31, 0.3);
+}
+
+.game-start-hint {
+    font-size: 18px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+}
+
+.game-start-btn {
+    margin-top: 30px;
+    padding: 20px 60px;
+    font-family: "Oswald", sans-serif;
+    font-size: 28px;
+    letter-spacing: 6px;
+    background: var(--glass);
+    border: 2px solid var(--accent);
+    color: var(--text);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.35s;
+    text-shadow: 0 0 10px rgba(224, 74, 31, 0.3);
+    box-shadow: 0 0 30px rgba(224, 74, 31, 0.15);
+}
+
+.game-start-btn:hover {
+    background: rgba(224, 74, 31, 0.2);
+    border-color: var(--accent-light);
+    color: var(--accent-light);
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(224, 74, 31, 0.4);
+}
+
 .game-info {
     display: flex;
     gap: 40px;
@@ -763,6 +809,64 @@ footer:hover {
     transform: translateY(-2px);
 }
 
+/* ===== ЭФФЕКТЫ СКОРОСТИ ===== */
+.game-area.speed-1 {
+    box-shadow: inset 0 0 40px rgba(224, 74, 31, 0.05);
+}
+
+.game-area.speed-2 {
+    box-shadow: inset 0 0 60px rgba(224, 74, 31, 0.15);
+    border-color: rgba(224, 74, 31, 0.4);
+}
+
+.game-area.speed-3 {
+    box-shadow: inset 0 0 80px rgba(224, 74, 31, 0.3), 0 0 30px rgba(224, 74, 31, 0.2);
+    border-color: rgba(255, 140, 66, 0.6);
+    animation: speedPulse 1.5s infinite ease-in-out;
+}
+
+.game-area.speed-4 {
+    box-shadow: inset 0 0 100px rgba(255, 0, 0, 0.35), 0 0 50px rgba(255, 0, 0, 0.3);
+    border-color: rgba(255, 60, 60, 0.8);
+    animation: speedPulse 0.8s infinite ease-in-out;
+}
+
+.game-area.speed-5 {
+    box-shadow: inset 0 0 130px rgba(255, 0, 0, 0.5), 0 0 80px rgba(255, 0, 0, 0.5);
+    border-color: rgba(255, 0, 0, 1);
+    animation: speedPulse 0.4s infinite ease-in-out;
+}
+
+@keyframes speedPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+}
+
+.game-area.speed-3 .toast,
+.game-area.speed-4 .toast,
+.game-area.speed-5 .toast {
+    filter: drop-shadow(0 0 10px rgba(255, 140, 66, 0.8));
+}
+
+.game-area.speed-4 .toast,
+.game-area.speed-5 .toast {
+    filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.9));
+}
+
+.game-area.speed-5 .toast {
+    animation: toastFire 0.3s infinite alternate;
+}
+
+@keyframes toastFire {
+    from { filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.9)); }
+    to { filter: drop-shadow(0 0 25px rgba(255, 140, 0, 1)); }
+}
+
+.game-area.speed-4 .player,
+.game-area.speed-5 .player {
+    filter: drop-shadow(0 0 15px rgba(255, 100, 0, 0.8));
+}
+
 /* ===== МОБИЛЬНАЯ ===== */
 @media (max-width: 900px) {
     .hero h1 { font-size: 60px; letter-spacing: 6px; }
@@ -796,4 +900,7 @@ footer:hover {
     .toast { font-size: 32px; }
     .game-buttons { flex-direction: column; }
     .game-buttons button { width: 100%; }
+    .game-start-text { font-size: 22px; }
+    .game-start-hint { font-size: 14px; }
+    .game-start-btn { font-size: 22px; padding: 16px 40px; letter-spacing: 4px; }
 }
