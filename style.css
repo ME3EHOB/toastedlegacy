@@ -736,6 +736,7 @@ footer:hover {
     cursor: none;
     user-select: none;
     touch-action: none;
+    transition: box-shadow 1.5s ease, border-color 1.5s ease, filter 1.5s ease;
 }
 
 .player {
@@ -744,9 +745,9 @@ footer:hover {
     left: 50%;
     transform: translateX(-50%);
     font-size: 50px;
-    transition: left 0.05s;
     z-index: 10;
     pointer-events: none;
+    transition: filter 1.5s ease, left 0.05s;
 }
 
 .toast {
@@ -754,14 +755,28 @@ footer:hover {
     top: -60px;
     font-size: 40px;
     pointer-events: none;
+    transition: filter 1.5s ease;
 }
 
 .game-over {
-    margin-top: 20px;
-    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(10, 10, 14, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid var(--accent);
+    border-radius: 20px;
+    padding: 40px 50px;
+    display: none;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
     align-items: center;
+    z-index: 100;
+    box-shadow: 0 0 60px rgba(224, 74, 31, 0.4);
+    animation: fadeIn 0.4s ease;
+    min-width: 320px;
 }
 
 .game-over-title {
@@ -809,7 +824,7 @@ footer:hover {
     transform: translateY(-2px);
 }
 
-/* ===== ЭФФЕКТЫ СКОРОСТИ ===== */
+/* ===== ЭФФЕКТЫ СКОРОСТИ (плавные) ===== */
 .game-area.speed-1 {
     box-shadow: inset 0 0 40px rgba(224, 74, 31, 0.05);
 }
@@ -822,24 +837,24 @@ footer:hover {
 .game-area.speed-3 {
     box-shadow: inset 0 0 80px rgba(224, 74, 31, 0.3), 0 0 30px rgba(224, 74, 31, 0.2);
     border-color: rgba(255, 140, 66, 0.6);
-    animation: speedPulse 1.5s infinite ease-in-out;
+    animation: speedPulse 3s infinite ease-in-out;
 }
 
 .game-area.speed-4 {
     box-shadow: inset 0 0 100px rgba(255, 0, 0, 0.35), 0 0 50px rgba(255, 0, 0, 0.3);
     border-color: rgba(255, 60, 60, 0.8);
-    animation: speedPulse 0.8s infinite ease-in-out;
+    animation: speedPulse 2s infinite ease-in-out;
 }
 
 .game-area.speed-5 {
     box-shadow: inset 0 0 130px rgba(255, 0, 0, 0.5), 0 0 80px rgba(255, 0, 0, 0.5);
     border-color: rgba(255, 0, 0, 1);
-    animation: speedPulse 0.4s infinite ease-in-out;
+    animation: speedPulse 1.2s infinite ease-in-out;
 }
 
 @keyframes speedPulse {
     0%, 100% { filter: brightness(1); }
-    50% { filter: brightness(1.3); }
+    50% { filter: brightness(1.2); }
 }
 
 .game-area.speed-3 .toast,
@@ -854,7 +869,7 @@ footer:hover {
 }
 
 .game-area.speed-5 .toast {
-    animation: toastFire 0.3s infinite alternate;
+    animation: toastFire 0.5s infinite alternate;
 }
 
 @keyframes toastFire {
@@ -903,4 +918,7 @@ footer:hover {
     .game-start-text { font-size: 22px; }
     .game-start-hint { font-size: 14px; }
     .game-start-btn { font-size: 22px; padding: 16px 40px; letter-spacing: 4px; }
+    .game-over { padding: 30px 25px; min-width: 280px; }
+    .game-over-title { font-size: 24px; }
+    .game-over-score { font-size: 18px; }
 }
