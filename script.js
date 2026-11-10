@@ -1,37 +1,61 @@
-// ===== ФОНОВОЕ ВИДЕО (все 6 по кругу, до конца) =====
-const videos = [
-    { id: "YY0a-AQhVck", date: "22.12.25" },
-    { id: "Rvw4yWbrxVI", date: "02.01.26" },
-    { id: "fGRP7_R93-A", date: "17.01.26" },
-    { id: "41JJfVPjOWQ", date: "01.02.26" },
-    { id: "gLWZEREWPC8", date: "09.03.26" },
-    { id: "5yPU29pTQDA", date: "24.10.26" }
-];
+// ===== ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ =====
+function showPage(pageId, btnElement = null) {
+    // Скрываем все страницы
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
 
-let currentVideo = 0;
+    // Показываем нужную
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add("active");
+    }
+
+    // Обновляем активную кнопку в меню
+    if (btnElement) {
+        document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
+        btnElement.classList.add("active");
+    } else {
+        // Если перешли программно (например, из игры), ищем кнопку по id
+        const btn = document.querySelector(`.nav-btn[onclick*="${pageId}"]`);
+        if (btn) {
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+        }
+    }
+
+    // Если ушли с главной — ставим видео на паузу (если нужно)
+    if (pageId !== "home" && player && player.pauseVideo) {
+        player.pauseVideo();
+    }
+    if (pageId === "home" && player && player.playVideo) {
+        player.playVideo();
+    }
+
+    // Сбрасываем игру при выходе
+    if (pageId !== "toastgame" && gameState.running) {
+        stopGame();
+    }
+
+    window.scrollTo(0, 0);
+}
+
+// ===== ФОНОВОЕ ВИДЕО (ОДНО, ЗАЦИКЛЕННОЕ) =====
 let player = null;
-let mediaPlayer = null;
+const videoId = "5yPU29pTQDA"; // ID видео на 24.10.26
 
 const tag = document.createElement("script");
 tag.src = "https://www.youtube.com/iframe_api";
 document.head.appendChild(tag);
 
 window.onYouTubeIframeAPIReady = function() {
-    createPlayer();
-    createMediaPlayer();
-};
-
-function createPlayer() {
-    const video = videos[currentVideo];
-    const dateLabel = document.getElementById("video-date");
-    if (dateLabel) dateLabel.textContent = video.date;
-
     const container = document.getElementById("bg-video");
     if (!container) return;
+    
     container.innerHTML = '<div id="yt-player"></div>';
-
+    
     player = new YT.Player("yt-player", {
-        videoId: video.id,
+        videoId: videoId,
         playerVars: {
             autoplay: 1,
             mute: 1,
@@ -41,94 +65,112 @@ function createPlayer() {
             modestbranding: 1,
             playsinline: 1,
             disablekb: 1,
-            iv_load_policy: 3
+            iv_load_policy: 3,
+            loop: 1,
+            playlist: videoId
         },
         events: {
-            onReady: function(event) { event.target.playVideo(); },
-            onStateChange: function(event) {
-                if (event.data === YT.PlayerState.ENDED) {
-                    nextVideo();
-                }
+            onReady: function(event) { 
+                event.target.playVideo(); 
+            }
+        }
+    });
+};
+
+// ===== СПЛЕШИ (Ч/Б) =====
+const splashes = [
+    "Eye?", "R. R. R.", "Ash...", "Error", "Error - reload the site", 
+    "Thank you!", "Soon...", "Again.", "Cyanotype?", "I am alone here", 
+    "He created a world for himself", ":(", "Darkness", "January 24."
+];
+
+function loadSplash() {
+    const splashEl = document.getElementById("splash");
+    if (splashEl) {
+        const randomSplash = splashes[Math.floor(Math.random() * splashes.length)];
+        splashEl.textContent = randomSplash;
+    }
+}
+loadSplash();
+
+// ===== КАРУСЕЛЬ СКРИНШОТОВ (ГЛАВНАЯ) =====
+const screenshots = [
+    "media/image1TL.jpg",
+    "media/image2TL.jpg",
+    "media/image3TL.jpg"
+];
+let currentScreenshotIndex = 0;
+
+function updateScreenshot() {
+    const img = document.getElementById("main-screenshot");
+    if (img) {
+        img.src = screenshots[currentScreenshotIndex];
+    }
+}
+
+function nextScreenshot() {
+    currentScreenshotIndex = (currentScreenshotIndex + 1) % screenshots.length;
+    updateScreenshot();
+}
+
+function prevScreenshot() {
+    currentScreenshotIndex = (currentScreenshotIndex - 1 + screenshots.length) % screenshots.length;
+    updateScreenshot();
+}
+
+// ===== КАРУСЕЛИ НА СТРАНИЦАХ =====
+// Подробности
+const detailSlides = ["slide-history", "slide-theme", "slide-news"];
+let currentDetailIndex = 0;
+
+function updateDetailSlides() {
+    detailSlides.forEach((id, index) => {
+        const slide = document.getElementById(id);
+        if (slide) {
+            if (index === currentDetailIndex) {
+                slide.classList.add("active");
+            } else {
+                slide.classList.remove("active");
             }
         }
     });
 }
 
-function nextVideo() {
-    currentVideo = (currentVideo + 1) % videos.length;
-    if (player && player.loadVideoById) {
-        const video = videos[currentVideo];
-        const dateLabel = document.getElementById("video-date");
-        if (dateLabel) dateLabel.textContent = video.date;
-        player.loadVideoById(video.id);
-    }
+function nextDetail() {
+    currentDetailIndex = (currentDetailIndex + 1) % detailSlides.length;
+    updateDetailSlides();
 }
 
-function createMediaPlayer() {
-    const container = document.getElementById("media-player");
-    if (!container) return;
+function prevDetail() {
+    currentDetailIndex = (currentDetailIndex - 1 + detailSlides.length) % detailSlides.length;
+    updateDetailSlides();
+}
 
-    mediaPlayer = new YT.Player("media-player", {
-        videoId: "5yPU29pTQDA",
-        playerVars: {
-            autoplay: 1,
-            mute: 1,
-            rel: 0,
-            modestbranding: 1,
-            playsinline: 1
-        },
-        events: {
-            onReady: function(event) {
-                event.target.playVideo();
+// Участники
+const participantSlides = ["slide-p-toasted", "slide-p-legacy", "slide-p-socials"];
+let currentParticipantIndex = 0;
+
+function updateParticipantSlides() {
+    participantSlides.forEach((id, index) => {
+        const slide = document.getElementById(id);
+        if (slide) {
+            if (index === currentParticipantIndex) {
+                slide.classList.add("active");
+            } else {
+                slide.classList.remove("active");
             }
         }
     });
 }
 
-// ===== МЕНЮ =====
-function toggleMenu() {
-    document.getElementById("menu").classList.toggle("open");
+function nextParticipant() {
+    currentParticipantIndex = (currentParticipantIndex + 1) % participantSlides.length;
+    updateParticipantSlides();
 }
 
-function showPage(id) {
-    document.querySelectorAll("video").forEach(v => {
-        v.pause();
-        v.currentTime = 0;
-    });
-
-    if (mediaPlayer && mediaPlayer.pauseVideo) {
-        mediaPlayer.pauseVideo();
-    }
-
-    if (gameState.running && id !== "toastgame") {
-        stopGame();
-    }
-
-    // Останавливаем аудио при любом переходе
-    const audio = document.getElementById("bg-audio");
-    if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
-        resetAudioButtons();
-    }
-
-    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-    document.getElementById("menu").classList.remove("open");
-    window.scrollTo(0, 0);
-
-    if (id === "home" && mediaPlayer && mediaPlayer.playVideo) {
-        mediaPlayer.playVideo();
-    }
-
-    if (id === "toastgame") {
-        showGameStart();
-    }
-}
-
-function closeSite() {
-    window.close();
-    window.location.href = "about:blank";
+function prevParticipant() {
+    currentParticipantIndex = (currentParticipantIndex - 1 + participantSlides.length) % participantSlides.length;
+    updateParticipantSlides();
 }
 
 // ===== ЛАЙТБОКС =====
@@ -162,68 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// ===== СПЛЕШИ =====
-async function loadSplash() {
-    try {
-        const response = await fetch("splashes.txt");
-        const text = await response.text();
-        const splashes = text
-            .split("\n")
-            .map(line => line.trim())
-            .filter(line => line.length > 0);
-
-        if (splashes.length === 0) return;
-
-        const randomSplash = splashes[Math.floor(Math.random() * splashes.length)];
-        const splashEl = document.getElementById("splash");
-        if (splashEl) splashEl.textContent = randomSplash;
-    } catch (error) {
-        console.error("Splash error:", error);
-    }
-}
-
-loadSplash();
-
-// ===== АУДИО В ИСТОРИИ И ТЕМАТИКЕ =====
-function playAudio() {
-    const audio = document.getElementById("bg-audio");
-    if (!audio) return;
-
-    audio.currentTime = 0;
-    audio.play();
-
-    const btnHistory = document.getElementById("audio-btn-history");
-    const btnTheme = document.getElementById("audio-btn-theme");
-
-    if (btnHistory) {
-        btnHistory.textContent = "⏸ Играет...";
-        btnHistory.classList.add("playing");
-    }
-    if (btnTheme) {
-        btnTheme.textContent = "⏸ Играет...";
-        btnTheme.classList.add("playing");
-    }
-
-    audio.onended = () => {
-        resetAudioButtons();
-    };
-}
-
-function resetAudioButtons() {
-    const btnHistory = document.getElementById("audio-btn-history");
-    const btnTheme = document.getElementById("audio-btn-theme");
-
-    if (btnHistory) {
-        btnHistory.textContent = "▶ Воспроизвести";
-        btnHistory.classList.remove("playing");
-    }
-    if (btnTheme) {
-        btnTheme.textContent = "▶ Воспроизвести";
-        btnTheme.classList.remove("playing");
-    }
-}
-
-// ===== МИНИ-ИГРА TOAST CATCHER =====
+// ===== МИНИ-ИГРА =====
 let gameState = {
     running: false,
     score: 0,
@@ -238,11 +219,18 @@ let playerX = 50;
 let gameArea = null;
 let playerEl = null;
 
-document.addEventListener("DOMContentLoaded", () => {
+function openGame() {
+    showPage("toastgame");
+    showGameStart();
+}
+
+function initGameControls() {
     gameArea = document.getElementById("game-area");
     playerEl = document.getElementById("player");
 
-    if (gameArea) {
+    if (gameArea && !gameArea.dataset.listenerAdded) {
+        gameArea.dataset.listenerAdded = "true";
+
         gameArea.addEventListener("mousemove", (e) => {
             if (!gameState.running) return;
             const rect = gameArea.getBoundingClientRect();
@@ -261,9 +249,10 @@ document.addEventListener("DOMContentLoaded", () => {
             playerEl.style.left = playerX + "%";
         }, { passive: false });
     }
-});
+}
 
 function startGame() {
+    initGameControls();
     if (!gameArea || !playerEl) return;
 
     document.getElementById("game-start").style.display = "none";
@@ -271,7 +260,7 @@ function startGame() {
     document.getElementById("game-area").style.display = "block";
     document.getElementById("game-over").style.display = "none";
 
-    playerEl.style.display = "flex";
+    playerEl.style.display = "block";
 
     gameState.running = true;
     gameState.score = 0;
@@ -288,16 +277,20 @@ function startGame() {
     const record = parseInt(localStorage.getItem("toastRecord") || "0");
     document.getElementById("game-record").textContent = record;
 
-    updateSpeedEffects();
     gameLoop();
     scheduleToast();
 }
 
 function showGameStart() {
-    document.getElementById("game-start").style.display = "flex";
-    document.getElementById("game-info").style.display = "none";
-    document.getElementById("game-area").style.display = "none";
-    document.getElementById("game-over").style.display = "none";
+    const startScreen = document.getElementById("game-start");
+    const infoScreen = document.getElementById("game-info");
+    const areaScreen = document.getElementById("game-area");
+    const overScreen = document.getElementById("game-over");
+
+    if (startScreen) startScreen.style.display = "flex";
+    if (infoScreen) infoScreen.style.display = "none";
+    if (areaScreen) areaScreen.style.display = "none";
+    if (overScreen) overScreen.style.display = "none";
 
     if (playerEl) playerEl.style.display = "none";
 
@@ -306,21 +299,8 @@ function showGameStart() {
     if (recEl) recEl.textContent = record;
 }
 
-function updateSpeedEffects() {
-    if (!gameArea) return;
-    gameArea.classList.remove("speed-1", "speed-2", "speed-3", "speed-4", "speed-5");
-
-    const s = gameState.speed;
-    if (s >= 6) gameArea.classList.add("speed-5");
-    else if (s >= 5) gameArea.classList.add("speed-4");
-    else if (s >= 4) gameArea.classList.add("speed-3");
-    else if (s >= 3) gameArea.classList.add("speed-2");
-    else gameArea.classList.add("speed-1");
-}
-
 function scheduleToast() {
     if (!gameState.running) return;
-
     spawnToast();
     const delay = Math.max(400, 1500 - gameState.score * 20);
     gameState.toastTimer = setTimeout(scheduleToast, delay);
@@ -366,7 +346,6 @@ function gameLoop() {
                 gameState.score++;
                 gameState.speed += 0.15;
                 document.getElementById("game-score").textContent = gameState.score;
-                updateSpeedEffects();
             } else if (t.y >= areaHeight) {
                 t.caught = true;
                 t.el.remove();
@@ -382,7 +361,6 @@ function gameLoop() {
     });
 
     gameState.toasts = gameState.toasts.filter(t => !t.caught);
-
     gameState.animationId = requestAnimationFrame(gameLoop);
 }
 
@@ -393,7 +371,6 @@ function endGame() {
 
     gameState.toasts.forEach(t => t.el.remove());
     gameState.toasts = [];
-    if (gameArea) gameArea.classList.remove("speed-1", "speed-2", "speed-3", "speed-4", "speed-5");
 
     if (playerEl) playerEl.style.display = "none";
 
@@ -416,8 +393,6 @@ function stopGame() {
     clearTimeout(gameState.toastTimer);
     gameState.toasts.forEach(t => t.el.remove());
     gameState.toasts = [];
-    if (gameArea) gameArea.classList.remove("speed-1", "speed-2", "speed-3", "speed-4", "speed-5");
-    showGameStart();
 }
 
 function shareRecord() {
@@ -427,7 +402,7 @@ function shareRecord() {
     window.open(url, "_blank");
 }
 
-// ===== FIREBASE =====
+// ===== FIREBASE (СЧЁТЧИК ОНЛАЙНА) =====
 const firebaseConfig = {
     apiKey: "AIzaSyBw35A-ZB5HX4l30bpcodb9xtUSnHIz70w",
     authDomain: "toastedlegacy.firebaseapp.com",
