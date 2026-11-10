@@ -16,7 +16,7 @@
         <button class="nav-btn" onclick="showPage('participants', this)">Участники</button>
     </header>
 
-    <!-- КНОПКА ИГРЫ -->
+    <!-- КНОПКА ИГРЫ (вынесена из страниц, чтобы не уезжала) -->
     <button id="game-button" onclick="openGame()">🍞</button>
 
     <!-- СТРАНИЦА: ГЛАВНАЯ -->
@@ -212,9 +212,9 @@
         </div>
     </div>
 
-    <!-- МИНИ-ИГРА (ОТКРЫВАЕТСЯ НА ВЕСЬ ЭКРАН) -->
-    <div id="toastgame" class="page game-page">
-        <button class="close-game-btn" onclick="showPage('home')">✕</button>
+    <!-- МИНИ-ИГРА (ВЫНЕСЕНА ИЗ СТРАНИЦ, ОТКРЫВАЕТСЯ ПОВЕРХ) -->
+    <div id="toastgame" class="game-overlay">
+        <button class="close-game-btn" onclick="closeGame()">✕</button>
         <h2>Toast Catcher</h2>
 
         <div class="game-start" id="game-start">
@@ -237,7 +237,7 @@
                 <div class="game-over-record" id="new-record" style="display:none;">🏆 Новый рекорд!</div>
                 <div class="game-buttons">
                     <button onclick="startGame()">Начать заново</button>
-                    <button onclick="showPage('home')">Выйти</button>
+                    <button onclick="closeGame()">Выйти</button>
                     <button onclick="shareRecord()">Поделиться</button>
                 </div>
             </div>
