@@ -21,8 +21,6 @@
 
     <!-- СТРАНИЦА: ГЛАВНАЯ -->
     <div id="home" class="page active">
-        
-        <!-- Секция с видео -->
         <div class="hero">
             <div id="bg-video"></div>
             <div class="hero-date">24.10.26</div>
@@ -30,15 +28,12 @@
             <div id="splash">--</div>
         </div>
 
-        <!-- Нижняя часть: 2 сегмента -->
         <div class="home-content">
-            <!-- Сегмент 1 -->
             <div class="info-block">
                 <h2>Краткая информация</h2>
                 <p>Лайоут Toasted Legacy находится в разработке, закончены все парты перед дропом (10-15% уровня). Следите за новостями в наших телеграм-каналах.</p>
             </div>
 
-            <!-- Сегмент 2 -->
             <div class="media-block">
                 <h2>Видео/Скрины</h2>
                 <div class="video-container">
@@ -47,7 +42,6 @@
                     </video>
                 </div>
                 
-                <!-- Карусель скринов -->
                 <div class="screenshot-carousel">
                     <button class="carousel-arrow left" onclick="prevScreenshot()">❮</button>
                     <img id="main-screenshot" src="media/image1TL.jpg" alt="Скриншот" onclick="openLightbox(this.src)">
@@ -56,7 +50,6 @@
             </div>
         </div>
 
-        <!-- Футер -->
         <footer class="main-footer">
             <span class="footer-left">Обновлено: 10.11.26</span>
             <span class="footer-center">@ME3EH</span>
@@ -65,24 +58,21 @@
     </div>
 
     <!-- СТРАНИЦА: ПОДРОБНОСТИ -->
-    <div id="details" class="page">
+    <div id="details" class="page standalone-page">
         <div class="fixed-carousel">
             <button class="fixed-arrow left" onclick="prevDetail()">❮</button>
             
             <div class="carousel-content">
-                <!-- Слайд 1: История -->
                 <div class="carousel-slide active" id="slide-history">
                     <h2>История</h2>
                     <p class="soon-text">Скоро...</p>
                 </div>
                 
-                <!-- Слайд 2: Тематика -->
                 <div class="carousel-slide" id="slide-theme">
                     <h2>Тематика</h2>
                     <p class="soon-text">Скоро...</p>
                 </div>
                 
-                <!-- Слайд 3: Новости -->
                 <div class="carousel-slide news-slide" id="slide-news">
                     <h2>Новости</h2>
                     <div class="news-container">
@@ -114,12 +104,11 @@
     </div>
 
     <!-- СТРАНИЦА: УЧАСТНИКИ -->
-    <div id="participants" class="page">
+    <div id="participants" class="page standalone-page">
         <div class="fixed-carousel">
             <button class="fixed-arrow left" onclick="prevParticipant()">❮</button>
             
             <div class="carousel-content">
-                <!-- Слайд 1: Toasted -->
                 <div class="carousel-slide active" id="slide-p-toasted">
                     <h2>Toasted Участники</h2>
                     <div class="creators-container">
@@ -195,7 +184,6 @@
                     </div>
                 </div>
 
-                <!-- Слайд 2: Toasted Legacy -->
                 <div class="carousel-slide" id="slide-p-legacy">
                     <h2>Toasted Legacy Участники</h2>
                     <div class="creators-container">
@@ -210,7 +198,6 @@
                     </div>
                 </div>
 
-                <!-- Слайд 3: Соцсети -->
                 <div class="carousel-slide" id="slide-p-socials">
                     <h2>Соцсети</h2>
                     <div class="socials-list">
@@ -263,7 +250,6 @@
         <img id="lightbox-img" src="" alt="">
     </div>
 
-    <!-- СКРИПТЫ -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
