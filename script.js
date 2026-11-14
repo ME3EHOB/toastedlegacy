@@ -43,7 +43,6 @@ function updateScreenshotUI() {
     const img = document.getElementById("main-screenshot");
     const title = document.getElementById("screenshotTitle");
     if (img) img.src = screenshots[currentScreenshotIndex];
-    // Заголовок меняется на "скрин1", "скрин2" и т.д.
     if (title) title.textContent = `скрин${currentScreenshotIndex + 1}`;
 }
 
@@ -75,7 +74,7 @@ function openWindow(windowId, title) {
     }
 }
 
-// Обертка для папки (чтобы не менять HTML)
+// Обертка для папки
 function openFolder(windowId, title) {
     openWindow(windowId, title);
 }
@@ -145,23 +144,21 @@ function addTaskbarIcon(windowId, title) {
     taskbarApps.appendChild(iconDiv);
 }
 
-// ИСПРАВЛЕННАЯ ФУНКЦИЯ ФОКУСА (ПОДНЯТИЕ НАВЕРХ)
+// ИСПРАВЛЕНО: теперь все окна сбрасываются на 100, а активное становится 101
 function focusWindow(windowId) {
     // Подсветка иконки в панели задач
     document.querySelectorAll(".taskbar-app").forEach(el => el.classList.remove("active"));
     const taskIcon = document.getElementById(`task-${windowId}`);
     if (taskIcon) taskIcon.classList.add("active");
     
-    // Находим все окна и вычисляем максимальный z-index
-    let maxZ = 100;
+    // СБРАСЫВАЕМ z-index у ВСЕХ окон до базового 100
     document.querySelectorAll(".window").forEach(win => {
-        const currentZ = parseInt(win.style.zIndex) || 100;
-        if (currentZ > maxZ) maxZ = currentZ;
+        win.style.zIndex = 100;
     });
     
-    // Выбранному окну даем z-index выше максимального
+    // Выбранному окну ставим 101 (оно будет поверх всех)
     const win = document.getElementById(windowId);
-    if (win) win.style.zIndex = maxZ + 1;
+    if (win) win.style.zIndex = 101;
 }
 
 function updateTaskbarActive(windowId, isActive) {
@@ -258,4 +255,4 @@ try {
     });
 } catch (error) {
     console.error("Firebase error:", error);
-            }
+        }
