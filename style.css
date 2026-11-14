@@ -40,26 +40,25 @@ body {
     z-index: 1;
 }
 
-#bg-video, #yt-player {
+#bg-video-local {
     position: absolute;
     top: 50%;
     left: 50%;
     width: 100vw;
-    height: 56.25vw;
-    min-height: 100%;
-    min-width: 177.77vh;
+    height: 100vh;
     transform: translate(-50%, -50%);
+    object-fit: cover; /* Растягивает видео на весь экран без искажений */
     pointer-events: none;
-    opacity: 0.6;
-    filter: brightness(0.6);
+    opacity: 0.7;
+    filter: brightness(0.7) grayscale(30%); /* Немного приглушаем и делаем чуть ч/б */
 }
 
-/* Затемнение поверх видео, чтобы текст читался */
+/* Затемнение поверх видео */
 #desktop::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.2);
     z-index: 2;
     pointer-events: none;
 }
