@@ -40,10 +40,21 @@ body {
     content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); z-index: 2; pointer-events: none;
 }
 
-/* ===== ИКОНКИ ===== */
+/* ===== ИКОНКИ НА РАБОЧЕМ СТОЛЕ ===== */
 .desktop-icons {
     position: absolute; top: 20px; left: 20px; z-index: 10;
     display: flex; flex-direction: column; gap: 15px;
+}
+
+/* Файлы правее папок */
+.desktop-files {
+    position: absolute; 
+    top: 20px; 
+    left: 150px; /* Сдвигаем правее папок */
+    z-index: 10;
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px;
 }
 
 .icon {
@@ -187,4 +198,5 @@ body {
     .desktop-center h1 { font-size: 40px; letter-spacing: 8px; }
     #splash { font-size: 16px; }
     .window.windowed { width: 90vw; height: 60vh; top: 50px; left: 5vw; }
-    }
+    .desktop-files { left: 120px; } /* Сдвиг для мобильных */
+}
