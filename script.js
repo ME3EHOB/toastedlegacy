@@ -43,6 +43,7 @@ function updateScreenshotUI() {
     const img = document.getElementById("main-screenshot");
     const title = document.getElementById("screenshotTitle");
     if (img) img.src = screenshots[currentScreenshotIndex];
+    // Заголовок меняется на "скрин1", "скрин2" и т.д.
     if (title) title.textContent = `скрин${currentScreenshotIndex + 1}`;
 }
 
@@ -57,7 +58,6 @@ function prevScreenshot() {
 }
 
 // ===== ЛОГИКА ОКОН =====
-// Универсальная функция открытия окна (и для папки, и для файлов)
 function openWindow(windowId, title) {
     const win = document.getElementById(windowId);
     if (!win) return;
@@ -71,7 +71,7 @@ function openWindow(windowId, title) {
     if (windowId === "screenshotFolder") updateScreenshotUI();
     if (windowId === "videoFolder") {
         const vid = document.getElementById("videoPlayer");
-        if (vid) vid.pause(); // Начинаем с паузы
+        if (vid) vid.pause();
     }
 }
 
@@ -80,7 +80,6 @@ function openFolder(windowId, title) {
     openWindow(windowId, title);
 }
 
-// Свернуть окно
 function minimizeWindow(windowId) {
     const win = document.getElementById(windowId);
     if (win) {
@@ -88,12 +87,11 @@ function minimizeWindow(windowId) {
         updateTaskbarActive(windowId, false);
         if (windowId === "videoFolder") {
             const vid = document.getElementById("videoPlayer");
-            if (vid) vid.pause(); // Пауза при сворачивании
+            if (vid) vid.pause();
         }
     }
 }
 
-// Закрыть окно (удалить из панели задач)
 function closeWindow(windowId) {
     const win = document.getElementById(windowId);
     if (win) {
@@ -102,12 +100,11 @@ function closeWindow(windowId) {
         if (taskIcon) taskIcon.remove();
         if (windowId === "videoFolder") {
             const vid = document.getElementById("videoPlayer");
-            if (vid) vid.pause(); // Пауза при закрытии
+            if (vid) vid.pause();
         }
     }
 }
 
-// Развернуть/Свернуть (в оконный режим)
 function toggleMaximize(windowId) {
     const win = document.getElementById(windowId);
     if (!win) return;
@@ -121,11 +118,10 @@ function toggleMaximize(windowId) {
     }
 }
 
-// Добавление иконки в панель задач
 function addTaskbarIcon(windowId, title) {
     const taskbarApps = document.getElementById("taskbarApps");
     if (document.getElementById(`task-${windowId}`)) {
-        focusWindow(windowId); // Если уже есть, просто фокусируем
+        focusWindow(windowId);
         return;
     }
 
@@ -149,14 +145,23 @@ function addTaskbarIcon(windowId, title) {
     taskbarApps.appendChild(iconDiv);
 }
 
+// ИСПРАВЛЕННАЯ ФУНКЦИЯ ФОКУСА (ПОДНЯТИЕ НАВЕРХ)
 function focusWindow(windowId) {
+    // Подсветка иконки в панели задач
     document.querySelectorAll(".taskbar-app").forEach(el => el.classList.remove("active"));
     const taskIcon = document.getElementById(`task-${windowId}`);
     if (taskIcon) taskIcon.classList.add("active");
     
-    document.querySelectorAll(".window").forEach(win => win.style.zIndex = 100);
+    // Находим все окна и вычисляем максимальный z-index
+    let maxZ = 100;
+    document.querySelectorAll(".window").forEach(win => {
+        const currentZ = parseInt(win.style.zIndex) || 100;
+        if (currentZ > maxZ) maxZ = currentZ;
+    });
+    
+    // Выбранному окну даем z-index выше максимального
     const win = document.getElementById(windowId);
-    if (win) win.style.zIndex = 101;
+    if (win) win.style.zIndex = maxZ + 1;
 }
 
 function updateTaskbarActive(windowId, isActive) {
@@ -213,6 +218,21 @@ document.addEventListener("touchstart", (e) => {
 document.addEventListener("touchmove", doDrag, { passive: false });
 document.addEventListener("touchend", stopDrag);
 
+// ===== КЛИК ПО ОКНУ ДЛЯ ПОДНЯТИЯ НАВЕРХ =====
+document.addEventListener("mousedown", (e) => {
+    const windowEl = e.target.closest(".window");
+    if (windowEl && !windowEl.classList.contains("hidden")) {
+        focusWindow(windowEl.id);
+    }
+});
+
+document.addEventListener("touchstart", (e) => {
+    const windowEl = e.target.closest(".window");
+    if (windowEl && !windowEl.classList.contains("hidden")) {
+        focusWindow(windowEl.id);
+    }
+}, { passive: true });
+
 // ===== FIREBASE =====
 const firebaseConfig = {
     apiKey: "AIzaSyBw35A-ZB5HX4l30bpcodb9xtUSnHIz70w",
@@ -238,4 +258,4 @@ try {
     });
 } catch (error) {
     console.error("Firebase error:", error);
-        }
+            }
