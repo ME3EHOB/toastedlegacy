@@ -90,6 +90,7 @@ function openWindow(windowId, title) {
     if (windowId === "fileFolder") loadTextIntoWindow("text/text1TL.txt", "textContent");
     if (windowId === "historyFile") loadTextIntoWindow("text/text3TL.txt", "historyContent");
     if (windowId === "socialsFile") loadTextIntoWindow("text/text4TL.txt", "socialsContent");
+    if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
     if (windowId === "colorsGroupsFile") loadTextIntoWindow("text/text2TL_1.txt", "colorsGroupsContent");
     if (windowId === "participantsFile") loadTextIntoWindow("text/text2TL_2.txt", "participantsContent");
     if (windowId === "screenshotFolder") updateScreenshotUI();
@@ -164,6 +165,7 @@ function addTaskbarIcon(windowId, title) {
             if (windowId === "fileFolder") loadTextIntoWindow("text/text1TL.txt", "textContent");
             if (windowId === "historyFile") loadTextIntoWindow("text/text3TL.txt", "historyContent");
             if (windowId === "socialsFile") loadTextIntoWindow("text/text4TL.txt", "socialsContent");
+            if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
             if (windowId === "colorsGroupsFile") loadTextIntoWindow("text/text2TL_1.txt", "colorsGroupsContent");
             if (windowId === "participantsFile") loadTextIntoWindow("text/text2TL_2.txt", "participantsContent");
             if (windowId === "screenshotFolder") updateScreenshotUI();
