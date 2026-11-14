@@ -11,14 +11,14 @@
     <!-- РАБОЧИЙ СТОЛ -->
     <div id="desktop">
         
-        <!-- ОБОИ (ВИДЕО) -->
+        <!-- ОБОИ -->
         <div class="wallpaper">
             <video autoplay muted playsinline id="bg-video-local">
                 <source src="media/video1TL.mp4" type="video/mp4">
             </video>
         </div>
 
-        <!-- ИКОНКИ НА РАБОЧЕМ СТОЛЕ -->
+        <!-- ИКОНКИ -->
         <div class="desktop-icons">
             <div class="icon" onclick="openFolder('infoFolder', 'Краткая информация')">
                 <img src="https://img.icons8.com/color/96/folder-invoices--v1.png" alt="Папка" class="icon-img">
@@ -26,13 +26,13 @@
             </div>
         </div>
 
-        <!-- ЦЕНТРАЛЬНАЯ НАДПИСЬ -->
+        <!-- ЦЕНТР -->
         <div class="desktop-center">
             <h1>TOASTED LEGACY</h1>
             <div id="splash">--</div>
         </div>
 
-        <!-- ОКНО ПАПКИ -->
+        <!-- ОКНО: ПАПКА "КРАТКАЯ ИНФОРМАЦИЯ" -->
         <div id="infoFolder" class="window hidden">
             <div class="window-header" id="infoFolderHeader">
                 <div class="window-title">Краткая информация</div>
@@ -42,27 +42,84 @@
                     <button class="close-btn" onclick="closeWindow('infoFolder')">✕</button>
                 </div>
             </div>
-            <div class="window-content">
-                <!-- Тут будет текст, пока пусто -->
-                <p style="color: #888; text-align: center; margin-top: 50px;">Папка пуста...</p>
+            <div class="window-content folder-icons">
+                <!-- Иконки внутри папки -->
+                <div class="icon" onclick="openWindow('fileFolder', 'краткая инфа')">
+                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                    <span>краткая инфа</span>
+                </div>
+                <div class="icon" onclick="openWindow('videoFolder', 'шоукейс1')">
+                    <img src="https://img.icons8.com/color/96/video-file.png" class="icon-img">
+                    <span>шоукейс1</span>
+                </div>
+                <div class="icon" onclick="openWindow('screenshotFolder', 'скрин1')">
+                    <img src="https://img.icons8.com/color/96/image-file.png" class="icon-img">
+                    <span>скрин1</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ОКНО: ТЕКСТОВЫЙ ФАЙЛ -->
+        <div id="fileFolder" class="window windowed hidden">
+            <div class="window-header" id="fileFolderHeader">
+                <div class="window-title">краткая инфа</div>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('fileFolder')">—</button>
+                    <button onclick="toggleMaximize('fileFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('fileFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" id="textContent">
+                Загрузка текста...
+            </div>
+        </div>
+
+        <!-- ОКНО: ВИДЕО -->
+        <div id="videoFolder" class="window windowed hidden">
+            <div class="window-header" id="videoFolderHeader">
+                <div class="window-title">шоукейс1</div>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('videoFolder')">—</button>
+                    <button onclick="toggleMaximize('videoFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('videoFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" style="padding: 0; background: #000;">
+                <video controls style="width: 100%; height: 100%;" id="videoPlayer">
+                    <source src="media/video1TL.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- ОКНО: СКРИНШОТ -->
+        <div id="screenshotFolder" class="window windowed hidden">
+            <div class="window-header" id="screenshotFolderHeader">
+                <div class="window-title" id="screenshotTitle">скрин1</div>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('screenshotFolder')">—</button>
+                    <button onclick="toggleMaximize('screenshotFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('screenshotFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" style="padding: 0; background: #000; position: relative; display: flex; justify-content: center; align-items: center;">
+                <button class="carousel-arrow left" onclick="prevScreenshot()">❮</button>
+                <img id="main-screenshot" src="media/image1TL.jpg" style="max-width: 90%; max-height: 90%; object-fit: contain;">
+                <button class="carousel-arrow right" onclick="nextScreenshot()">❯</button>
             </div>
         </div>
 
     </div>
 
-    <!-- ПАНЕЛЬ СНИЗУ (TASKBAR) -->
+    <!-- ПАНЕЛЬ ЗАДАЧ -->
     <div id="taskbar">
-        <div class="taskbar-left" id="taskbarApps">
-            <!-- Сюда будут добавляться иконки открытых окон -->
-        </div>
+        <div class="taskbar-left" id="taskbarApps"></div>
         <div class="taskbar-right">
             <div id="online-counter"><span id="online-count">0</span> онлайн</div>
         </div>
     </div>
 
-    <!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
 </body>
-</html>
+    </html>
