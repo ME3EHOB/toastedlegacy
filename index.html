@@ -18,11 +18,33 @@
             </video>
         </div>
 
-        <!-- ИКОНКИ -->
+        <!-- ИКОНКИ НА РАБОЧЕМ СТОЛЕ -->
         <div class="desktop-icons">
-            <div class="icon" onclick="openFolder('infoFolder', 'Краткая информация')">
-                <img src="https://img.icons8.com/color/96/folder-invoices--v1.png" alt="Папка" class="icon-img">
-                <span>Краткая информация</span>
+            <!-- Папка Информация -->
+            <div class="icon" onclick="openFolder('infoFolder', 'папка информация')">
+                <img src="https://img.icons8.com/color/96/folder-invoices--v1.png" class="icon-img">
+                <span>папка информация</span>
+            </div>
+
+            <!-- Папка Тематика -->
+            <div class="icon" onclick="openFolder('themeFolder', 'папка тематика')">
+                <img src="https://img.icons8.com/color/96/folder-invoices--v1.png" class="icon-img">
+                <span>папка тематика</span>
+            </div>
+        </div>
+
+        <!-- ДОПОЛНИТЕЛЬНЫЕ ФАЙЛЫ (ИСТОРИЯ И СОЦСЕТИ) -->
+        <div class="desktop-files">
+            <!-- Файл История -->
+            <div class="icon" onclick="openWindow('historyFile', 'история')">
+                <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                <span>история</span>
+            </div>
+
+            <!-- Файл Соцсети -->
+            <div class="icon" onclick="openWindow('socialsFile', 'соцсети')">
+                <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                <span>соцсети</span>
             </div>
         </div>
 
@@ -32,10 +54,10 @@
             <div id="splash">--</div>
         </div>
 
-        <!-- ОКНО: ПАПКА "КРАТКАЯ ИНФОРМАЦИЯ" -->
+        <!-- ОКНО: ПАПКА "ИНФОРМАЦИЯ" -->
         <div id="infoFolder" class="window hidden">
-            <div class="window-header" id="infoFolderHeader">
-                <div class="window-title">Краткая информация</div>
+            <div class="window-header">
+                <div class="window-title">папка информация</div>
                 <div class="window-controls">
                     <button onclick="minimizeWindow('infoFolder')">—</button>
                     <button onclick="toggleMaximize('infoFolder')">□</button>
@@ -43,7 +65,6 @@
                 </div>
             </div>
             <div class="window-content folder-icons">
-                <!-- Иконки внутри папки -->
                 <div class="icon" onclick="openWindow('fileFolder', 'краткая инфа')">
                     <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
                     <span>краткая инфа</span>
@@ -59,9 +80,27 @@
             </div>
         </div>
 
-        <!-- ОКНО: ТЕКСТОВЫЙ ФАЙЛ -->
+        <!-- ОКНО: ПАПКА "ТЕМАТИКА" -->
+        <div id="themeFolder" class="window hidden">
+            <div class="window-header">
+                <div class="window-title">папка тематика</div>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('themeFolder')">—</button>
+                    <button onclick="toggleMaximize('themeFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('themeFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content folder-icons">
+                <div class="icon" onclick="openWindow('themeFile', 'тематика')">
+                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                    <span>тематика</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ОКНО: ТЕКСТ "КРАТКАЯ ИНФА" -->
         <div id="fileFolder" class="window windowed hidden">
-            <div class="window-header" id="fileFolderHeader">
+            <div class="window-header">
                 <div class="window-title">краткая инфа</div>
                 <div class="window-controls">
                     <button onclick="minimizeWindow('fileFolder')">—</button>
@@ -69,14 +108,51 @@
                     <button class="close-btn" onclick="closeWindow('fileFolder')">✕</button>
                 </div>
             </div>
-            <div class="window-content" id="textContent">
-                Загрузка текста...
+            <div class="window-content" id="textContent">Загрузка...</div>
+        </div>
+
+        <!-- ОКНО: ТЕКСТ "ИСТОРИЯ" -->
+        <div id="historyFile" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">история</div>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('historyFile')">—</button>
+                    <button onclick="toggleMaximize('historyFile')">□</button>
+                    <button class="close-btn" onclick="closeWindow('historyFile')">✕</button>
+                </div>
             </div>
+            <div class="window-content" id="historyContent">Загрузка...</div>
+        </div>
+
+        <!-- ОКНО: ТЕКСТ "СОЦСЕТИ" -->
+        <div id="socialsFile" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">соцсети</div>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('socialsFile')">—</button>
+                    <button onclick="toggleMaximize('socialsFile')">□</button>
+                    <button class="close-btn" onclick="closeWindow('socialsFile')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" id="socialsContent">Загрузка...</div>
+        </div>
+
+        <!-- ОКНО: ТЕКСТ "ТЕМАТИКА" -->
+        <div id="themeFile" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">тематика</div>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('themeFile')">—</button>
+                    <button onclick="toggleMaximize('themeFile')">□</button>
+                    <button class="close-btn" onclick="closeWindow('themeFile')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" id="themeContent">Загрузка...</div>
         </div>
 
         <!-- ОКНО: ВИДЕО -->
         <div id="videoFolder" class="window windowed hidden">
-            <div class="window-header" id="videoFolderHeader">
+            <div class="window-header">
                 <div class="window-title">шоукейс1</div>
                 <div class="window-controls">
                     <button onclick="minimizeWindow('videoFolder')">—</button>
@@ -91,9 +167,9 @@
             </div>
         </div>
 
-        <!-- ОКНО: СКРИНШОТ -->
+        <!-- ОКНО: СКРИНШОТЫ -->
         <div id="screenshotFolder" class="window windowed hidden">
-            <div class="window-header" id="screenshotFolderHeader">
+            <div class="window-header">
                 <div class="window-title" id="screenshotTitle">скрин1</div>
                 <div class="window-controls">
                     <button onclick="minimizeWindow('screenshotFolder')">—</button>
@@ -122,4 +198,4 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
 </body>
-    </html>
+</html>
