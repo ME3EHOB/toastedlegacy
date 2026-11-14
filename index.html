@@ -91,6 +91,11 @@
                 </div>
             </div>
             <div class="window-content folder-icons">
+                <!-- НОВЫЙ ФАЙЛ: ТЕМАТИКА -->
+                <div class="icon" onclick="openWindow('themeFile', 'тематика')">
+                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                    <span>тематика</span>
+                </div>
                 <div class="icon" onclick="openWindow('colorsGroupsFile', 'цвета/группы')">
                     <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
                     <span>цвета/группы</span>
@@ -143,6 +148,19 @@
                 </div>
             </div>
             <div class="window-content" id="socialsContent">Загрузка...</div>
+        </div>
+
+        <!-- ОКНО: ТЕКСТ "ТЕМАТИКА" -->
+        <div id="themeFile" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">тематика</div>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('themeFile')">—</button>
+                    <button onclick="toggleMaximize('themeFile')">□</button>
+                    <button class="close-btn" onclick="closeWindow('themeFile')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" id="themeContent">Загрузка...</div>
         </div>
 
         <!-- ОКНО: ТЕКСТ "ЦВЕТА/ГРУППЫ" -->
