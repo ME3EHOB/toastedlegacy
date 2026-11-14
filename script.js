@@ -1,29 +1,3 @@
-// ===== ФОНОВОЕ ВИДЕО (ОДНО, ЗАЦИКЛЕННОЕ) =====
-let player = null;
-const videoId = "5yPU29pTQDA"; 
-
-const tag = document.createElement("script");
-tag.src = "https://www.youtube.com/iframe_api";
-document.head.appendChild(tag);
-
-window.onYouTubeIframeAPIReady = function() {
-    const container = document.getElementById("bg-video");
-    if (!container) return;
-    
-    container.innerHTML = '<div id="yt-player"></div>';
-    player = new YT.Player("yt-player", {
-        videoId: videoId,
-        playerVars: {
-            autoplay: 1, mute: 1, controls: 0, showinfo: 0, rel: 0,
-            modestbranding: 1, playsinline: 1, disablekb: 1, iv_load_policy: 3,
-            loop: 1, playlist: videoId
-        },
-        events: {
-            onReady: function(event) { event.target.playVideo(); }
-        }
-    });
-};
-
 // ===== СПЛЕШИ =====
 const splashes = [
     "Eye?", "R. R. R.", "Ash...", "Error", "Error - reload the site", 
