@@ -4,252 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toasted Legacy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- ВЕРХНЕЕ МЕНЮ -->
-    <header class="top-nav">
-        <button class="nav-btn active" onclick="showPage('home', this)">Главная</button>
-        <button class="nav-btn" onclick="showPage('details', this)">Подробности</button>
-        <button class="nav-btn" onclick="showPage('participants', this)">Участники</button>
-    </header>
-
-    <!-- КНОПКА ИГРЫ (вынесена из страниц, чтобы не уезжала) -->
-    <button id="game-button" onclick="openGame()">🍞</button>
-
-    <!-- СТРАНИЦА: ГЛАВНАЯ -->
-    <div id="home" class="page active">
-        <div class="hero">
+    <!-- РАБОЧИЙ СТОЛ -->
+    <div id="desktop">
+        
+        <!-- ОБОИ (ВИДЕО) -->
+        <div class="wallpaper">
             <div id="bg-video"></div>
-            <div class="hero-date">24.10.26</div>
+        </div>
+
+        <!-- ЦЕНТРАЛЬНАЯ НАДПИСЬ -->
+        <div class="desktop-center">
             <h1>TOASTED LEGACY</h1>
             <div id="splash">--</div>
         </div>
 
-        <div class="home-content">
-            <div class="info-block">
-                <h2>Краткая информация</h2>
-                <p>Лайоут Toasted Legacy находится в разработке, закончены все парты перед дропом (10-15% уровня). Следите за новостями в наших телеграм-каналах.</p>
-            </div>
-
-            <div class="media-block">
-                <h2>Видео/Скрины</h2>
-                <div class="video-container">
-                    <video controls preload="metadata" playsinline>
-                        <source src="media/video1TL.mp4" type="video/mp4">
-                    </video>
-                </div>
-                
-                <div class="screenshot-carousel">
-                    <button class="carousel-arrow left" onclick="prevScreenshot()">❮</button>
-                    <img id="main-screenshot" src="media/image1TL.jpg" alt="Скриншот" onclick="openLightbox(this.src)">
-                    <button class="carousel-arrow right" onclick="nextScreenshot()">❯</button>
-                </div>
-            </div>
-        </div>
-
-        <footer class="main-footer">
-            <span class="footer-left">Обновлено: 10.11.26</span>
-            <span class="footer-center">@ME3EH</span>
-            <span class="footer-right"><span id="online-count">0</span> онлайн</span>
-        </footer>
     </div>
 
-    <!-- СТРАНИЦА: ПОДРОБНОСТИ -->
-    <div id="details" class="page standalone-page">
-        <div class="fixed-carousel">
-            <button class="fixed-arrow left" onclick="prevDetail()">❮</button>
-            
-            <div class="carousel-content">
-                <div class="carousel-slide active" id="slide-history">
-                    <h2>История</h2>
-                    <p class="soon-text">Скоро...</p>
-                </div>
-                
-                <div class="carousel-slide" id="slide-theme">
-                    <h2>Тематика</h2>
-                    <p class="soon-text">Скоро...</p>
-                </div>
-                
-                <div class="carousel-slide news-slide" id="slide-news">
-                    <h2>Новости</h2>
-                    <div class="news-container">
-                        <div class="news-item">
-                            <div class="news-date">01.11.26</div>
-                            <div class="news-title">Большое обновление сайта!</div>
-                            <div class="news-text">
-                                <p>Сайт Toasted Legacy получил масштабное обновление! Что нового:</p>
-                                <p>🎮 <b>Мини-игра Toast Catcher</b> — лови тосты в корзину, набирай очки и устанавливай рекорды. Рекорд сохраняется в браузере!</p>
-                                <p>📰 <b>Новости</b> — теперь все обновления проекта будут здесь.</p>
-                                <p>👥 <b>Участники</b> — полный список людей, которые работали над Toasted и Toasted Legacy.</p>
-                                <p>✨ <b>Новый дизайн</b> — тёмная тема, стеклянные панели, анимации, сплеши и многое другое.</p>
-                            </div>
-                            <img src="media/news2TL.png" alt="Обновление">
-                        </div>
-
-                        <div class="news-item">
-                            <div class="news-date">26.10.26</div>
-                            <div class="news-title">Toasted исполнилось 500 дней!</div>
-                            <div class="news-text">Со дня создания первой версии (12 июня 2025) прошло уже целых 500 дней вау</div>
-                            <img src="media/news1TL.png" alt="500 дней">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <button class="fixed-arrow right" onclick="nextDetail()">❯</button>
+    <!-- ПАНЕЛЬ СНИЗУ (TASKBAR) -->
+    <div id="taskbar">
+        <div class="taskbar-right">
+            <div id="online-counter"><span id="online-count">0</span> онлайн</div>
         </div>
     </div>
 
-    <!-- СТРАНИЦА: УЧАСТНИКИ -->
-    <div id="participants" class="page standalone-page">
-        <div class="fixed-carousel">
-            <button class="fixed-arrow left" onclick="prevParticipant()">❮</button>
-            
-            <div class="carousel-content">
-                <div class="carousel-slide active" id="slide-p-toasted">
-                    <h2>Toasted Участники</h2>
-                    <div class="creators-container">
-                        <h3 class="creators-block-title">Главные создатели (Хосты + ГПшеры)</h3>
-                        <div class="creators-row">
-                            <div class="creator-card">
-                                <img class="creator-avatar" src="media/biivAVA.png" alt="Biiv">
-                                <div class="creator-nick">Biiv</div>
-                                <div class="creator-info">Начал Toasted</div>
-                                <img class="creator-work" src="media/biivIMAGEhost.png" alt="Работа">
-                            </div>
-                            <div class="creator-card">
-                                <img class="creator-avatar" src="media/vvaaxxAVA.png" alt="VvAaXx">
-                                <div class="creator-nick">VvAaXx</div>
-                                <div class="creator-name">(Админ)</div>
-                                <div class="creator-info">Продолжил Toasted и захоронил</div>
-                                <img class="creator-work" src="media/vvaaxxIMAGEhost.png" alt="Работа">
-                            </div>
-                            <div class="creator-card">
-                                <img class="creator-avatar" src="media/me3ehAVA.png" alt="ME3EH">
-                                <div class="creator-nick">ME3EH</div>
-                                <div class="creator-name">(Артём)</div>
-                                <div class="creator-info">Возродил Toasted</div>
-                                <img class="creator-work" src="media/me3ehIMAGEhost.png" alt="Работа">
-                            </div>
-                        </div>
-
-                        <h3 class="creators-block-title">ГПшеры (второстепенный)</h3>
-                        <div class="creators-row">
-                            <div class="creator-card">
-                                <img class="creator-avatar" src="media/blizzardAVA.png" alt="BlizzardXXL">
-                                <div class="creator-nick">BlizzardXXL</div>
-                                <div class="creator-name">(Ваня просто вилка)</div>
-                                <div class="creator-info">Сделал 1 гп парт</div>
-                                <img class="creator-work" src="media/blizzardIMAGEgp.png" alt="Работа">
-                            </div>
-                            <div class="creator-card">
-                                <img class="creator-avatar" src="media/keksAVA.png" alt="KeksPlay">
-                                <div class="creator-nick">KeksPlay</div>
-                                <div class="creator-info">Сделал 1 гп парт</div>
-                                <img class="creator-work" src="media/keksIMAGEgp.png" alt="Работа">
-                            </div>
-                        </div>
-
-                        <h3 class="creators-block-title">Декораторы</h3>
-                        <div class="creators-row">
-                            <div class="creator-card">
-                                <img class="creator-avatar" src="media/ferriumAVA.png" alt="XFerriumX">
-                                <div class="creator-nick">XFerriumX</div>
-                                <div class="creator-name">(Арслан)</div>
-                                <div class="creator-info">Делал 2 деко парта</div>
-                                <img class="creator-work" src="media/ferriumIMAGEdeco.png" alt="Работа">
-                            </div>
-                            <div class="creator-card">
-                                <img class="creator-avatar" src="media/keksAVA.png" alt="KeksPlay">
-                                <div class="creator-nick">KeksPlay</div>
-                                <div class="creator-info">Делал 2 деко парта</div>
-                                <img class="creator-work" src="media/keksIMAGEdeco.png" alt="Работа">
-                            </div>
-                            <div class="creator-card">
-                                <img class="creator-avatar" src="media/shtrihAVA.png" alt="Shtrihovsky">
-                                <div class="creator-nick">Shtrihovsky</div>
-                                <div class="creator-info">Делал 2 деко парта</div>
-                                <img class="creator-work" src="media/shtrihIMAGEdeco.png" alt="Работа">
-                            </div>
-                            <div class="creator-card">
-                                <img class="creator-avatar" src="media/ixsgorAVA.png" alt="iXsgor">
-                                <div class="creator-nick">iXsgor</div>
-                                <div class="creator-info">Делал 1 деко парт</div>
-                                <img class="creator-work" src="media/ixsgorIMAGEdeco.png" alt="Работа">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="carousel-slide" id="slide-p-legacy">
-                    <h2>Toasted Legacy Участники</h2>
-                    <div class="creators-container">
-                        <div class="creators-row">
-                            <div class="creator-card">
-                                <img class="creator-avatar" src="media/me3ehAVA.png" alt="ME3EH">
-                                <div class="creator-nick">ME3EH</div>
-                                <div class="creator-name">(Артём)</div>
-                                <div class="creator-info">Разработчик / Геймдизайнер</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="carousel-slide" id="slide-p-socials">
-                    <h2>Соцсети</h2>
-                    <div class="socials-list">
-                        <a href="https://youtube.com/@me3eh_gd" target="_blank">YouTube</a>
-                        <a href="https://t.me/ME3EHOB" target="_blank">Telegram</a>
-                        <a href="https://t.me/ToastGDTeam" target="_blank">Telegram команды</a>
-                    </div>
-                </div>
-            </div>
-
-            <button class="fixed-arrow right" onclick="nextParticipant()">❯</button>
-        </div>
-    </div>
-
-    <!-- МИНИ-ИГРА (ВЫНЕСЕНА ИЗ СТРАНИЦ, ОТКРЫВАЕТСЯ ПОВЕРХ) -->
-    <div id="toastgame" class="game-overlay">
-        <button class="close-game-btn" onclick="closeGame()">✕</button>
-        <h2>Toast Catcher</h2>
-
-        <div class="game-start" id="game-start">
-            <p class="game-start-text">Лови тосты в корзину!</p>
-            <p class="game-start-hint">Пропустишь 5 тостов — игра окончена</p>
-            <button class="game-start-btn" onclick="startGame()">СТАРТ</button>
-        </div>
-
-        <div class="game-info" id="game-info" style="display:none;">
-            <div>Очки: <span id="game-score">0</span></div>
-            <div>Рекорд: <span id="game-record">0</span></div>
-            <div>Промахи: <span id="game-misses">0</span>/5</div>
-        </div>
-
-        <div class="game-area" id="game-area" style="display:none;">
-            <div class="player" id="player">🛒</div>
-            <div class="game-over" id="game-over" style="display:none;">
-                <div class="game-over-title">Игра окончена!</div>
-                <div class="game-over-score">Очки: <span id="final-score">0</span></div>
-                <div class="game-over-record" id="new-record" style="display:none;">🏆 Новый рекорд!</div>
-                <div class="game-buttons">
-                    <button onclick="startGame()">Начать заново</button>
-                    <button onclick="closeGame()">Выйти</button>
-                    <button onclick="shareRecord()">Поделиться</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ЛАЙТБОКС -->
-    <div id="lightbox">
-        <span id="lightbox-close">✕</span>
-        <img id="lightbox-img" src="" alt="">
-    </div>
-
+    <!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
