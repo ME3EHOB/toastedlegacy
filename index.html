@@ -8,6 +8,14 @@
 </head>
 <body>
 
+    <!-- ВЕРХНЯЯ ПАНЕЛЬ (как в macOS/Linux) -->
+    <div id="top-bar">
+        <div class="top-left">TOASTED LEGACY OS</div>
+        <div class="top-right">
+            <div id="online-counter"><span id="online-count">0</span> онлайн</div>
+        </div>
+    </div>
+
     <!-- РАБОЧИЙ СТОЛ -->
     <div id="desktop">
         
@@ -233,11 +241,10 @@
     <!-- ПАНЕЛЬ ЗАДАЧ -->
     <div id="taskbar">
         <div class="taskbar-left" id="taskbarApps">
-            <!-- Кнопка ПУСК -->
-            <button class="start-btn" onclick="alert('Меню Пуск в разработке!')">⊞</button>
+            <!-- Сюда будут добавляться иконки открытых окон -->
         </div>
         <div class="taskbar-right">
-            <div id="online-counter"><span id="online-count">0</span> онлайн</div>
+            <div class="taskbar-tray-icons">🌐 🔊 🔋</div>
         </div>
     </div>
 
@@ -245,4 +252,4 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
 </body>
-</html>
+                        </html>
