@@ -11,7 +11,6 @@ async function loadSplash() {
 }
 loadSplash();
 
-// Универсальная функция загрузки текста в окно
 async function loadTextIntoWindow(filePath, targetId) {
     const content = document.getElementById(targetId);
     if (!content || content.dataset.loaded) return;
@@ -57,6 +56,27 @@ function prevScreenshot() {
     updateScreenshotUI();
 }
 
+// ===== РЕФЕРЕНСЫ (КАРУСЕЛЬ) =====
+const references = ["media/refer1TL.png", "media/refer2TL.png", "media/refer3TL.png"];
+let currentReferenceIndex = 0;
+
+function updateReferenceUI() {
+    const img = document.getElementById("main-reference");
+    const title = document.getElementById("referenceTitle");
+    if (img) img.src = references[currentReferenceIndex];
+    if (title) title.textContent = `референс${currentReferenceIndex + 1}`;
+}
+
+function nextReference() {
+    currentReferenceIndex = (currentReferenceIndex + 1) % references.length;
+    updateReferenceUI();
+}
+
+function prevReference() {
+    currentReferenceIndex = (currentReferenceIndex - 1 + references.length) % references.length;
+    updateReferenceUI();
+}
+
 // ===== ЛОГИКА ОКОН =====
 function openWindow(windowId, title) {
     const win = document.getElementById(windowId);
@@ -70,8 +90,10 @@ function openWindow(windowId, title) {
     if (windowId === "fileFolder") loadTextIntoWindow("text/text1TL.txt", "textContent");
     if (windowId === "historyFile") loadTextIntoWindow("text/text3TL.txt", "historyContent");
     if (windowId === "socialsFile") loadTextIntoWindow("text/text4TL.txt", "socialsContent");
-    if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
+    if (windowId === "colorsGroupsFile") loadTextIntoWindow("text/text2TL_1.txt", "colorsGroupsContent");
+    if (windowId === "participantsFile") loadTextIntoWindow("text/text2TL_2.txt", "participantsContent");
     if (windowId === "screenshotFolder") updateScreenshotUI();
+    if (windowId === "referenceFolder") updateReferenceUI();
     if (windowId === "videoFolder") {
         const vid = document.getElementById("videoPlayer");
         if (vid) vid.pause();
@@ -142,8 +164,10 @@ function addTaskbarIcon(windowId, title) {
             if (windowId === "fileFolder") loadTextIntoWindow("text/text1TL.txt", "textContent");
             if (windowId === "historyFile") loadTextIntoWindow("text/text3TL.txt", "historyContent");
             if (windowId === "socialsFile") loadTextIntoWindow("text/text4TL.txt", "socialsContent");
-            if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
+            if (windowId === "colorsGroupsFile") loadTextIntoWindow("text/text2TL_1.txt", "colorsGroupsContent");
+            if (windowId === "participantsFile") loadTextIntoWindow("text/text2TL_2.txt", "participantsContent");
             if (windowId === "screenshotFolder") updateScreenshotUI();
+            if (windowId === "referenceFolder") updateReferenceUI();
         } else {
             minimizeWindow(windowId);
         }
