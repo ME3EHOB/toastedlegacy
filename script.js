@@ -14,6 +14,24 @@ function loadSplash() {
 }
 loadSplash();
 
+// ===== ЗАЦИКЛИВАНИЕ ВИДЕО С 3 ПО 38 СЕКУНДУ =====
+document.addEventListener("DOMContentLoaded", () => {
+    const video = document.getElementById("bg-video-local");
+    
+    if (video) {
+        video.addEventListener('loadedmetadata', () => {
+            video.currentTime = 3;
+            video.play().catch(e => console.log("Автовоспроизведение заблокировано:", e));
+        });
+
+        video.addEventListener('timeupdate', () => {
+            if (video.currentTime >= 38) {
+                video.currentTime = 3;
+            }
+        });
+    }
+});
+
 // ===== FIREBASE (СЧЁТЧИК ОНЛАЙНА) =====
 const firebaseConfig = {
     apiKey: "AIzaSyBw35A-ZB5HX4l30bpcodb9xtUSnHIz70w",
