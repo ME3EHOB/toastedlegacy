@@ -124,10 +124,13 @@ function addTaskbarIcon(windowId, title) {
         return;
     }
 
+    // Обрезаем название для панели задач, чтобы не вылезало
+    const shortTitle = title.length > 12 ? title.substring(0, 12) + "..." : title;
+
     const iconDiv = document.createElement("div");
     iconDiv.className = "taskbar-app";
     iconDiv.id = `task-${windowId}`;
-    iconDiv.innerHTML = `<span style="font-size: 12px;">${title}</span>`;
+    iconDiv.innerHTML = `<span style="font-size: 12px;">${shortTitle}</span>`;
     
     iconDiv.onclick = () => {
         const win = document.getElementById(windowId);
@@ -144,7 +147,6 @@ function addTaskbarIcon(windowId, title) {
     taskbarApps.appendChild(iconDiv);
 }
 
-// ИСПРАВЛЕНО: теперь все окна сбрасываются на 100, а активное становится 101
 function focusWindow(windowId) {
     // Подсветка иконки в панели задач
     document.querySelectorAll(".taskbar-app").forEach(el => el.classList.remove("active"));
@@ -156,7 +158,7 @@ function focusWindow(windowId) {
         win.style.zIndex = 100;
     });
     
-    // Выбранному окну ставим 101 (оно будет поверх всех)
+    // Выбранному окну ставим 101
     const win = document.getElementById(windowId);
     if (win) win.style.zIndex = 101;
 }
@@ -255,4 +257,4 @@ try {
     });
 } catch (error) {
     console.error("Firebase error:", error);
-        }
+}
