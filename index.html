@@ -91,9 +91,17 @@
                 </div>
             </div>
             <div class="window-content folder-icons">
-                <div class="icon" onclick="openWindow('themeFile', 'тематика')">
+                <div class="icon" onclick="openWindow('colorsGroupsFile', 'цвета/группы')">
                     <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
-                    <span>тематика</span>
+                    <span>цвета/группы</span>
+                </div>
+                <div class="icon" onclick="openWindow('participantsFile', 'участники')">
+                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                    <span>участники</span>
+                </div>
+                <div class="icon" onclick="openWindow('referenceFolder', 'референсы')">
+                    <img src="https://img.icons8.com/color/96/image-file.png" class="icon-img">
+                    <span>референсы</span>
                 </div>
             </div>
         </div>
@@ -137,17 +145,47 @@
             <div class="window-content" id="socialsContent">Загрузка...</div>
         </div>
 
-        <!-- ОКНО: ТЕКСТ "ТЕМАТИКА" -->
-        <div id="themeFile" class="window windowed hidden">
+        <!-- ОКНО: ТЕКСТ "ЦВЕТА/ГРУППЫ" -->
+        <div id="colorsGroupsFile" class="window windowed hidden">
             <div class="window-header">
-                <div class="window-title">тематика</div>
+                <div class="window-title">цвета/группы</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('themeFile')">—</button>
-                    <button onclick="toggleMaximize('themeFile')">□</button>
-                    <button class="close-btn" onclick="closeWindow('themeFile')">✕</button>
+                    <button onclick="minimizeWindow('colorsGroupsFile')">—</button>
+                    <button onclick="toggleMaximize('colorsGroupsFile')">□</button>
+                    <button class="close-btn" onclick="closeWindow('colorsGroupsFile')">✕</button>
                 </div>
             </div>
-            <div class="window-content" id="themeContent">Загрузка...</div>
+            <div class="window-content" id="colorsGroupsContent">Загрузка...</div>
+        </div>
+
+        <!-- ОКНО: ТЕКСТ "УЧАСТНИКИ" (ТЕМАТИКА) -->
+        <div id="participantsFile" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">участники</div>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('participantsFile')">—</button>
+                    <button onclick="toggleMaximize('participantsFile')">□</button>
+                    <button class="close-btn" onclick="closeWindow('participantsFile')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" id="participantsContent">Загрузка...</div>
+        </div>
+
+        <!-- ОКНО: РЕФЕРЕНСЫ -->
+        <div id="referenceFolder" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title" id="referenceTitle">референс1</div>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('referenceFolder')">—</button>
+                    <button onclick="toggleMaximize('referenceFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('referenceFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" style="padding: 0; background: #000; position: relative; display: flex; justify-content: center; align-items: center;">
+                <button class="carousel-arrow left" onclick="prevReference()">❮</button>
+                <img id="main-reference" src="media/refer1TL.png" style="max-width: 90%; max-height: 90%; object-fit: contain;">
+                <button class="carousel-arrow right" onclick="nextReference()">❯</button>
+            </div>
         </div>
 
         <!-- ОКНО: ВИДЕО -->
