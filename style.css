@@ -19,6 +19,7 @@ body {
     touch-action: none;
 }
 
+/* ===== РАБОЧИЙ СТОЛ ===== */
 #desktop {
     position: relative;
     width: 100%;
@@ -123,12 +124,44 @@ body {
     display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 1000;
 }
 
-.taskbar-left { display: flex; gap: 10px; align-items: center; }
+/* Левая часть панели задач со скроллом */
+.taskbar-left {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex: 1;
+    overflow-x: auto; /* Включаем горизонтальный скролл */
+    white-space: nowrap;
+    scrollbar-width: none; /* Скрываем скроллбар в Firefox */
+    -ms-overflow-style: none; /* Скрываем скроллбар в IE/Edge */
+    padding-right: 10px;
+}
+
+/* Скрываем скроллбар в Chrome/Safari */
+.taskbar-left::-webkit-scrollbar {
+    display: none;
+}
 
 .taskbar-app {
-    display: flex; align-items: center; gap: 8px; padding: 5px 15px;
-    background: transparent; border: 1px solid transparent; border-radius: 4px;
-    color: #ccc; cursor: pointer; font-size: 14px; transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 15px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    flex-shrink: 0; /* Запрещаем сжиматься */
+    max-width: 150px; /* Максимальная ширина */
+}
+
+.taskbar-app span {
+    overflow: hidden;
+    text-overflow: ellipsis; /* Добавляем троеточие, если текст длинный */
+    white-space: nowrap;
 }
 
 .taskbar-app:hover { background: #222; border-color: #333; }
@@ -154,4 +187,4 @@ body {
     .desktop-center h1 { font-size: 40px; letter-spacing: 8px; }
     #splash { font-size: 16px; }
     .window.windowed { width: 90vw; height: 60vh; top: 50px; left: 5vw; }
-}
+    }
