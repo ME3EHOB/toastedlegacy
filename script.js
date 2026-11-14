@@ -11,11 +11,12 @@ async function loadSplash() {
 }
 loadSplash();
 
-async function loadInfoText() {
-    const content = document.getElementById("textContent");
+// Универсальная функция загрузки текста в окно
+async function loadTextIntoWindow(filePath, targetId) {
+    const content = document.getElementById(targetId);
     if (!content || content.dataset.loaded) return;
     try {
-        const res = await fetch("text/text1TL.txt");
+        const res = await fetch(filePath);
         const text = await res.text();
         content.innerHTML = text.split("\n").filter(p => p.trim()).map(p => `<p style="margin-bottom: 10px;">${p}</p>`).join("");
         content.dataset.loaded = "true";
@@ -66,7 +67,10 @@ function openWindow(windowId, title) {
     focusWindow(windowId);
 
     // Спец. загрузки
-    if (windowId === "fileFolder") loadInfoText();
+    if (windowId === "fileFolder") loadTextIntoWindow("text/text1TL.txt", "textContent");
+    if (windowId === "historyFile") loadTextIntoWindow("text/text3TL.txt", "historyContent");
+    if (windowId === "socialsFile") loadTextIntoWindow("text/text4TL.txt", "socialsContent");
+    if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
     if (windowId === "screenshotFolder") updateScreenshotUI();
     if (windowId === "videoFolder") {
         const vid = document.getElementById("videoPlayer");
@@ -74,7 +78,6 @@ function openWindow(windowId, title) {
     }
 }
 
-// Обертка для папки
 function openFolder(windowId, title) {
     openWindow(windowId, title);
 }
@@ -124,7 +127,6 @@ function addTaskbarIcon(windowId, title) {
         return;
     }
 
-    // Обрезаем название для панели задач, чтобы не вылезало
     const shortTitle = title.length > 12 ? title.substring(0, 12) + "..." : title;
 
     const iconDiv = document.createElement("div");
@@ -137,7 +139,10 @@ function addTaskbarIcon(windowId, title) {
         if (win.classList.contains("hidden")) {
             win.classList.remove("hidden");
             focusWindow(windowId);
-            if (windowId === "fileFolder") loadInfoText();
+            if (windowId === "fileFolder") loadTextIntoWindow("text/text1TL.txt", "textContent");
+            if (windowId === "historyFile") loadTextIntoWindow("text/text3TL.txt", "historyContent");
+            if (windowId === "socialsFile") loadTextIntoWindow("text/text4TL.txt", "socialsContent");
+            if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
             if (windowId === "screenshotFolder") updateScreenshotUI();
         } else {
             minimizeWindow(windowId);
@@ -148,17 +153,11 @@ function addTaskbarIcon(windowId, title) {
 }
 
 function focusWindow(windowId) {
-    // Подсветка иконки в панели задач
     document.querySelectorAll(".taskbar-app").forEach(el => el.classList.remove("active"));
     const taskIcon = document.getElementById(`task-${windowId}`);
     if (taskIcon) taskIcon.classList.add("active");
     
-    // СБРАСЫВАЕМ z-index у ВСЕХ окон до базового 100
-    document.querySelectorAll(".window").forEach(win => {
-        win.style.zIndex = 100;
-    });
-    
-    // Выбранному окну ставим 101
+    document.querySelectorAll(".window").forEach(win => win.style.zIndex = 100);
     const win = document.getElementById(windowId);
     if (win) win.style.zIndex = 101;
 }
@@ -217,7 +216,6 @@ document.addEventListener("touchstart", (e) => {
 document.addEventListener("touchmove", doDrag, { passive: false });
 document.addEventListener("touchend", stopDrag);
 
-// ===== КЛИК ПО ОКНУ ДЛЯ ПОДНЯТИЯ НАВЕРХ =====
 document.addEventListener("mousedown", (e) => {
     const windowEl = e.target.closest(".window");
     if (windowEl && !windowEl.classList.contains("hidden")) {
