@@ -20,28 +20,22 @@
 
         <!-- ИКОНКИ НА РАБОЧЕМ СТОЛЕ -->
         <div class="desktop-icons">
-            <!-- Папка Информация -->
             <div class="icon" onclick="openFolder('infoFolder', 'папка информация')">
                 <img src="https://img.icons8.com/color/96/folder-invoices--v1.png" class="icon-img">
                 <span>папка информация</span>
             </div>
-
-            <!-- Папка Тематика -->
             <div class="icon" onclick="openFolder('themeFolder', 'папка тематика')">
                 <img src="https://img.icons8.com/color/96/folder-invoices--v1.png" class="icon-img">
                 <span>папка тематика</span>
             </div>
         </div>
 
-        <!-- ДОПОЛНИТЕЛЬНЫЕ ФАЙЛЫ (ИСТОРИЯ И СОЦСЕТИ) -->
+        <!-- ДОПОЛНИТЕЛЬНЫЕ ФАЙЛЫ -->
         <div class="desktop-files">
-            <!-- Файл История -->
             <div class="icon" onclick="openWindow('historyFile', 'история')">
                 <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
                 <span>история</span>
             </div>
-
-            <!-- Файл Соцсети -->
             <div class="icon" onclick="openWindow('socialsFile', 'соцсети')">
                 <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
                 <span>соцсети</span>
@@ -91,7 +85,6 @@
                 </div>
             </div>
             <div class="window-content folder-icons">
-                <!-- НОВЫЙ ФАЙЛ: ТЕМАТИКА -->
                 <div class="icon" onclick="openWindow('themeFile', 'тематика')">
                     <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
                     <span>тематика</span>
@@ -111,7 +104,7 @@
             </div>
         </div>
 
-        <!-- ОКНО: ТЕКСТ "КРАТКАЯ ИНФА" -->
+        <!-- ОКНА ФАЙЛОВ (ТЕКСТ) -->
         <div id="fileFolder" class="window windowed hidden">
             <div class="window-header">
                 <div class="window-title">краткая инфа</div>
@@ -124,7 +117,6 @@
             <div class="window-content" id="textContent">Загрузка...</div>
         </div>
 
-        <!-- ОКНО: ТЕКСТ "ИСТОРИЯ" -->
         <div id="historyFile" class="window windowed hidden">
             <div class="window-header">
                 <div class="window-title">история</div>
@@ -137,7 +129,6 @@
             <div class="window-content" id="historyContent">Загрузка...</div>
         </div>
 
-        <!-- ОКНО: ТЕКСТ "СОЦСЕТИ" -->
         <div id="socialsFile" class="window windowed hidden">
             <div class="window-header">
                 <div class="window-title">соцсети</div>
@@ -150,7 +141,6 @@
             <div class="window-content" id="socialsContent">Загрузка...</div>
         </div>
 
-        <!-- ОКНО: ТЕКСТ "ТЕМАТИКА" -->
         <div id="themeFile" class="window windowed hidden">
             <div class="window-header">
                 <div class="window-title">тематика</div>
@@ -163,7 +153,6 @@
             <div class="window-content" id="themeContent">Загрузка...</div>
         </div>
 
-        <!-- ОКНО: ТЕКСТ "ЦВЕТА/ГРУППЫ" -->
         <div id="colorsGroupsFile" class="window windowed hidden">
             <div class="window-header">
                 <div class="window-title">цвета/группы</div>
@@ -176,7 +165,6 @@
             <div class="window-content" id="colorsGroupsContent">Загрузка...</div>
         </div>
 
-        <!-- ОКНО: ТЕКСТ "УЧАСТНИКИ" (ТЕМАТИКА) -->
         <div id="participantsFile" class="window windowed hidden">
             <div class="window-header">
                 <div class="window-title">участники</div>
@@ -244,7 +232,10 @@
 
     <!-- ПАНЕЛЬ ЗАДАЧ -->
     <div id="taskbar">
-        <div class="taskbar-left" id="taskbarApps"></div>
+        <div class="taskbar-left" id="taskbarApps">
+            <!-- Кнопка ПУСК -->
+            <button class="start-btn" onclick="alert('Меню Пуск в разработке!')">⊞</button>
+        </div>
         <div class="taskbar-right">
             <div id="online-counter"><span id="online-count">0</span> онлайн</div>
         </div>
