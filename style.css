@@ -1,8 +1,4 @@
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
     --bg-taskbar: #111111;
@@ -20,277 +16,142 @@ body {
     width: 100vw;
     height: 100vh;
     user-select: none;
-    touch-action: none; /* Важно для перетаскивания на телефонах */
+    touch-action: none;
 }
 
-/* ===== РАБОЧИЙ СТОЛ ===== */
 #desktop {
     position: relative;
     width: 100%;
-    height: calc(100vh - 40px); /* Высота экрана минус панель задач */
+    height: calc(100vh - 40px);
     overflow: hidden;
     background-color: #000;
 }
 
-.wallpaper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
+.wallpaper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
 
 #bg-video-local {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100vw;
-    height: 100vh;
-    transform: translate(-50%, -50%);
-    object-fit: cover;
-    pointer-events: none;
-    opacity: 0.7;
-    filter: brightness(0.7) grayscale(30%);
+    position: absolute; top: 50%; left: 50%; width: 100vw; height: 100vh;
+    transform: translate(-50%, -50%); object-fit: cover; pointer-events: none;
+    opacity: 0.7; filter: brightness(0.7) grayscale(30%);
 }
 
 #desktop::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.2);
-    z-index: 2;
-    pointer-events: none;
+    content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); z-index: 2; pointer-events: none;
 }
 
-/* ===== ИКОНКИ НА РАБОЧЕМ СТОЛЕ ===== */
+/* ===== ИКОНКИ ===== */
 .desktop-icons {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    position: absolute; top: 20px; left: 20px; z-index: 10;
+    display: flex; flex-direction: column; gap: 15px;
 }
 
 .icon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90px;
-    padding: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s;
-    text-align: center;
+    display: flex; flex-direction: column; align-items: center;
+    width: 90px; padding: 10px; border-radius: 4px; cursor: pointer;
+    transition: background 0.2s; text-align: center;
 }
 
-.icon:hover {
-    background: rgba(255, 255, 255, 0.1);
+.icon:hover { background: rgba(255, 255, 255, 0.1); }
+.icon-img { width: 48px; height: 48px; margin-bottom: 5px; }
+.icon span { font-size: 12px; color: #fff; text-shadow: 1px 1px 2px #000; word-wrap: break-word; }
+
+/* Иконки внутри папки */
+.folder-icons {
+    display: flex; flex-wrap: wrap; gap: 15px; align-content: flex-start;
 }
 
-.icon-img {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 5px;
-}
-
-.icon span {
-    font-size: 12px;
-    color: #fff;
-    text-shadow: 1px 1px 2px #000;
-    word-wrap: break-word;
-}
-
-/* ===== ЦЕНТРАЛЬНАЯ НАДПИСЬ ===== */
+/* ===== ЦЕНТР ===== */
 .desktop-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    z-index: 10; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px;
 }
 
 .desktop-center h1 {
-    font-size: 80px;
-    font-weight: 700;
-    letter-spacing: 15px;
-    color: #ffffff;
+    font-size: 80px; font-weight: 700; letter-spacing: 15px; color: #fff;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-#splash {
-    font-size: 20px;
-    color: var(--text-dim);
-    letter-spacing: 2px;
-    transition: opacity 0.5s;
-}
+#splash { font-size: 20px; color: var(--text-dim); letter-spacing: 2px; transition: opacity 0.5s; }
 
 /* ===== ОКНА ===== */
 .window {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--window-bg);
-    border-radius: 0; /* Без скруглений на весь экран */
-    border: none;
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
-    box-shadow: none;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--window-bg); border: none; display: flex; flex-direction: column;
+    z-index: 100; box-shadow: none;
 }
 
-.window.hidden {
-    display: none !important;
-}
+.window.hidden { display: none !important; }
 
 /* Оконный режим (не на весь экран) */
 .window.windowed {
-    width: 600px;
-    height: 400px;
-    top: 100px;
-    left: 100px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
+    width: 600px; height: 400px; top: 100px; left: 100px;
+    border-radius: 8px; border: 1px solid var(--border-color);
     box-shadow: 0 10px 30px rgba(0,0,0,0.8);
 }
 
-/* Шапка окна */
+/* Шапка */
 .window-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background: #1a1a1a;
-    border-bottom: 1px solid var(--border-color);
-    cursor: default;
-    flex-shrink: 0; /* Чтобы шапка не сжималась */
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 15px; background: #1a1a1a; border-bottom: 1px solid var(--border-color);
+    cursor: default; flex-shrink: 0;
 }
 
-/* В оконном режиме шапку можно перетаскивать */
-.window.windowed .window-header {
-    cursor: grab;
-    border-radius: 8px 8px 0 0;
-}
+.window.windowed .window-header { cursor: grab; border-radius: 8px 8px 0 0; }
+.window.windowed .window-header:active { cursor: grabbing; }
 
-.window.windowed .window-header:active {
-    cursor: grabbing;
-}
+.window-title { font-size: 14px; color: #ccc; }
 
-.window-title {
-    font-size: 14px;
-    color: #ccc;
-}
-
-/* Кнопки управления */
-.window-controls {
-    display: flex;
-    gap: 5px;
-}
+/* Кнопки */
+.window-controls { display: flex; gap: 5px; }
 
 .window-controls button {
-    width: 30px;
-    height: 30px;
-    border: none;
-    background: transparent;
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 30px; height: 30px; border: none; background: transparent; color: #fff;
+    font-size: 14px; cursor: pointer; border-radius: 4px; transition: background 0.2s;
+    display: flex; justify-content: center; align-items: center;
 }
 
-.window-controls button:hover {
-    background: #333;
-}
+.window-controls button:hover { background: #333; }
+.window-controls .close-btn:hover { background: #d32f2f; }
 
-.window-controls .close-btn:hover {
-    background: #d32f2f;
-}
+.window-content { flex: 1; padding: 20px; overflow-y: auto; }
+.window-content p { line-height: 1.6; margin-bottom: 10px; }
 
-.window-content {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-}
-
-/* ===== ПАНЕЛЬ СНИЗУ (TASKBAR) ===== */
+/* ===== ПАНЕЛЬ ЗАДАЧ ===== */
 #taskbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    background: var(--bg-taskbar);
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 1000;
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 40px;
+    background: var(--bg-taskbar); border-top: 1px solid var(--border-color);
+    display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 1000;
 }
 
-.taskbar-left {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
+.taskbar-left { display: flex; gap: 10px; align-items: center; }
 
 .taskbar-app {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 5px 15px;
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    color: #ccc;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px; padding: 5px 15px;
+    background: transparent; border: 1px solid transparent; border-radius: 4px;
+    color: #ccc; cursor: pointer; font-size: 14px; transition: all 0.2s;
 }
 
-.taskbar-app:hover {
-    background: #222;
-    border-color: #333;
+.taskbar-app:hover { background: #222; border-color: #333; }
+.taskbar-app.active { background: #333; border-color: #555; color: #fff; }
+
+#online-counter { color: #00ff88; font-size: 14px; font-weight: 600; }
+
+/* ===== СТРЕЛКИ ДЛЯ СКРИНОВ ===== */
+.carousel-arrow {
+    background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border-color);
+    color: #fff; font-size: 24px; width: 40px; height: 40px; border-radius: 50%;
+    cursor: pointer; position: absolute; top: 50%; transform: translateY(-50%);
+    transition: all 0.3s; display: flex; justify-content: center; align-items: center;
+    z-index: 10;
 }
 
-.taskbar-app.active {
-    background: #333;
-    border-color: #555;
-    color: #fff;
-}
-
-.taskbar-app img {
-    width: 16px;
-    height: 16px;
-}
-
-#online-counter {
-    color: #00ff88;
-    font-size: 14px;
-    font-weight: 600;
-}
+.carousel-arrow:hover { background: #333; border-color: #fff; }
+.carousel-arrow.left { left: 10px; }
+.carousel-arrow.right { right: 10px; }
 
 /* ===== АДАПТИВ ===== */
 @media (max-width: 900px) {
     .desktop-center h1 { font-size: 40px; letter-spacing: 8px; }
     #splash { font-size: 16px; }
-    .window.windowed {
-        width: 90vw;
-        height: 60vh;
-        top: 50px;
-        left: 5vw;
-    }
+    .window.windowed { width: 90vw; height: 60vh; top: 50px; left: 5vw; }
 }
