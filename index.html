@@ -11,11 +11,19 @@
     <!-- РАБОЧИЙ СТОЛ -->
     <div id="desktop">
         
-        <!-- ОБОИ (ВИДЕО ИЗ ПАПКИ MEDIA) -->
+        <!-- ОБОИ (ВИДЕО) -->
         <div class="wallpaper">
             <video autoplay muted playsinline id="bg-video-local">
                 <source src="media/video1TL.mp4" type="video/mp4">
             </video>
+        </div>
+
+        <!-- ИКОНКИ НА РАБОЧЕМ СТОЛЕ -->
+        <div class="desktop-icons">
+            <div class="icon" onclick="openFolder('infoFolder', 'Краткая информация')">
+                <img src="https://img.icons8.com/color/96/folder-invoices--v1.png" alt="Папка" class="icon-img">
+                <span>Краткая информация</span>
+            </div>
         </div>
 
         <!-- ЦЕНТРАЛЬНАЯ НАДПИСЬ -->
@@ -24,10 +32,29 @@
             <div id="splash">--</div>
         </div>
 
+        <!-- ОКНО ПАПКИ -->
+        <div id="infoFolder" class="window hidden">
+            <div class="window-header" id="infoFolderHeader">
+                <div class="window-title">Краткая информация</div>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('infoFolder')">—</button>
+                    <button onclick="toggleMaximize('infoFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('infoFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <!-- Тут будет текст, пока пусто -->
+                <p style="color: #888; text-align: center; margin-top: 50px;">Папка пуста...</p>
+            </div>
+        </div>
+
     </div>
 
     <!-- ПАНЕЛЬ СНИЗУ (TASKBAR) -->
     <div id="taskbar">
+        <div class="taskbar-left" id="taskbarApps">
+            <!-- Сюда будут добавляться иконки открытых окон -->
+        </div>
         <div class="taskbar-right">
             <div id="online-counter"><span id="online-count">0</span> онлайн</div>
         </div>
