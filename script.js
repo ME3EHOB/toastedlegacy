@@ -1,124 +1,172 @@
-// ===== СПЛЕШИ =====
-const splashes = [
-    "Eye?", "R. R. R.", "Ash...", "Error", "Error - reload the site", 
-    "Thank you!", "Soon...", "Again.", "Cyanotype?", "I am alone here", 
-    "He created a world for himself", ":(", "Darkness", "January 24."
-];
-
-function loadSplash() {
+// ===== СПЛЕШИ И ТЕКСТ =====
+async function loadSplash() {
     const splashEl = document.getElementById("splash");
-    if (splashEl) {
-        const randomSplash = splashes[Math.floor(Math.random() * splashes.length)];
-        splashEl.textContent = randomSplash;
-    }
+    if (!splashEl) return;
+    try {
+        const res = await fetch("text/splashes.txt");
+        const text = await res.text();
+        const splashes = text.split("\n").map(l => l.trim()).filter(l => l);
+        if (splashes.length > 0) splashEl.textContent = splashes[Math.floor(Math.random() * splashes.length)];
+    } catch (e) { splashEl.textContent = "Error"; }
 }
 loadSplash();
 
-// ===== ЗАЦИКЛИВАНИЕ ВИДЕО =====
+async function loadInfoText() {
+    const content = document.getElementById("textContent");
+    if (!content || content.dataset.loaded) return;
+    try {
+        const res = await fetch("text/text1TL.txt");
+        const text = await res.text();
+        content.innerHTML = text.split("\n").filter(p => p.trim()).map(p => `<p style="margin-bottom: 10px;">${p}</p>`).join("");
+        content.dataset.loaded = "true";
+    } catch (e) { content.innerHTML = "Ошибка загрузки текста."; }
+}
+
+// ===== ЗАЦИКЛИВАНИЕ ФОНОВОГО ВИДЕО =====
 document.addEventListener("DOMContentLoaded", () => {
     const video = document.getElementById("bg-video-local");
     if (video) {
         video.addEventListener('loadedmetadata', () => {
-            video.currentTime = 3;
-            video.play().catch(e => console.log("Автовоспроизведение заблокировано:", e));
+            video.currentTime = 3; video.play().catch(e => console.log(e));
         });
         video.addEventListener('timeupdate', () => {
-            if (video.currentTime >= 38) {
-                video.currentTime = 3;
-            }
+            if (video.currentTime >= 38) video.currentTime = 3;
         });
     }
 });
 
+// ===== СКРИНШОТЫ (КАРУСЕЛЬ) =====
+const screenshots = ["media/image1TL.jpg", "media/image2TL.jpg", "media/image3TL.jpg"];
+let currentScreenshotIndex = 0;
+
+function updateScreenshotUI() {
+    const img = document.getElementById("main-screenshot");
+    const title = document.getElementById("screenshotTitle");
+    if (img) img.src = screenshots[currentScreenshotIndex];
+    if (title) title.textContent = `скрин${currentScreenshotIndex + 1}`;
+}
+
+function nextScreenshot() {
+    currentScreenshotIndex = (currentScreenshotIndex + 1) % screenshots.length;
+    updateScreenshotUI();
+}
+
+function prevScreenshot() {
+    currentScreenshotIndex = (currentScreenshotIndex - 1 + screenshots.length) % screenshots.length;
+    updateScreenshotUI();
+}
+
 // ===== ЛОГИКА ОКОН =====
-// 1. Открытие папки
-function openFolder(folderId, title) {
-    const folder = document.getElementById(folderId);
-    if (!folder) return;
+// Универсальная функция открытия окна (и для папки, и для файлов)
+function openWindow(windowId, title) {
+    const win = document.getElementById(windowId);
+    if (!win) return;
 
-    folder.classList.remove("hidden");
-    addTaskbarIcon(folderId, title);
-    focusWindow(folderId);
-}
+    win.classList.remove("hidden");
+    addTaskbarIcon(windowId, title);
+    focusWindow(windowId);
 
-// 2. Свернуть окно (скрыть в панель задач)
-function minimizeWindow(folderId) {
-    const folder = document.getElementById(folderId);
-    if (folder) {
-        folder.classList.add("hidden");
-        updateTaskbarActive(folderId, false);
+    // Спец. загрузки
+    if (windowId === "fileFolder") loadInfoText();
+    if (windowId === "screenshotFolder") updateScreenshotUI();
+    if (windowId === "videoFolder") {
+        const vid = document.getElementById("videoPlayer");
+        if (vid) vid.pause(); // Начинаем с паузы
     }
 }
 
-// 3. Закрыть окно (полностью + УДАЛИТЬ ИЗ ПАНЕЛИ ЗАДАЧ)
-function closeWindow(folderId) {
-    const folder = document.getElementById(folderId);
-    if (folder) {
-        folder.classList.add("hidden");
-        // Удаляем иконку из панели задач
-        const taskIcon = document.getElementById(`task-${folderId}`);
+// Обертка для папки (чтобы не менять HTML)
+function openFolder(windowId, title) {
+    openWindow(windowId, title);
+}
+
+// Свернуть окно
+function minimizeWindow(windowId) {
+    const win = document.getElementById(windowId);
+    if (win) {
+        win.classList.add("hidden");
+        updateTaskbarActive(windowId, false);
+        if (windowId === "videoFolder") {
+            const vid = document.getElementById("videoPlayer");
+            if (vid) vid.pause(); // Пауза при сворачивании
+        }
+    }
+}
+
+// Закрыть окно (удалить из панели задач)
+function closeWindow(windowId) {
+    const win = document.getElementById(windowId);
+    if (win) {
+        win.classList.add("hidden");
+        const taskIcon = document.getElementById(`task-${windowId}`);
         if (taskIcon) taskIcon.remove();
+        if (windowId === "videoFolder") {
+            const vid = document.getElementById("videoPlayer");
+            if (vid) vid.pause(); // Пауза при закрытии
+        }
     }
 }
 
-// 4. Развернуть/Восстановить
-function toggleMaximize(folderId) {
-    const folder = document.getElementById(folderId);
-    if (!folder) return;
+// Развернуть/Свернуть (в оконный режим)
+function toggleMaximize(windowId) {
+    const win = document.getElementById(windowId);
+    if (!win) return;
 
-    if (folder.classList.contains("windowed")) {
-        folder.classList.remove("windowed");
-        folder.style.top = '';
-        folder.style.left = '';
+    if (win.classList.contains("windowed")) {
+        win.classList.remove("windowed");
+        win.style.top = ''; win.style.left = '';
     } else {
-        folder.classList.add("windowed");
-        folder.style.top = '100px';
-        folder.style.left = '100px';
+        win.classList.add("windowed");
+        win.style.top = '100px'; win.style.left = '100px';
     }
 }
 
-// 5. Добавление иконки в панель задач
-function addTaskbarIcon(folderId, title) {
+// Добавление иконки в панель задач
+function addTaskbarIcon(windowId, title) {
     const taskbarApps = document.getElementById("taskbarApps");
-    if (document.getElementById(`task-${folderId}`)) return;
+    if (document.getElementById(`task-${windowId}`)) {
+        focusWindow(windowId); // Если уже есть, просто фокусируем
+        return;
+    }
 
     const iconDiv = document.createElement("div");
     iconDiv.className = "taskbar-app";
-    iconDiv.id = `task-${folderId}`;
-    iconDiv.innerHTML = `<img src="https://img.icons8.com/color/48/folder-invoices--v1.png"> <span>${title}</span>`;
+    iconDiv.id = `task-${windowId}`;
+    iconDiv.innerHTML = `<span style="font-size: 12px;">${title}</span>`;
     
     iconDiv.onclick = () => {
-        const folder = document.getElementById(folderId);
-        if (folder.classList.contains("hidden")) {
-            folder.classList.remove("hidden");
-            focusWindow(folderId);
+        const win = document.getElementById(windowId);
+        if (win.classList.contains("hidden")) {
+            win.classList.remove("hidden");
+            focusWindow(windowId);
+            if (windowId === "fileFolder") loadInfoText();
+            if (windowId === "screenshotFolder") updateScreenshotUI();
         } else {
-            minimizeWindow(folderId);
+            minimizeWindow(windowId);
         }
     };
 
     taskbarApps.appendChild(iconDiv);
 }
 
-// 6. Фокус окна
-function focusWindow(folderId) {
+function focusWindow(windowId) {
     document.querySelectorAll(".taskbar-app").forEach(el => el.classList.remove("active"));
-    const taskIcon = document.getElementById(`task-${folderId}`);
+    const taskIcon = document.getElementById(`task-${windowId}`);
     if (taskIcon) taskIcon.classList.add("active");
     
     document.querySelectorAll(".window").forEach(win => win.style.zIndex = 100);
-    const folder = document.getElementById(folderId);
-    if (folder) folder.style.zIndex = 101;
+    const win = document.getElementById(windowId);
+    if (win) win.style.zIndex = 101;
 }
 
-function updateTaskbarActive(folderId, isActive) {
-    const taskIcon = document.getElementById(`task-${folderId}`);
+function updateTaskbarActive(windowId, isActive) {
+    const taskIcon = document.getElementById(`task-${windowId}`);
     if (taskIcon) {
         isActive ? taskIcon.classList.add("active") : taskIcon.classList.remove("active");
     }
 }
 
-// ===== ПЕРЕТАСКИВАНИЕ ОКНА (МЫШЬ + ТАЧ) =====
+// ===== ПЕРЕТАСКИВАНИЕ =====
 let isDragging = false;
 let currentWindow = null;
 let offsetX, offsetY;
@@ -129,11 +177,8 @@ function startDrag(e, header) {
         isDragging = true;
         currentWindow = parentWindow;
         const rect = parentWindow.getBoundingClientRect();
-        
-        // Поддержка мыши и тача
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        
         offsetX = clientX - rect.left;
         offsetY = clientY - rect.top;
     }
@@ -141,12 +186,9 @@ function startDrag(e, header) {
 
 function doDrag(e) {
     if (isDragging && currentWindow) {
-        // Отключаем скролл на тач-устройствах при перетаскивании
         if (e.cancelable) e.preventDefault(); 
-        
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        
         currentWindow.style.left = (clientX - offsetX) + "px";
         currentWindow.style.top = (clientY - offsetY) + "px";
     }
@@ -157,7 +199,6 @@ function stopDrag() {
     currentWindow = null;
 }
 
-// Вешаем события
 document.addEventListener("mousedown", (e) => {
     const header = e.target.closest(".window-header");
     if (header) startDrag(e, header);
@@ -165,7 +206,6 @@ document.addEventListener("mousedown", (e) => {
 document.addEventListener("mousemove", doDrag);
 document.addEventListener("mouseup", stopDrag);
 
-// Для телефонов (тач)
 document.addEventListener("touchstart", (e) => {
     const header = e.target.closest(".window-header");
     if (header) startDrag(e, header);
