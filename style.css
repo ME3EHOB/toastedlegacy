@@ -9,28 +9,28 @@
     --text-main: #ffffff;
     --text-dim: #aaaaaa;
     --border-color: #333333;
+    --window-bg: #0a0a0a;
 }
 
 body {
     background-color: #000;
     color: var(--text-main);
     font-family: "Segoe UI", "Arial", sans-serif;
-    overflow: hidden; /* Запрет скролла */
+    overflow: hidden;
     width: 100vw;
     height: 100vh;
-    user-select: none; /* Чтобы не выделялся текст при кликах */
+    user-select: none;
 }
 
 /* ===== РАБОЧИЙ СТОЛ ===== */
 #desktop {
     position: relative;
     width: 100%;
-    height: calc(100vh - 40px); /* Высота экрана минус панель снизу */
+    height: calc(100vh - 40px);
     overflow: hidden;
     background-color: #000;
 }
 
-/* ОБОИ (ВИДЕО) */
 .wallpaper {
     position: absolute;
     top: 0;
@@ -47,13 +47,12 @@ body {
     width: 100vw;
     height: 100vh;
     transform: translate(-50%, -50%);
-    object-fit: cover; /* Растягивает видео на весь экран без искажений */
+    object-fit: cover;
     pointer-events: none;
     opacity: 0.7;
-    filter: brightness(0.7) grayscale(30%); /* Немного приглушаем и делаем чуть ч/б */
+    filter: brightness(0.7) grayscale(30%);
 }
 
-/* Затемнение поверх видео */
 #desktop::after {
     content: '';
     position: absolute;
@@ -63,7 +62,47 @@ body {
     pointer-events: none;
 }
 
-/* ЦЕНТРАЛЬНАЯ НАДПИСЬ */
+/* ===== ИКОНКИ ===== */
+.desktop-icons {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90px;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: center;
+}
+
+.icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.icon-img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 5px;
+}
+
+.icon span {
+    font-size: 12px;
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+    word-wrap: break-word;
+}
+
+/* ===== ЦЕНТРАЛЬНАЯ НАДПИСЬ ===== */
 .desktop-center {
     position: absolute;
     top: 50%;
@@ -92,6 +131,97 @@ body {
     transition: opacity 0.5s;
 }
 
+/* ===== ОКНА ===== */
+.window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    height: calc(100% - 40px);
+    background: var(--window-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.window.hidden {
+    display: none !important;
+}
+
+/* Состояние "в окне" (не на весь экран) */
+.window.windowed {
+    width: 600px;
+    height: 400px;
+    top: 100px;
+    left: 100px;
+    transform: none; /* Убираем центрирование для перетаскивания */
+}
+
+/* Шапка окна */
+.window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: #1a1a1a;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 8px 8px 0 0;
+    cursor: default;
+}
+
+.window.windowed .window-header {
+    cursor: grab;
+}
+
+.window.windowed .window-header:active {
+    cursor: grabbing;
+}
+
+.window-title {
+    font-size: 14px;
+    color: #ccc;
+}
+
+/* Кнопки управления */
+.window-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.window-controls button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.window-controls button:hover {
+    background: #333;
+}
+
+.window-controls .close-btn:hover {
+    background: #d32f2f;
+}
+
+.window-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
 /* ===== ПАНЕЛЬ СНИЗУ (TASKBAR) ===== */
 #taskbar {
     position: fixed;
@@ -102,10 +232,46 @@ body {
     background: var(--bg-taskbar);
     border-top: 1px solid var(--border-color);
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     padding: 0 20px;
     z-index: 1000;
+}
+
+.taskbar-left {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.taskbar-app {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 15px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.taskbar-app:hover {
+    background: #222;
+    border-color: #333;
+}
+
+.taskbar-app.active {
+    background: #333;
+    border-color: #555;
+    color: #fff;
+}
+
+.taskbar-app img {
+    width: 16px;
+    height: 16px;
 }
 
 #online-counter {
@@ -118,4 +284,10 @@ body {
 @media (max-width: 900px) {
     .desktop-center h1 { font-size: 40px; letter-spacing: 8px; }
     #splash { font-size: 16px; }
-}
+    .window.windowed {
+        width: 90vw;
+        height: 60vh;
+        top: 50px;
+        left: 5vw;
+    }
+        }
