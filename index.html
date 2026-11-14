@@ -8,14 +8,6 @@
 </head>
 <body>
 
-    <!-- ВЕРХНЯЯ ПАНЕЛЬ (как в macOS/Linux) -->
-    <div id="top-bar">
-        <div class="top-left">TOASTED LEGACY OS</div>
-        <div class="top-right">
-            <div id="online-counter"><span id="online-count">0</span> онлайн</div>
-        </div>
-    </div>
-
     <!-- РАБОЧИЙ СТОЛ -->
     <div id="desktop">
         
@@ -61,8 +53,8 @@
             <div class="window-header">
                 <div class="window-title">папка информация</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('infoFolder')">—</button>
-                    <button onclick="toggleMaximize('infoFolder')">□</button>
+                    <button class="min-btn" onclick="minimizeWindow('infoFolder')">—</button>
+                    <button class="max-btn" onclick="toggleMaximize('infoFolder')">□</button>
                     <button class="close-btn" onclick="closeWindow('infoFolder')">✕</button>
                 </div>
             </div>
@@ -87,8 +79,8 @@
             <div class="window-header">
                 <div class="window-title">папка тематика</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('themeFolder')">—</button>
-                    <button onclick="toggleMaximize('themeFolder')">□</button>
+                    <button class="min-btn" onclick="minimizeWindow('themeFolder')">—</button>
+                    <button class="max-btn" onclick="toggleMaximize('themeFolder')">□</button>
                     <button class="close-btn" onclick="closeWindow('themeFolder')">✕</button>
                 </div>
             </div>
@@ -117,8 +109,8 @@
             <div class="window-header">
                 <div class="window-title">краткая инфа</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('fileFolder')">—</button>
-                    <button onclick="toggleMaximize('fileFolder')">□</button>
+                    <button class="min-btn" onclick="minimizeWindow('fileFolder')">—</button>
+                    <button class="max-btn" onclick="toggleMaximize('fileFolder')">□</button>
                     <button class="close-btn" onclick="closeWindow('fileFolder')">✕</button>
                 </div>
             </div>
@@ -129,8 +121,8 @@
             <div class="window-header">
                 <div class="window-title">история</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('historyFile')">—</button>
-                    <button onclick="toggleMaximize('historyFile')">□</button>
+                    <button class="min-btn" onclick="minimizeWindow('historyFile')">—</button>
+                    <button class="max-btn" onclick="toggleMaximize('historyFile')">□</button>
                     <button class="close-btn" onclick="closeWindow('historyFile')">✕</button>
                 </div>
             </div>
@@ -141,8 +133,8 @@
             <div class="window-header">
                 <div class="window-title">соцсети</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('socialsFile')">—</button>
-                    <button onclick="toggleMaximize('socialsFile')">□</button>
+                    <button class="min-btn" onclick="minimizeWindow('socialsFile')">—</button>
+                    <button class="max-btn" onclick="toggleMaximize('socialsFile')">□</button>
                     <button class="close-btn" onclick="closeWindow('socialsFile')">✕</button>
                 </div>
             </div>
@@ -153,8 +145,8 @@
             <div class="window-header">
                 <div class="window-title">тематика</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('themeFile')">—</button>
-                    <button onclick="toggleMaximize('themeFile')">□</button>
+                    <button class="min-btn" onclick="minimizeWindow('themeFile')">—</button>
+                    <button class="max-btn" onclick="toggleMaximize('themeFile')">□</button>
                     <button class="close-btn" onclick="closeWindow('themeFile')">✕</button>
                 </div>
             </div>
@@ -165,8 +157,8 @@
             <div class="window-header">
                 <div class="window-title">цвета/группы</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('colorsGroupsFile')">—</button>
-                    <button onclick="toggleMaximize('colorsGroupsFile')">□</button>
+                    <button class="min-btn" onclick="minimizeWindow('colorsGroupsFile')">—</button>
+                    <button class="max-btn" onclick="toggleMaximize('colorsGroupsFile')">□</button>
                     <button class="close-btn" onclick="closeWindow('colorsGroupsFile')">✕</button>
                 </div>
             </div>
@@ -177,8 +169,8 @@
             <div class="window-header">
                 <div class="window-title">участники</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('participantsFile')">—</button>
-                    <button onclick="toggleMaximize('participantsFile')">□</button>
+                    <button class="min-btn" onclick="minimizeWindow('participantsFile')">—</button>
+                    <button class="max-btn" onclick="toggleMaximize('participantsFile')">□</button>
                     <button class="close-btn" onclick="closeWindow('participantsFile')">✕</button>
                 </div>
             </div>
@@ -190,8 +182,8 @@
             <div class="window-header">
                 <div class="window-title" id="referenceTitle">референс1</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('referenceFolder')">—</button>
-                    <button onclick="toggleMaximize('referenceFolder')">□</button>
+                    <button class="min-btn" onclick="minimizeWindow('referenceFolder')">—</button>
+                    <button class="max-btn" onclick="toggleMaximize('referenceFolder')">□</button>
                     <button class="close-btn" onclick="closeWindow('referenceFolder')">✕</button>
                 </div>
             </div>
@@ -207,8 +199,8 @@
             <div class="window-header">
                 <div class="window-title">шоукейс1</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('videoFolder')">—</button>
-                    <button onclick="toggleMaximize('videoFolder')">□</button>
+                    <button class="min-btn" onclick="minimizeWindow('videoFolder')">—</button>
+                    <button class="max-btn" onclick="toggleMaximize('videoFolder')">□</button>
                     <button class="close-btn" onclick="closeWindow('videoFolder')">✕</button>
                 </div>
             </div>
@@ -224,8 +216,8 @@
             <div class="window-header">
                 <div class="window-title" id="screenshotTitle">скрин1</div>
                 <div class="window-controls">
-                    <button onclick="minimizeWindow('screenshotFolder')">—</button>
-                    <button onclick="toggleMaximize('screenshotFolder')">□</button>
+                    <button class="min-btn" onclick="minimizeWindow('screenshotFolder')">—</button>
+                    <button class="max-btn" onclick="toggleMaximize('screenshotFolder')">□</button>
                     <button class="close-btn" onclick="closeWindow('screenshotFolder')">✕</button>
                 </div>
             </div>
@@ -238,13 +230,24 @@
 
     </div>
 
-    <!-- ПАНЕЛЬ ЗАДАЧ -->
-    <div id="taskbar">
-        <div class="taskbar-left" id="taskbarApps">
-            <!-- Сюда будут добавляться иконки открытых окон -->
+    <!-- ПАНЕЛЬ ЗАДАЧ (ЦЕНТРИРОВАННАЯ, WIN 11) -->
+    <div id="win-taskbar">
+        <div class="taskbar-center">
+            <div class="taskbar-icon" onclick="openFolder('infoFolder', 'папка информация')" title="Информация">
+                <img src="https://img.icons8.com/color/96/folder-invoices--v1.png">
+            </div>
+            <div class="taskbar-icon" onclick="openFolder('themeFolder', 'папка тематика')" title="Тематика">
+                <img src="https://img.icons8.com/color/96/folder-invoices--v1.png">
+            </div>
+            <div class="taskbar-icon" onclick="openWindow('historyFile', 'история')" title="История">
+                <img src="https://img.icons8.com/color/96/document--v1.png">
+            </div>
+            <div class="taskbar-icon" onclick="openWindow('socialsFile', 'соцсети')" title="Соцсети">
+                <img src="https://img.icons8.com/color/96/document--v1.png">
+            </div>
         </div>
-        <div class="taskbar-right">
-            <div class="taskbar-tray-icons">🌐 🔊 🔋</div>
+        <div class="taskbar-tray">
+            <div id="online-counter"><span id="online-count">0</span> онлайн</div>
         </div>
     </div>
 
@@ -252,4 +255,4 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
 </body>
-                        </html>
+</html>
