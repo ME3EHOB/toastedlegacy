@@ -364,3 +364,48 @@ try {
 } catch (error) {
     console.error("Firebase error:", error);
 }
+// ===== МИНИ-ИГРА =====
+async function openToastGame() {
+    const win = document.getElementById("toastGameWindow");
+    if (!win) return;
+
+    win.classList.remove("hidden");
+    addTaskbarIcon("toastGameWindow", "Toast Catcher");
+    focusWindow("toastGameWindow");
+
+    const content = win.querySelector(".window-content");
+
+    // Загружаем HTML игры, если ещё не загружали
+    if (!content.dataset.loaded) {
+        const res = await fetch("game/toast.html");
+        content.innerHTML = await res.text();
+        content.dataset.loaded = "true";
+
+        // Подгружаем CSS игры (один раз)
+        if (!document.getElementById("toast-css")) {
+            const link = document.createElement("link");
+            link.id = "toast-css";
+            link.rel = "stylesheet";
+            link.href = "game/toast.css";
+            document.head.appendChild(link);
+        }
+
+        // Подгружаем JS игры (один раз)
+        if (!document.getElementById("toast-js")) {
+            const script = document.createElement("script");
+            script.id = "toast-js";
+            script.src = "game/toast.js";
+            document.body.appendChild(script);
+        }
+    }
+
+    // Сбрасываем состояние игры
+    if (typeof showGameStart === 'function') {
+        showGameStart();
+    }
+}
+
+function closeToastGame() {
+    if (typeof stopGame === 'function') stopGame();
+    closeWindow("toastGameWindow");
+}
