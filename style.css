@@ -1,13 +1,13 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --xp-blue: #2a2a2a; /* Тёмно-серый вместо синего */
-    --xp-blue-light: #444444; /* Серый для шапки */
-    --xp-bg: #333333; /* Серый фон окон */
+    --xp-blue: #2a2a2a;
+    --xp-blue-light: #444444;
+    --xp-bg: #333333;
     --xp-border: #111111;
-    --text-main: #e0e0e0; /* Светло-серый текст */
+    --text-main: #e0e0e0;
     --text-dim: #aaaaaa;
-    --taskbar-bg: linear-gradient(180deg, #3a3a3a 0%, #222222 100%); /* Тёмная панель задач */
+    --taskbar-bg: linear-gradient(180deg, #3a3a3a 0%, #222222 100%);
 }
 
 body {
@@ -82,7 +82,11 @@ body {
 
 /* ===== ОКНА (СЕРЫЙ XP) ===== */
 .window {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
     background: var(--xp-bg);
     border: 2px solid var(--xp-border);
     border-radius: 0;
@@ -95,7 +99,10 @@ body {
 .window.hidden { display: none !important; }
 
 .window.windowed {
-    width: 700px; height: 500px; top: 100px; left: 100px;
+    width: 700px; 
+    height: 500px; 
+    top: 100px; 
+    left: 100px;
     border-radius: 8px 8px 0 0;
     box-shadow: 2px 2px 10px rgba(0,0,0,0.9);
 }
@@ -124,7 +131,7 @@ body {
 .window-controls button {
     width: 22px; height: 22px;
     border: 1px solid #555;
-    background: linear-gradient(180deg, #555 0%, #333 100%); /* Серые кнопки */
+    background: linear-gradient(180deg, #555 0%, #333 100%);
     color: #fff;
     font-size: 12px;
     font-weight: bold;
@@ -137,7 +144,7 @@ body {
 .window-controls button:active { box-shadow: inset 1px 1px 0 #000; }
 
 .window-controls .close-btn {
-    background: linear-gradient(180deg, #a02020 0%, #600000 100%); /* Тёмно-красная */
+    background: linear-gradient(180deg, #a02020 0%, #600000 100%);
     color: #fff;
     width: 26px;
 }
@@ -149,10 +156,20 @@ body {
     flex: 1; 
     padding: 10px; 
     overflow-y: auto; 
-    background: #1a1a1a; /* Тёмный фон */
+    background: #1a1a1a; 
     color: #ccc; 
 }
 .window-content p { line-height: 1.5; margin-bottom: 8px; font-size: 13px; }
+
+/* ===== МЕДИА (ЧТОБЫ НЕ БЫЛО ЧЕРНЫХ ПОЛОС) ===== */
+.window-content video,
+.window-content img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    object-fit: contain; /* Меняет пропорции, чтобы вписаться, без обрезки */
+    margin: 0 auto;
+}
 
 /* ===== ПАНЕЛЬ ЗАДАЧ (СЕРАЯ XP) ===== */
 #win-taskbar {
@@ -166,7 +183,7 @@ body {
 .start-btn {
     height: 100%;
     padding: 0 20px;
-    background: linear-gradient(180deg, #4a4a4a 0%, #222 100%); /* Серая кнопка */
+    background: linear-gradient(180deg, #4a4a4a 0%, #222 100%);
     border: none;
     border-right: 1px solid #111;
     color: #ddd;
