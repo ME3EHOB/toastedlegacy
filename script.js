@@ -17,7 +17,7 @@ async function loadTextIntoWindow(filePath, targetId) {
     try {
         const res = await fetch(filePath);
         const text = await res.text();
-        content.innerHTML = text.split("\n").filter(p => p.trim()).map(p => `<p style="margin-bottom: 10px;">${p}</p>`).join("");
+        content.innerHTML = text.split("\n").filter(p => p.trim()).map(p => `<p style="margin-bottom: 8px; font-size: 13px; line-height: 1.5;">${p}</p>`).join("");
         content.dataset.loaded = "true";
     } catch (e) { content.innerHTML = "Ошибка загрузки текста."; }
 }
@@ -195,7 +195,7 @@ function updateTaskbarActive(windowId, isActive) {
     }
 }
 
-// ===== ПЕРЕТАСКИВАНИЕ =====
+// ===== ПЕРЕТАСКИВАНИЕ ОКОН =====
 let isDragging = false;
 let currentWindow = null;
 let offsetX, offsetY;
