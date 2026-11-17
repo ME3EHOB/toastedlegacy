@@ -271,3 +271,10 @@ body {
     .desktop-files { left: 120px; }
     .start-btn { padding: 0 10px; font-size: 14px; }
 }
+.game-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    left: auto;
+    z-index: 10;
+}
