@@ -6,6 +6,33 @@
     <title>Toasted Legacy</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
+    <!-- МЕНЮ ПУСК -->
+<div id="start-menu">
+    <div class="start-menu-header">Toasted Legacy OS</div>
+    <div class="start-menu-items">
+        <div class="start-menu-item" onclick="openFromStart('infoFolder', 'folder')">
+            <span class="start-menu-item-icon">📁</span> папка информация
+        </div>
+        <div class="start-menu-item" onclick="openFromStart('themeFolder', 'folder')">
+            <span class="start-menu-item-icon">📁</span> папка тематика
+        </div>
+        <div class="start-menu-item" onclick="openFromStart('historyFile', 'file')">
+            <span class="start-menu-item-icon">📄</span> история
+        </div>
+        <div class="start-menu-item" onclick="openFromStart('socialsFile', 'file')">
+            <span class="start-menu-item-icon">📄</span> соцсети
+        </div>
+        <div class="start-menu-item" onclick="closeAllWindows()">
+            <span class="start-menu-item-icon">❌</span> Закрыть все окна
+        </div>
+    </div>
+    <div class="start-menu-search">
+        <input type="text" id="search-input" placeholder="Поиск файлов..." oninput="searchFiles(this.value)">
+        <div class="start-search-results" id="search-results"></div>
+    </div>
+</div>
+    
 <body>
 
     <!-- РАБОЧИЙ СТОЛ -->
