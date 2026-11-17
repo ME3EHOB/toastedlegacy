@@ -1,0 +1,49 @@
+#toast-game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background: #111;
+    color: #fff;
+    font-family: "Tahoma", "Segoe UI", sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.game-start { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.game-start-text { font-size: 24px; font-weight: bold; color: #fff; }
+.game-start-hint { font-size: 14px; color: #aaa; }
+
+.game-start-btn {
+    padding: 10px 40px; background: #333; border: 1px solid #555; color: #fff;
+    font-size: 20px; cursor: pointer; border-radius: 4px;
+}
+.game-start-btn:hover { background: #444; }
+
+.game-info { display: flex; gap: 30px; font-size: 16px; margin-bottom: 15px; }
+.game-info span { font-weight: bold; color: #fff; }
+
+.game-area {
+    position: relative; width: 100%; max-width: 600px; height: 60vh;
+    background: #222; border: 2px solid #444; overflow: hidden; cursor: none;
+}
+
+.player { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); font-size: 40px; z-index: 10; }
+.toast { position: absolute; top: -60px; font-size: 30px; }
+
+.game-over {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    text-align: center; background: rgba(0,0,0,0.8); padding: 20px;
+    border: 1px solid #555; border-radius: 8px; display: flex; flex-direction: column; gap: 10px;
+}
+.game-over-title { font-size: 24px; color: #ff5555; font-weight: bold; }
+.game-over-score { font-size: 18px; }
+.game-over-record { font-size: 16px; color: #ffd700; }
+.game-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
+.game-buttons button {
+    padding: 8px 15px; background: #333; border: 1px solid #555; color: #fff;
+    cursor: pointer; border-radius: 4px; font-size: 14px;
+}
+.game-buttons button:hover { background: #444; }
