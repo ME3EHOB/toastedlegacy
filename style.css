@@ -167,7 +167,7 @@ body {
     max-width: 100%;
     max-height: 100%;
     display: block;
-    object-fit: contain; /* Меняет пропорции, чтобы вписаться, без обрезки */
+    object-fit: contain;
     margin: 0 auto;
 }
 
