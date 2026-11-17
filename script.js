@@ -49,11 +49,13 @@ function updateScreenshotUI() {
 function nextScreenshot() {
     currentScreenshotIndex = (currentScreenshotIndex + 1) % screenshots.length;
     updateScreenshotUI();
+    adjustWindowSize("screenshotFolder", "main-screenshot");
 }
 
 function prevScreenshot() {
     currentScreenshotIndex = (currentScreenshotIndex - 1 + screenshots.length) % screenshots.length;
     updateScreenshotUI();
+    adjustWindowSize("screenshotFolder", "main-screenshot");
 }
 
 // ===== РЕФЕРЕНСЫ (КАРУСЕЛЬ) =====
@@ -70,11 +72,13 @@ function updateReferenceUI() {
 function nextReference() {
     currentReferenceIndex = (currentReferenceIndex + 1) % references.length;
     updateReferenceUI();
+    adjustWindowSize("referenceFolder", "main-reference");
 }
 
 function prevReference() {
     currentReferenceIndex = (currentReferenceIndex - 1 + references.length) % references.length;
     updateReferenceUI();
+    adjustWindowSize("referenceFolder", "main-reference");
 }
 
 // ===== ЛОГИКА ОКОН =====
@@ -93,11 +97,25 @@ function openWindow(windowId, title) {
     if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
     if (windowId === "colorsGroupsFile") loadTextIntoWindow("text/text2TL_1.txt", "colorsGroupsContent");
     if (windowId === "participantsFile") loadTextIntoWindow("text/text2TL_2.txt", "participantsContent");
-    if (windowId === "screenshotFolder") updateScreenshotUI();
-    if (windowId === "referenceFolder") updateReferenceUI();
+    
+    if (windowId === "screenshotFolder") {
+        updateScreenshotUI();
+        adjustWindowSize(windowId, "main-screenshot");
+    }
+    if (windowId === "referenceFolder") {
+        updateReferenceUI();
+        adjustWindowSize(windowId, "main-reference");
+    }
     if (windowId === "videoFolder") {
         const vid = document.getElementById("videoPlayer");
-        if (vid) vid.pause();
+        if (vid) {
+            vid.pause();
+            if (vid.readyState >= 1) {
+                adjustWindowSize(windowId, vid);
+            } else {
+                vid.onloadedmetadata = () => adjustWindowSize(windowId, vid);
+            }
+        }
     }
 }
 
@@ -137,10 +155,74 @@ function toggleMaximize(windowId) {
     if (win.classList.contains("windowed")) {
         win.classList.remove("windowed");
         win.style.top = ''; win.style.left = '';
+        win.style.width = '100%'; win.style.height = '100%';
+        win.style.transform = 'none';
     } else {
         win.classList.add("windowed");
         win.style.top = '100px'; win.style.left = '100px';
+        win.style.width = '700px'; win.style.height = '500px';
+        win.style.transform = 'none';
     }
+}
+
+// ===== ПОДСТРОЙКА РАЗМЕРА ОКНА ПОД МЕДИА =====
+function adjustWindowSize(windowId, mediaElementOrId) {
+    const win = document.getElementById(windowId);
+    if (!win) return;
+
+    let media = typeof mediaElementOrId === 'string' ? document.getElementById(mediaElementOrId) : mediaElementOrId;
+    if (!media) return;
+
+    let mediaW, mediaH;
+
+    if (media.tagName === 'VIDEO') {
+        mediaW = media.videoWidth;
+        mediaH = media.videoHeight;
+    } else if (media.tagName === 'IMG') {
+        const tempImg = new Image();
+        tempImg.src = media.src;
+        if (tempImg.complete) {
+            mediaW = tempImg.width;
+            mediaH = tempImg.height;
+        } else {
+            tempImg.onload = () => {
+                applyWindowSize(win, tempImg.width, tempImg.height);
+            };
+            return;
+        }
+    } else {
+        return;
+    }
+
+    if (mediaW && mediaH) {
+        applyWindowSize(win, mediaW, mediaH);
+    }
+}
+
+function applyWindowSize(win, mediaW, mediaH) {
+    const maxW = window.innerWidth * 0.9;
+    const maxH = window.innerHeight * 0.9;
+
+    let newW = mediaW;
+    let newH = mediaH + 40; // 40px на шапку окна и рамки
+
+    if (newW > maxW) {
+        const ratio = maxW / newW;
+        newW = maxW;
+        newH = newH * ratio;
+    }
+    if (newH > maxH) {
+        const ratio = maxH / newH;
+        newH = maxH;
+        newW = newW * ratio;
+    }
+
+    win.classList.remove('windowed');
+    win.style.width = newW + 'px';
+    win.style.height = newH + 'px';
+    win.style.left = ((window.innerWidth - newW) / 2) + 'px';
+    win.style.top = ((window.innerHeight - newH) / 2) + 'px';
+    win.style.transform = 'none';
 }
 
 function addTaskbarIcon(windowId, title) {
@@ -168,8 +250,6 @@ function addTaskbarIcon(windowId, title) {
             if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
             if (windowId === "colorsGroupsFile") loadTextIntoWindow("text/text2TL_1.txt", "colorsGroupsContent");
             if (windowId === "participantsFile") loadTextIntoWindow("text/text2TL_2.txt", "participantsContent");
-            if (windowId === "screenshotFolder") updateScreenshotUI();
-            if (windowId === "referenceFolder") updateReferenceUI();
         } else {
             minimizeWindow(windowId);
         }
