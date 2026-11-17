@@ -204,7 +204,7 @@ function applyWindowSize(win, mediaW, mediaH) {
     const maxH = window.innerHeight * 0.9;
 
     let newW = mediaW;
-    let newH = mediaH + 40; // 40px на шапку окна и рамки
+    let newH = mediaH + 40; // 40px на шапку и рамки
 
     if (newW > maxW) {
         const ratio = maxW / newW;
@@ -217,7 +217,9 @@ function applyWindowSize(win, mediaW, mediaH) {
         newW = newW * ratio;
     }
 
-    win.classList.remove('windowed');
+    // Оставляем окно перетаскиваемым (класс windowed)
+    win.classList.add('windowed'); 
+    
     win.style.width = newW + 'px';
     win.style.height = newH + 'px';
     win.style.left = ((window.innerWidth - newW) / 2) + 'px';
