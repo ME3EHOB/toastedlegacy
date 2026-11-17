@@ -1,13 +1,13 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --xp-blue: #0058e6;
-    --xp-blue-light: #3a93ff;
-    --xp-bg: #ece9d8;
-    --xp-border: #003c9d;
-    --text-main: #000000;
-    --text-dim: #333333;
-    --taskbar-bg: linear-gradient(180deg, #245edb 0%, #1941a5 100%);
+    --xp-blue: #2a2a2a; /* Тёмно-серый вместо синего */
+    --xp-blue-light: #444444; /* Серый для шапки */
+    --xp-bg: #333333; /* Серый фон окон */
+    --xp-border: #111111;
+    --text-main: #e0e0e0; /* Светло-серый текст */
+    --text-dim: #aaaaaa;
+    --taskbar-bg: linear-gradient(180deg, #3a3a3a 0%, #222222 100%); /* Тёмная панель задач */
 }
 
 body {
@@ -35,11 +35,11 @@ body {
 #bg-video-local {
     position: absolute; top: 50%; left: 50%; width: 100vw; height: 100vh;
     transform: translate(-50%, -50%); object-fit: cover; pointer-events: none;
-    opacity: 0.5; filter: brightness(0.6) grayscale(20%);
+    opacity: 0.4; filter: brightness(0.5) grayscale(50%);
 }
 
 #desktop::after {
-    content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.3); z-index: 2; pointer-events: none;
+    content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.4); z-index: 2; pointer-events: none;
 }
 
 /* ===== ИКОНКИ НА РАБОЧЕМ СТОЛЕ ===== */
@@ -59,9 +59,9 @@ body {
     transition: background 0.1s; text-align: center;
 }
 
-.icon:hover { background: rgba(0, 88, 230, 0.4); border: 1px dotted #fff; }
+.icon:hover { background: rgba(255, 255, 255, 0.1); border: 1px dotted #888; }
 .icon-img { width: 48px; height: 48px; margin-bottom: 5px; }
-.icon span { font-size: 12px; color: #fff; text-shadow: 1px 1px 2px #000; word-wrap: break-word; }
+.icon span { font-size: 12px; color: #ddd; text-shadow: 1px 1px 2px #000; word-wrap: break-word; }
 
 .folder-icons {
     display: flex; flex-wrap: wrap; gap: 15px; align-content: flex-start;
@@ -78,18 +78,17 @@ body {
     text-shadow: 2px 2px 4px #000;
 }
 
-#splash { font-size: 20px; color: #ccc; letter-spacing: 2px; transition: opacity 0.5s; text-shadow: 1px 1px 2px #000; }
+#splash { font-size: 20px; color: var(--text-dim); letter-spacing: 2px; transition: opacity 0.5s; text-shadow: 1px 1px 2px #000; }
 
-/* ===== ОКНА (WINDOWS XP) ===== */
+/* ===== ОКНА (СЕРЫЙ XP) ===== */
 .window {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 90vw; height: 85vh;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: var(--xp-bg);
-    border: 2px solid var(--xp-blue);
-    border-radius: 8px 8px 0 0;
+    border: 2px solid var(--xp-border);
+    border-radius: 0;
     display: flex; flex-direction: column;
     z-index: 100;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+    box-shadow: none;
     overflow: hidden;
 }
 
@@ -97,10 +96,10 @@ body {
 
 .window.windowed {
     width: 700px; height: 500px; top: 100px; left: 100px;
-    transform: none;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.9);
 }
 
-/* Синяя шапка окна */
 .window-header {
     display: flex; justify-content: space-between; align-items: center;
     height: 30px;
@@ -120,14 +119,13 @@ body {
     padding-left: 5px;
 }
 
-/* Кнопки (XP Style) */
 .window-controls { display: flex; gap: 2px; height: 22px; }
 
 .window-controls button {
     width: 22px; height: 22px;
-    border: 1px solid #fff;
-    background: linear-gradient(180deg, #f0f0f0 0%, #d0d0d0 100%);
-    color: #000;
+    border: 1px solid #555;
+    background: linear-gradient(180deg, #555 0%, #333 100%); /* Серые кнопки */
+    color: #fff;
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;
@@ -139,34 +137,39 @@ body {
 .window-controls button:active { box-shadow: inset 1px 1px 0 #000; }
 
 .window-controls .close-btn {
-    background: linear-gradient(180deg, #ff8080 0%, #d00000 100%);
+    background: linear-gradient(180deg, #a02020 0%, #600000 100%); /* Тёмно-красная */
     color: #fff;
     width: 26px;
 }
 
-.window-controls .close-btn:hover { background: linear-gradient(180deg, #ff6060 0%, #b00000 100%); }
+.window-controls .close-btn:hover { background: linear-gradient(180deg, #d03030 0%, #800000 100%); }
 
-/* Контент окна */
-.window-content { flex: 1; padding: 10px; overflow-y: auto; background: #fff; color: #000; }
+/* Контент окна (тёмный) */
+.window-content { 
+    flex: 1; 
+    padding: 10px; 
+    overflow-y: auto; 
+    background: #1a1a1a; /* Тёмный фон */
+    color: #ccc; 
+}
 .window-content p { line-height: 1.5; margin-bottom: 8px; font-size: 13px; }
 
-/* ===== ПАНЕЛЬ ЗАДАЧ (WIN XP) ===== */
+/* ===== ПАНЕЛЬ ЗАДАЧ (СЕРАЯ XP) ===== */
 #win-taskbar {
     position: fixed; bottom: 0; left: 0; width: 100%; height: 40px;
     background: var(--taskbar-bg);
-    border-top: 1px solid #4a8af0;
+    border-top: 1px solid #555;
     display: flex; align-items: center;
     z-index: 1000;
 }
 
-/* Кнопка ПУСК */
 .start-btn {
     height: 100%;
     padding: 0 20px;
-    background: linear-gradient(180deg, #3c9d24 0%, #1a7a0d 100%);
+    background: linear-gradient(180deg, #4a4a4a 0%, #222 100%); /* Серая кнопка */
     border: none;
-    border-right: 1px solid #0d4d04;
-    color: #fff;
+    border-right: 1px solid #111;
+    color: #ddd;
     font-size: 16px;
     font-weight: bold;
     font-style: italic;
@@ -176,10 +179,9 @@ body {
     border-radius: 0 10px 10px 0;
 }
 
-.start-btn:hover { background: linear-gradient(180deg, #4dbd30 0%, #2a9a15 100%); }
-.start-btn:active { background: linear-gradient(180deg, #1a7a0d 0%, #0d4d04 100%); }
+.start-btn:hover { background: linear-gradient(180deg, #666 0%, #333 100%); }
+.start-btn:active { background: linear-gradient(180deg, #222 0%, #111 100%); }
 
-/* Область задач */
 .taskbar-apps {
     display: flex;
     gap: 5px;
@@ -197,44 +199,43 @@ body {
     display: flex; align-items: center; gap: 8px;
     padding: 2px 15px;
     height: 30px;
-    background: linear-gradient(180deg, #3a8aff 0%, #0058e6 100%);
-    border: 1px solid #003c9d;
+    background: linear-gradient(180deg, #444 0%, #2a2a2a 100%);
+    border: 1px solid #111;
     border-radius: 3px;
-    color: #fff;
+    color: #ccc;
     font-size: 12px;
     cursor: pointer;
     transition: all 0.1s;
     flex-shrink: 0;
     max-width: 150px;
-    box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3);
+    box-shadow: inset 1px 1px 0 rgba(255,255,255,0.1);
 }
 
 .taskbar-app span {
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
-.taskbar-app:hover { background: linear-gradient(180deg, #5aa0ff 0%, #1a70ff 100%); }
-.taskbar-app.active { background: linear-gradient(180deg, #003c9d 0%, #002a6e 100%); border-color: #000; }
+.taskbar-app:hover { background: linear-gradient(180deg, #555 0%, #3a3a3a 100%); }
+.taskbar-app.active { background: linear-gradient(180deg, #222 0%, #000 100%); border-color: #000; color: #fff; }
 
-/* Трей */
 .taskbar-tray {
     display: flex; align-items: center;
     padding: 0 15px;
     height: 100%;
-    background: linear-gradient(180deg, #1a7a0d 0%, #0d4d04 100%);
-    border-left: 1px solid #0d4d04;
-    color: #fff;
+    background: linear-gradient(180deg, #333 0%, #111 100%);
+    border-left: 1px solid #111;
+    color: #aaa;
     font-size: 12px;
     font-weight: bold;
 }
 
-#online-counter { color: #fff; }
+#online-counter { color: #aaa; }
 
 /* ===== СТРЕЛКИ ДЛЯ СКРИНОВ ===== */
 .carousel-arrow {
-    background: linear-gradient(180deg, #f0f0f0 0%, #d0d0d0 100%);
-    border: 1px solid #000;
-    color: #000; font-size: 18px; width: 32px; height: 32px; border-radius: 0;
+    background: linear-gradient(180deg, #555 0%, #333 100%);
+    border: 1px solid #111;
+    color: #ddd; font-size: 18px; width: 32px; height: 32px; border-radius: 0;
     cursor: pointer; position: absolute; top: 50%; transform: translateY(-50%);
     display: flex; justify-content: center; align-items: center;
     z-index: 10;
@@ -249,7 +250,6 @@ body {
 @media (max-width: 900px) {
     .desktop-center h1 { font-size: 40px; letter-spacing: 8px; }
     #splash { font-size: 16px; }
-    .window { width: 95vw; height: 80vh; }
     .window.windowed { width: 90vw; height: 60vh; top: 50px; left: 5vw; }
     .desktop-files { left: 120px; }
     .start-btn { padding: 0 10px; font-size: 14px; }
