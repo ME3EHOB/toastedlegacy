@@ -77,7 +77,6 @@ function vibrate(ms){ if(navigator.vibrate) navigator.vibrate(ms); }
   prevBtn.addEventListener('click', ()=> goTo(index - 1));
   nextBtn.addEventListener('click', ()=> goTo(index + 1));
 
-  // свайп на телефоне
   let startX = 0, startY = 0, dragging = false;
   const slider = document.getElementById('screensSlider');
   slider.addEventListener('touchstart', e=>{
@@ -95,7 +94,6 @@ function vibrate(ms){ if(navigator.vibrate) navigator.vibrate(ms); }
     }
   }, {passive:true});
 
-  // стрелки клавиатуры на ПК
   slider.setAttribute('tabindex','0');
   slider.addEventListener('keydown', e=>{
     if(e.key === 'ArrowLeft') goTo(index - 1);
