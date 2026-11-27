@@ -1,280 +1,663 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --xp-blue: #2a2a2a;
-    --xp-blue-light: #444444;
-    --xp-bg: #333333;
-    --xp-border: #111111;
+    --bg-main: #050505;
+    --bg-panel: #111111;
     --text-main: #e0e0e0;
-    --text-dim: #aaaaaa;
-    --taskbar-bg: linear-gradient(180deg, #3a3a3a 0%, #222222 100%);
+    --text-dim: #888888;
+    --border-color: #333333;
+    --glass: rgba(15, 15, 15, 0.7);
+    --accent: #ffffff;
 }
 
 body {
-    background-color: #000;
+    background-color: var(--bg-main);
     color: var(--text-main);
-    font-family: "Tahoma", "Segoe UI", sans-serif;
-    overflow: hidden;
-    width: 100vw;
-    height: 100vh;
-    user-select: none;
-    touch-action: none;
+    font-family: "Oswald", sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
 }
 
-/* ===== РАБОЧИЙ СТОЛ ===== */
-#desktop {
+/* ===== ВЕРХНЕЕ МЕНЮ ===== */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 40px;
+    background: rgba(5, 5, 5, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 20px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px 15px;
+    position: relative;
+}
+
+.nav-btn:hover {
+    color: var(--text-main);
+}
+
+.nav-btn.active {
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.nav-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* ===== СТРАНИЦЫ ===== */
+.page {
+    display: none;
+    min-height: 100vh;
+    padding-top: 80px;
+    animation: fadeIn 0.5s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+.standalone-page {
+    display: none;
+    min-height: 100vh;
+    padding-top: 80px;
+    background: var(--bg-main);
+    justify-content: center;
+    align-items: center;
+}
+
+.standalone-page.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== КНОПКА ИГРЫ ===== */
+#game-button {
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    z-index: 900;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 28px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-button:hover {
+    background: #222;
+    border-color: var(--accent);
+    transform: scale(1.1);
+}
+
+/* ===== ГЛАВНАЯ: HERO ===== */
+.hero {
     position: relative;
     width: 100%;
-    height: calc(100vh - 40px);
+    height: 80vh;
     overflow: hidden;
-    background-color: #000;
+    border-bottom: 1px solid var(--border-color);
+    background: #000;
 }
 
-.wallpaper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-
-#bg-video-local {
-    position: absolute; top: 50%; left: 50%; width: 100vw; height: 100vh;
-    transform: translate(-50%, -50%); object-fit: cover; pointer-events: none;
-    opacity: 0.4; filter: brightness(0.5) grayscale(50%);
+#bg-video, #yt-player {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw;
+    min-height: 100%;
+    min-width: 177.77vh;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0.4;
 }
 
-#desktop::after {
-    content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.4); z-index: 2; pointer-events: none;
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(5,5,5,0.2) 0%, rgba(5,5,5,0.9) 100%);
+    pointer-events: none;
 }
 
-/* ===== ИКОНКИ НА РАБОЧЕМ СТОЛЕ ===== */
-.desktop-icons {
-    position: absolute; top: 20px; left: 20px; z-index: 10;
-    display: flex; flex-direction: column; gap: 15px;
+.hero-date {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    color: var(--text-dim);
+    font-size: 18px;
+    letter-spacing: 3px;
+    z-index: 10;
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 4px;
+    background: var(--glass);
 }
 
-.desktop-files {
-    position: absolute; top: 20px; left: 150px; z-index: 10;
-    display: flex; flex-direction: column; gap: 15px;
+.hero h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    letter-spacing: 12px;
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(255,255,255,0.2);
+    z-index: 10;
+    text-align: center;
+    animation: textPulse 4s infinite alternate;
 }
 
-.icon {
-    display: flex; flex-direction: column; align-items: center;
-    width: 90px; padding: 10px; border-radius: 2px; cursor: pointer;
-    transition: background 0.1s; text-align: center;
+@keyframes textPulse {
+    0% { text-shadow: 0 0 20px rgba(255,255,255,0.1); }
+    100% { text-shadow: 0 0 40px rgba(255,255,255,0.4); }
 }
 
-.icon:hover { background: rgba(255, 255, 255, 0.1); border: 1px dotted #888; }
-.icon-img { width: 48px; height: 48px; margin-bottom: 5px; }
-.icon span { font-size: 12px; color: #ddd; text-shadow: 1px 1px 2px #000; word-wrap: break-word; }
-
-.folder-icons {
-    display: flex; flex-wrap: wrap; gap: 15px; align-content: flex-start;
+#splash {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-dim);
+    font-size: 20px;
+    letter-spacing: 2px;
+    z-index: 10;
+    text-align: center;
+    transition: opacity 0.5s;
 }
 
-/* ===== ЦЕНТР ===== */
-.desktop-center {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    z-index: 10; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px;
+/* ===== ГЛАВНАЯ: КОНТЕНТ ===== */
+.home-content {
+    display: flex;
+    flex-direction: row;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    gap: 60px;
 }
 
-.desktop-center h1 {
-    font-size: 80px; font-weight: 700; letter-spacing: 15px; color: #fff;
-    text-shadow: 2px 2px 4px #000;
+.info-block {
+    flex: 1;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    padding: 40px;
+    border-radius: 8px;
 }
 
-#splash { font-size: 20px; color: var(--text-dim); letter-spacing: 2px; transition: opacity 0.5s; text-shadow: 1px 1px 2px #000; }
+.media-block {
+    flex: 1.5;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    padding: 40px;
+    border-radius: 8px;
+}
 
-/* ===== ОКНА (СЕРЫЙ XP) ===== */
-.window {
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
+h2 {
+    font-size: 32px;
+    letter-spacing: 4px;
+    margin-bottom: 30px;
+    border-left: 4px solid var(--text-main);
+    padding-left: 15px;
+    text-transform: uppercase;
+}
+
+.info-block p {
+    color: var(--text-dim);
+    font-size: 18px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+}
+
+.video-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+    background: #000;
+}
+
+.video-container video {
+    width: 100%;
     height: 100%;
-    background: var(--xp-bg);
-    border: 2px solid var(--xp-border);
-    border-radius: 0;
-    display: flex; flex-direction: column;
-    z-index: 100;
-    box-shadow: none;
-    overflow: hidden;
+    object-fit: cover;
 }
 
-.window.hidden { display: none !important; }
-
-.window.windowed {
-    width: 700px; 
-    height: 500px; 
-    top: 100px; 
-    left: 100px;
-    border-radius: 8px 8px 0 0;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.9);
+/* ===== КАРУСЕЛЬ СКРИНШОТОВ ===== */
+.screenshot-carousel {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.window-header {
-    display: flex; justify-content: space-between; align-items: center;
-    height: 30px;
-    padding: 0 5px;
-    background: linear-gradient(180deg, var(--xp-blue-light) 0%, var(--xp-blue) 100%);
-    border-bottom: 1px solid var(--xp-border);
-    cursor: default;
-    flex-shrink: 0;
-    border-radius: 6px 6px 0 0;
-}
-
-.window.windowed .window-header { cursor: grab; }
-.window.windowed .window-header:active { cursor: grabbing; }
-
-.window-title {
-    font-size: 13px; color: #fff; font-weight: bold; text-shadow: 1px 1px 1px #000;
-    padding-left: 5px;
-}
-
-.window-controls { display: flex; gap: 2px; height: 22px; }
-
-.window-controls button {
-    width: 22px; height: 22px;
-    border: 1px solid #555;
-    background: linear-gradient(180deg, #555 0%, #333 100%);
-    color: #fff;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex; justify-content: center; align-items: center;
-    box-shadow: 1px 1px 0 #000;
-    border-radius: 3px;
-}
-
-.window-controls button:active { box-shadow: inset 1px 1px 0 #000; }
-
-.window-controls .close-btn {
-    background: linear-gradient(180deg, #a02020 0%, #600000 100%);
-    color: #fff;
-    width: 26px;
-}
-
-.window-controls .close-btn:hover { background: linear-gradient(180deg, #d03030 0%, #800000 100%); }
-
-/* Контент окна (тёмный) */
-.window-content { 
-    flex: 1; 
-    padding: 10px; 
-    overflow-y: auto; 
-    background: #1a1a1a; 
-    color: #ccc; 
-}
-.window-content p { line-height: 1.5; margin-bottom: 8px; font-size: 13px; }
-
-/* ===== МЕДИА (ЧТОБЫ НЕ БЫЛО ЧЕРНЫХ ПОЛОС) ===== */
-.window-content video,
-.window-content img {
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
+#main-screenshot {
+    width: 100%;
+    max-height: 400px;
     object-fit: contain;
+    border: 1px solid var(--border-color);
+    cursor: zoom-in;
+    transition: opacity 0.3s;
+}
+
+.carousel-arrow {
+    background: var(--glass);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-arrow:hover {
+    background: #333;
+    border-color: var(--accent);
+}
+
+.carousel-arrow.left { left: -25px; }
+.carousel-arrow.right { right: -25px; }
+
+/* ===== ФУТЕР ===== */
+.main-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: #000;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-dim);
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.footer-center {
+    font-size: 18px;
+    color: var(--text-main);
+}
+
+/* ===== КАРУСЕЛИ ===== */
+.fixed-carousel {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    height: 80vh;
+    position: relative;
+    align-items: center;
+}
+
+.fixed-arrow {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-size: 60px;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    z-index: 10;
+    padding: 20px;
+}
+
+.fixed-arrow:hover {
+    color: var(--accent);
+    transform: scale(1.2);
+}
+
+.carousel-content {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.carousel-slide {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.carousel-slide.active {
+    display: block;
+}
+
+.soon-text {
+    font-size: 24px;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 50px;
+    letter-spacing: 4px;
+}
+
+/* ===== НОВОСТИ ===== */
+.news-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.news-item {
+    background: #0a0a0a;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.news-date { font-size: 14px; color: var(--text-dim); margin-bottom: 10px; }
+.news-title { font-size: 22px; color: var(--accent); margin-bottom: 15px; letter-spacing: 2px; }
+.news-text { color: var(--text-dim); font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
+.news-text p { margin-bottom: 10px; }
+.news-text b { color: var(--text-main); }
+.news-item img { width: 100%; max-width: 600px; border: 1px solid var(--border-color); }
+
+/* ===== УЧАСТНИКИ ===== */
+.creators-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.creators-block-title {
+    font-size: 20px;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.creators-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.creator-card {
+    background: #0a0a0a;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    transition: border-color 0.3s;
+}
+
+.creator-card:hover { border-color: var(--text-dim); }
+
+.creator-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 2px solid var(--border-color);
+}
+
+.creator-nick { font-size: 18px; color: var(--accent); margin-bottom: 5px; letter-spacing: 1px; }
+.creator-name { font-size: 12px; color: var(--text-dim); margin-bottom: 10px; }
+.creator-info { font-size: 13px; color: var(--text-main); margin-bottom: 15px; }
+
+.creator-work {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+
+/* ===== СОЦСЕТИ ===== */
+.socials-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 500px;
     margin: 0 auto;
 }
 
-/* ===== ПАНЕЛЬ ЗАДАЧ (СЕРАЯ XP) ===== */
-#win-taskbar {
-    position: fixed; bottom: 0; left: 0; width: 100%; height: 40px;
-    background: var(--taskbar-bg);
-    border-top: 1px solid #555;
-    display: flex; align-items: center;
-    z-index: 1000;
+.socials-list a {
+    display: block;
+    text-align: center;
+    padding: 20px;
+    background: #0a0a0a;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 20px;
+    letter-spacing: 3px;
+    transition: all 0.3s;
 }
 
-.start-btn {
-    height: 100%;
-    padding: 0 20px;
-    background: linear-gradient(180deg, #4a4a4a 0%, #222 100%);
-    border: none;
-    border-right: 1px solid #111;
-    color: #ddd;
-    font-size: 16px;
-    font-weight: bold;
-    font-style: italic;
-    cursor: pointer;
-    display: flex; align-items: center;
-    text-shadow: 1px 1px 1px #000;
-    border-radius: 0 10px 10px 0;
+.socials-list a:hover {
+    background: #222;
+    border-color: var(--accent);
+    letter-spacing: 5px;
 }
 
-.start-btn:hover { background: linear-gradient(180deg, #666 0%, #333 100%); }
-.start-btn:active { background: linear-gradient(180deg, #222 0%, #111 100%); }
-
-.taskbar-apps {
+/* ===== МИНИ-ИГРА ===== */
+.game-page {
+    background: var(--bg-main);
     display: flex;
-    gap: 5px;
+    flex-direction: column;
     align-items: center;
-    flex: 1;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 0 10px;
-    scrollbar-width: none;
+    justify-content: center;
+    position: relative;
+    height: 100vh;
+    padding: 0;
 }
 
-.taskbar-apps::-webkit-scrollbar { display: none; }
-
-.taskbar-app {
-    display: flex; align-items: center; gap: 8px;
-    padding: 2px 15px;
-    height: 30px;
-    background: linear-gradient(180deg, #444 0%, #2a2a2a 100%);
-    border: 1px solid #111;
-    border-radius: 3px;
-    color: #ccc;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.1s;
-    flex-shrink: 0;
-    max-width: 150px;
-    box-shadow: inset 1px 1px 0 rgba(255,255,255,0.1);
-}
-
-.taskbar-app span {
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-
-.taskbar-app:hover { background: linear-gradient(180deg, #555 0%, #3a3a3a 100%); }
-.taskbar-app.active { background: linear-gradient(180deg, #222 0%, #000 100%); border-color: #000; color: #fff; }
-
-.taskbar-tray {
-    display: flex; align-items: center;
-    padding: 0 15px;
-    height: 100%;
-    background: linear-gradient(180deg, #333 0%, #111 100%);
-    border-left: 1px solid #111;
-    color: #aaa;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-#online-counter { color: #aaa; }
-
-/* ===== СТРЕЛКИ ДЛЯ СКРИНОВ ===== */
-.carousel-arrow {
-    background: linear-gradient(180deg, #555 0%, #333 100%);
-    border: 1px solid #111;
-    color: #ddd; font-size: 18px; width: 32px; height: 32px; border-radius: 0;
-    cursor: pointer; position: absolute; top: 50%; transform: translateY(-50%);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 10;
-    box-shadow: 1px 1px 0 #000;
-}
-
-.carousel-arrow:active { box-shadow: inset 1px 1px 0 #000; }
-.carousel-arrow.left { left: 5px; }
-.carousel-arrow.right { right: 5px; }
-
-/* ===== АДАПТИВ ===== */
-@media (max-width: 900px) {
-    .desktop-center h1 { font-size: 40px; letter-spacing: 8px; }
-    #splash { font-size: 16px; }
-    .window.windowed { width: 90vw; height: 60vh; top: 50px; left: 5vw; }
-    .desktop-files { left: 120px; }
-    .start-btn { padding: 0 10px; font-size: 14px; }
-}
-.game-icon {
+.close-game-btn {
     position: absolute;
     top: 20px;
     right: 20px;
-    left: auto;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.close-game-btn:hover { background: #333; border-color: var(--accent); }
+
+.game-page h2 {
+    margin-bottom: 20px;
+    border: none;
+    padding: 0;
+}
+
+.game-start {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.game-start-text { font-size: 28px; color: var(--text-main); letter-spacing: 2px; }
+.game-start-hint { font-size: 16px; color: var(--text-dim); }
+
+.game-start-btn {
+    margin-top: 20px;
+    padding: 15px 50px;
+    background: #111;
+    border: 2px solid var(--text-main);
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 24px;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.game-start-btn:hover {
+    background: var(--text-main);
+    color: #000;
+}
+
+.game-info {
+    display: flex;
+    gap: 40px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.game-area {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 60vh;
+    background: #080808;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    cursor: none;
+}
+
+.player {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 50px;
     z-index: 10;
+}
+
+.toast {
+    position: absolute;
+    top: -60px;
+    font-size: 40px;
+}
+
+.game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: rgba(0,0,0,0.8);
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.game-over-title { font-size: 28px; color: var(--accent); letter-spacing: 2px; }
+.game-over-score { font-size: 20px; color: var(--text-main); }
+.game-over-record { font-size: 18px; color: var(--text-dim); }
+
+.game-buttons { display: flex; gap: 10px; flex-direction: column; margin-top: 15px; }
+.game-buttons button {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 10px 20px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.game-buttons button:hover { background: #333; border-color: var(--accent); }
+
+/* ===== ЛАЙТБОКС ===== */
+#lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+#lightbox.active { display: flex; }
+
+#lightbox-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border: 1px solid var(--border-color);
+}
+
+#lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: var(--text-main);
+    font-size: 40px;
+    cursor: pointer;
+}
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 900px) {
+    .home-content { flex-direction: column; padding: 30px 20px; }
+    .hero h1 { font-size: 50px; letter-spacing: 6px; }
+    .hero-date { font-size: 14px; padding: 5px 10px; top: 20px; right: 20px; }
+    
+    .fixed-carousel { height: 90vh; flex-direction: column; }
+    .fixed-arrow { font-size: 40px; padding: 10px; }
+    .carousel-content { padding: 20px; width: 100%; }
+    
+    .creators-row { justify-content: center; }
+    .creator-card { width: 45%; }
+    
+    .top-nav { padding: 15px 10px; }
+    .nav-btn { font-size: 16px; letter-spacing: 2px; }
+    
+    #game-button { width: 50px; height: 50px; font-size: 22px; top: 80px; }
+    .main-footer { flex-direction: column; gap: 10px; text-align: center; }
+}
+
+@media (max-width: 600px) {
+    .creator-card { width: 100%; }
+    .carousel-arrow.left { left: 5px; }
+    .carousel-arrow.right { right: 5px; }
 }
