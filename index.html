@@ -1,138 +1,267 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Toasted Legacy</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toasted Legacy</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<nav class="navbar">
-  <a class="logo" href="#home">TOASTED<span>LEGACY</span></a>
-  <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#news">News</a></li>
-    <li><a href="#history">История</a></li>
-    <li><a href="#media">Видео</a></li>
-    <li><a href="#members">Участники</a></li>
-    <li><a href="#game">Игра</a></li>
-    <li><a href="#faq">FAQ</a></li>
-  </ul>
-</nav>
+    <!-- РАБОЧИЙ СТОЛ -->
+    <div id="desktop">
+        
+        <!-- ОБОИ -->
+        <div class="wallpaper">
+            <video autoplay muted playsinline id="bg-video-local">
+                <source src="media/video1TL.mp4" type="video/mp4">
+            </video>
+        </div>
 
-<header id="home" class="hero">
-  <div class="hero-glow" id="heroGlow"></div>
-  <h1>TOASTED<span>LEGACY</span></h1>
-  <p>Уровень в разработке. Парты перед дропом готовы (10–15%).</p>
-  <div class="hero-buttons">
-    <a class="btn primary" href="#game">Играть в Toast Catcher</a>
-    <a class="btn ghost" href="#news">Новости</a>
-  </div>
-</header>
+        <!-- ИКОНКИ НА РАБОЧЕМ СТОЛЕ -->
+        <div class="desktop-icons">
+            <div class="icon" onclick="openFolder('infoFolder', 'папка информация')">
+                <img src="https://img.icons8.com/color/96/folder-invoices--v1.png" class="icon-img">
+                <span>папка информация</span>
+            </div>
+            <div class="icon" onclick="openFolder('themeFolder', 'папка тематика')">
+                <img src="https://img.icons8.com/color/96/folder-invoices--v1.png" class="icon-img">
+                <span>папка тематика</span>
+            </div>
+            <div class="icon" onclick="openWindow('partScreenshots', 'скриншоты парта')">
+                <img src="https://img.icons8.com/color/96/image-file.png" class="icon-img">
+                <span>скриншоты парта</span>
+            </div>
+        </div>
 
-<section id="news" class="section">
-  <h2>News</h2>
-  <article class="card">
-    <time>01.11.26</time>
-    <h3>Большое обновление сайта!</h3>
-    <p>Мини-игра Toast Catcher, раздел новостей, участники, история, видео и новый дизайн.</p>
-  </article>
-  <article class="card">
-    <time>26.10.26</time>
-    <h3>Toasted исполнилось 500 дней!</h3>
-    <p>С 12 июня 2025 года прошло уже 500 дней.</p>
-  </article>
-</section>
+        <!-- ДОПОЛНИТЕЛЬНЫЕ ФАЙЛЫ -->
+        <div class="desktop-files">
+            <div class="icon" onclick="openWindow('historyFile', 'история')">
+                <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                <span>история</span>
+            </div>
+            <div class="icon" onclick="openWindow('socialsFile', 'соцсети')">
+                <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                <span>соцсети</span>
+            </div>
+        </div>
 
-<section id="history" class="section">
-  <h2>История</h2>
-  <div class="card">
-    <p><b>Toasted</b> начался 12 июня 2025 года — Biiv заложил первый парт. Позже VvAaXx продолжил работу и «захоронил» проект. Спустя время ME3EH (Артём) возродил идею — так появился <b>Toasted Legacy</b>: переосмысление старого уровня с новым декором, геймплеем и атмосферой.</p>
-    <p>Сейчас готовы все парты перед дропом (10–15% уровня). Дальше — дроп, продолжение и финальная сборка.</p>
-  </div>
+        <!-- ЦЕНТР -->
+        <div class="desktop-center">
+            <h1>TOASTED LEGACY</h1>
+            <div id="splash">--</div>
+        </div>
 
-  <h2 style="margin-top:48px">Тематика</h2>
-  <div class="card">
-    <p>Уровень построен вокруг «тостов»: тёплая кухонная атмосфера, неоновые акценты, оранжево-жёлтая палитра и лёгкий GD-вайб. Декор сочетает уют и динамику — от мягких оттенков до резких неоновых вспышек в дропе.</p>
-  </div>
-</section>
+        <!-- ОКНО: ПАПКА "ИНФОРМАЦИЯ" -->
+        <div id="infoFolder" class="window hidden">
+            <div class="window-header">
+                <div class="window-title">папка информация</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('infoFolder')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('infoFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('infoFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content folder-icons">
+                <div class="icon" onclick="openWindow('fileFolder', 'краткая инфа')">
+                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                    <span>краткая инфа</span>
+                </div>
+                <div class="icon" onclick="openWindow('videoFolder', 'шоукейс1')">
+                    <img src="https://img.icons8.com/color/96/video-file.png" class="icon-img">
+                    <span>шоукейс1</span>
+                </div>
+                <div class="icon" onclick="openWindow('screenshotFolder', 'скриншоты')">
+                    <img src="https://img.icons8.com/color/96/image-file.png" class="icon-img">
+                    <span>скриншоты</span>
+                </div>
+            </div>
+        </div>
 
-<section id="media" class="section">
-  <h2>Видео/Скрины</h2>
-  <div class="media-grid">
-    <div class="media-card">
-      <div class="video-local">
-        <video
-          src="media/preview15.mp4"
-          poster="media/poster15.jpg"
-          preload="metadata"
-          playsinline
-          controls>
-        </video>
-      </div>
-      <p>TOASTED LEGACY LAYOUT — 15%</p>
+        <!-- ОКНО: ПАПКА "ТЕМАТИКА" -->
+        <div id="themeFolder" class="window hidden">
+            <div class="window-header">
+                <div class="window-title">папка тематика</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('themeFolder')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('themeFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('themeFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content folder-icons">
+                <div class="icon" onclick="openWindow('themeFile', 'тематика')">
+                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                    <span>тематика</span>
+                </div>
+                <div class="icon" onclick="openWindow('colorsGroupsFile', 'цвета/группы')">
+                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                    <span>цвета/группы</span>
+                </div>
+                <div class="icon" onclick="openWindow('participantsFile', 'участники')">
+                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
+                    <span>участники</span>
+                </div>
+                <div class="icon" onclick="openWindow('referenceFolder', 'референсы')">
+                    <img src="https://img.icons8.com/color/96/image-file.png" class="icon-img">
+                    <span>референсы</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ОКНА ФАЙЛОВ (ТЕКСТ) -->
+        <div id="fileFolder" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">краткая инфа</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('fileFolder')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('fileFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('fileFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" id="textContent">Загрузка...</div>
+        </div>
+
+        <div id="historyFile" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">история</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('historyFile')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('historyFile')">□</button>
+                    <button class="close-btn" onclick="closeWindow('historyFile')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" id="historyContent">Загрузка...</div>
+        </div>
+
+        <div id="socialsFile" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">соцсети</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('socialsFile')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('socialsFile')">□</button>
+                    <button class="close-btn" onclick="closeWindow('socialsFile')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" id="socialsContent">Загрузка...</div>
+        </div>
+
+        <div id="themeFile" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">тематика</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('themeFile')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('themeFile')">□</button>
+                    <button class="close-btn" onclick="closeWindow('themeFile')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" id="themeContent">Загрузка...</div>
+        </div>
+
+        <div id="colorsGroupsFile" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">цвета/группы</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('colorsGroupsFile')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('colorsGroupsFile')">□</button>
+                    <button class="close-btn" onclick="closeWindow('colorsGroupsFile')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" id="colorsGroupsContent">Загрузка...</div>
+        </div>
+
+        <div id="participantsFile" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">участники</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('participantsFile')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('participantsFile')">□</button>
+                    <button class="close-btn" onclick="closeWindow('participantsFile')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" id="participantsContent">Загрузка...</div>
+        </div>
+
+        <!-- ОКНО: РЕФЕРЕНСЫ -->
+        <div id="referenceFolder" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title" id="referenceTitle">референс1</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('referenceFolder')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('referenceFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('referenceFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" style="padding: 0; background: #000; position: relative; display: flex; justify-content: center; align-items: center;">
+                <button class="carousel-arrow left" onclick="prevReference()">❮</button>
+                <img id="main-reference" src="media/refer1TL.png" style="max-width: 90%; max-height: 90%; object-fit: contain;">
+                <button class="carousel-arrow right" onclick="nextReference()">❯</button>
+            </div>
+        </div>
+
+        <!-- НОВОЕ ОКНО: СКРИНШОТЫ ПАРТА -->
+        <div id="partScreenshots" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title" id="partTitle">скриншот парта 1</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('partScreenshots')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('partScreenshots')">□</button>
+                    <button class="close-btn" onclick="closeWindow('partScreenshots')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" style="padding: 0; background: #000; position: relative; display: flex; justify-content: center; align-items: center;">
+                <button class="carousel-arrow left" onclick="prevPartScreenshot()">❮</button>
+                <img id="main-part-screenshot" src="media/screenshot1.jpg" style="max-width: 90%; max-height: 90%; object-fit: contain;">
+                <button class="carousel-arrow right" onclick="nextPartScreenshot()">❯</button>
+            </div>
+        </div>
+
+        <!-- ОКНО: ВИДЕО -->
+        <div id="videoFolder" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title">шоукейс1</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('videoFolder')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('videoFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('videoFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" style="padding: 0; background: #000;">
+                <video controls style="width: 100%; height: 100%;" id="videoPlayer">
+                    <source src="media/video1TL.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- ОКНО: СКРИНШОТЫ (основные) -->
+        <div id="screenshotFolder" class="window windowed hidden">
+            <div class="window-header">
+                <div class="window-title" id="screenshotTitle">скрин1</div>
+                <div class="window-controls">
+                    <button class="min-btn" onclick="minimizeWindow('screenshotFolder')">_</button>
+                    <button class="max-btn" onclick="toggleMaximize('screenshotFolder')">□</button>
+                    <button class="close-btn" onclick="closeWindow('screenshotFolder')">✕</button>
+                </div>
+            </div>
+            <div class="window-content" style="padding: 0; background: #000; position: relative; display: flex; justify-content: center; align-items: center;">
+                <button class="carousel-arrow left" onclick="prevScreenshot()">❮</button>
+                <img id="main-screenshot" src="media/image1TL.jpg" style="max-width: 90%; max-height: 90%; object-fit: contain;">
+                <button class="carousel-arrow right" onclick="nextScreenshot()">❯</button>
+            </div>
+        </div>
+
     </div>
-    <div class="media-card placeholder">Скрин парта — скоро</div>
-    <div class="media-card placeholder">Скрин декора — скоро</div>
-  </div>
-</section>
 
-<section id="members" class="section">
-  <h2>Участники</h2>
-  <div class="members-grid">
-    <div class="card">
-      <h3>Toasted</h3>
-      <ul>
-        <li><b>Biiv</b> — начал Toasted</li>
-        <li><b>VvAaXx</b> (админ) — продолжил и захоронил</li>
-        <li><b>ME3EH</b> (Артём) — возродил</li>
-        <li><b>BlizzardXXL</b>, <b>KeksPlay</b> — ГП-парты</li>
-        <li><b>XFerriumX</b>, <b>Shtrihovsky</b>, <b>iXsgor</b> — декор</li>
-      </ul>
+    <!-- ПАНЕЛЬ ЗАДАЧ (СЕРАЯ XP) -->
+    <div id="win-taskbar">
+        <button class="start-btn" onclick="alert('Меню Пуск в разработке!')">Пуск</button>
+        <div class="taskbar-apps" id="taskbarApps"></div>
+        <div class="taskbar-tray">
+            <div id="online-counter"><span id="online-count">0</span></div>
+        </div>
     </div>
-    <div class="card">
-      <h3>Toasted Legacy</h3>
-      <ul>
-        <li><b>ME3EH</b> (Артём) — хост</li>
-      </ul>
-    </div>
-  </div>
-</section>
 
-<section id="game" class="section">
-  <h2>Toast Catcher</h2>
-  <p>Лови тосты в корзину. Пропустишь 5 — игра окончена.</p>
-  <div class="game-wrap">
-    <canvas id="toastGame"></canvas>
-    <div class="game-hud">
-      <span>Счёт: <b id="score">0</b></span>
-      <span>Рекорд: <b id="best">0</b></span>
-      <span>Жизни: <b id="lives">5</b></span>
-    </div>
-    <div class="game-overlay" id="overlay">
-      <h3 id="overlayTitle">Готов?</h3>
-      <p id="overlayText">Двигай корзину пальцем или мышкой. Лови тосты!</p>
-      <button class="btn primary" id="startBtn">Играть</button>
-    </div>
-  </div>
-</section>
-
-<section id="faq" class="section">
-  <h2>FAQ</h2>
-  <details><summary>Когда выйдет Toasted Legacy?</summary><p>Пока в разработке — следи за новостями на сайте и в Telegram.</p></details>
-  <details><summary>Кто работает над уровнем?</summary><p>Основной хост — ME3EH (Артём). Участники старого Toasted указаны в разделе «Участники».</p></details>
-  <details><summary>Можно ли помочь с уровнем?</summary><p>Следи за новостями — набор может открыться. Пока можно поддержать проект и играть в Toast Catcher.</p></details>
-  <details><summary>Где следить за проектом?</summary><p>В Telegram-каналах (ссылки в футере) и в разделе News.</p></details>
-</section>
-
-<footer class="footer">
-  <p>Toasted Legacy</p>
-</footer>
-
-<script src="script.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="script.js"></script>
 </body>
-  </html>
+                      </html>
