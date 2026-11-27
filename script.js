@@ -17,6 +17,39 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   });
 });
 
+// ---------- parallax в hero ----------
+const heroGlow = document.getElementById('heroGlow');
+window.addEventListener('mousemove', e=>{
+  const x = (e.clientX / window.innerWidth - 0.5) * 40;
+  const y = (e.clientY / window.innerHeight - 0.5) * 40;
+  heroGlow.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+});
+window.addEventListener('touchmove', e=>{
+  const t = e.touches[0];
+  const x = (t.clientX / window.innerWidth - 0.5) * 40;
+  const y = (t.clientY / window.innerHeight - 0.5) * 40;
+  heroGlow.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+}, {passive:true});
+
+// ---------- звук + вибрация ----------
+const AC = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+function initAudio(){
+  if(!audioCtx && AC) audioCtx = new AC();
+}
+function beep(freq=520, dur=0.08, type='sine'){
+  if(!audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = type; o.frequency.value = freq;
+  g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.15, audioCtx.currentTime + 0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+  o.connect(g).connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + dur);
+}
+function vibrate(ms){ if(navigator.vibrate) navigator.vibrate(ms); }
+
 // ---------- Toast Catcher ----------
 const canvas = document.getElementById('toastGame');
 const ctx = canvas.getContext('2d');
@@ -61,11 +94,14 @@ canvas.addEventListener('touchmove', e=>{
 }, {passive:false});
 canvas.addEventListener('touchstart', e=>{
   e.preventDefault();
+  initAudio();
   moveBasket(e.touches[0].clientX);
 }, {passive:false});
 canvas.addEventListener('mousemove', e=>moveBasket(e.clientX));
+canvas.addEventListener('mousedown', ()=>initAudio());
 
 function startGame(){
+  initAudio();
   score = 0; lives = 5; toasts = []; spawnTimer = 0; running = true;
   scoreEl.textContent = 0; livesEl.textContent = 5;
   overlay.classList.add('hidden');
@@ -80,6 +116,8 @@ function endGame(){
   overlayText.textContent = `Счёт: ${score} · Рекорд: ${best}`;
   startBtn.textContent = 'Ещё раз';
   overlay.classList.remove('hidden');
+  beep(180, 0.3, 'sawtooth');
+  vibrate([60,40,60]);
 }
 
 let last = 0;
@@ -102,10 +140,15 @@ function update(dt){
     t.y += t.vy * dt;
     if(t.y + t.r >= H - basketH - 10 && t.y - t.r <= H - 10 &&
        t.x > basketX && t.x < basketX + basketW){
-      toasts.splice(i,1); score++; scoreEl.textContent = score; continue;
+      toasts.splice(i,1); score++; scoreEl.textContent = score;
+      beep(560 + Math.min(score,20)*20, 0.07);
+      vibrate(15);
+      continue;
     }
     if(t.y - t.r > H){
       toasts.splice(i,1); lives--; livesEl.textContent = lives;
+      beep(200, 0.12, 'triangle');
+      vibrate(40);
       if(lives <= 0){ endGame(); return; }
     }
   }
