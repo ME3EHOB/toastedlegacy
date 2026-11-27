@@ -1,301 +1,243 @@
 <!DOCTYPE html>
 <html lang="ru">
-<link rel="stylesheet" href="start_menu.css">
-<script src="start_menu.js"></script>
-<script src="script.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toasted Legacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
-    <!-- МЕНЮ ПУСК -->
-<div id="start-menu">
-    <div class="start-menu-header">Toasted Legacy OS</div>
-    <div class="start-menu-items">
-        <div class="start-menu-item" onclick="openFromStart('infoFolder', 'folder')">
-            <span class="start-menu-item-icon">📁</span> папка информация
-        </div>
-        <div class="start-menu-item" onclick="openFromStart('themeFolder', 'folder')">
-            <span class="start-menu-item-icon">📁</span> папка тематика
-        </div>
-        <div class="start-menu-item" onclick="openFromStart('historyFile', 'file')">
-            <span class="start-menu-item-icon">📄</span> история
-        </div>
-        <div class="start-menu-item" onclick="openFromStart('socialsFile', 'file')">
-            <span class="start-menu-item-icon">📄</span> соцсети
-        </div>
-        <div class="start-menu-item" onclick="closeAllWindows()">
-            <span class="start-menu-item-icon">❌</span> Закрыть все окна
-        </div>
-    </div>
-    <div class="start-menu-search">
-        <input type="text" id="search-input" placeholder="Поиск файлов..." oninput="searchFiles(this.value)">
-        <div class="start-search-results" id="search-results"></div>
-    </div>
-</div>
-    
 <body>
 
-    <!-- РАБОЧИЙ СТОЛ -->
-    <div id="desktop">
-        
-        <!-- ОБОИ (Оставим видео, но сделаем его потемнее) -->
-        <div class="wallpaper">
-            <video autoplay muted playsinline id="bg-video-local">
-                <source src="media/video1TL.mp4" type="video/mp4">
-            </video>
-        </div>
+    <!-- ВЕРХНЕЕ МЕНЮ -->
+    <header class="top-nav">
+        <button class="nav-btn active" onclick="showPage('home', this)">Главная</button>
+        <button class="nav-btn" onclick="showPage('details', this)">Подробности</button>
+        <button class="nav-btn" onclick="showPage('participants', this)">Участники</button>
+    </header>
 
-        <!-- ИКОНКИ НА РАБОЧЕМ СТОЛЕ -->
-        <div class="desktop-icons">
-            <div class="icon" onclick="openFolder('infoFolder', 'папка информация')">
-                <img src="https://img.icons8.com/color/96/folder-invoices--v1.png" class="icon-img">
-                <span>папка информация</span>
-            </div>
-            <div class="icon" onclick="openFolder('themeFolder', 'папка тематика')">
-                <img src="https://img.icons8.com/color/96/folder-invoices--v1.png" class="icon-img">
-                <span>папка тематика</span>
-            </div>
-        </div>
-
-        <!-- ДОПОЛНИТЕЛЬНЫЕ ФАЙЛЫ -->
-        <div class="desktop-files">
-            <div class="icon" onclick="openWindow('historyFile', 'история')">
-                <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
-                <span>история</span>
-            </div>
-            <div class="icon" onclick="openWindow('socialsFile', 'соцсети')">
-                <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
-                <span>соцсети</span>
-            </div>
-        </div>
-
-        <!-- ЦЕНТР (Заголовок как в XP) -->
-        <div class="desktop-center">
+    <!-- СТРАНИЦА: ГЛАВНАЯ -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <div id="bg-video"></div>
+            <div class="hero-date">24.10.26</div>
             <h1>TOASTED LEGACY</h1>
             <div id="splash">--</div>
         </div>
 
-        <!-- ОКНО: ПАПКА "ИНФОРМАЦИЯ" -->
-        <div id="infoFolder" class="window hidden">
-            <div class="window-header">
-                <div class="window-title">папка информация</div>
-                <div class="window-controls">
-                    <button class="min-btn" onclick="minimizeWindow('infoFolder')">_</button>
-                    <button class="max-btn" onclick="toggleMaximize('infoFolder')">□</button>
-                    <button class="close-btn" onclick="closeWindow('infoFolder')">✕</button>
-                </div>
+        <div class="home-content">
+            <div class="info-block">
+                <h2>Краткая информация</h2>
+                <p>Лайоут Toasted Legacy находится в разработке, закончены все парты перед дропом (10-15% уровня). Следите за новостями в наших телеграм-каналах.</p>
             </div>
-            <div class="window-content folder-icons">
-                <div class="icon" onclick="openWindow('fileFolder', 'краткая инфа')">
-                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
-                    <span>краткая инфа</span>
+
+            <div class="media-block">
+                <h2>Видео/Скрины</h2>
+                <div class="video-container">
+                    <video controls preload="metadata" playsinline>
+                        <source src="media/video1TL.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <div class="icon" onclick="openWindow('videoFolder', 'шоукейс1')">
-                    <img src="https://img.icons8.com/color/96/video-file.png" class="icon-img">
-                    <span>шоукейс1</span>
-                </div>
-                <div class="icon" onclick="openWindow('screenshotFolder', 'скриншоты')">
-                    <img src="https://img.icons8.com/color/96/image-file.png" class="icon-img">
-                    <span>скриншоты</span>
+                
+                <div class="screenshot-carousel">
+                    <button class="carousel-arrow left" onclick="prevScreenshot()">❮</button>
+                    <img id="main-screenshot" src="media/image1TL.jpg" alt="Скриншот" onclick="openLightbox(this.src)">
+                    <button class="carousel-arrow right" onclick="nextScreenshot()">❯</button>
                 </div>
             </div>
         </div>
 
-        <!-- ОКНО: ПАПКА "ТЕМАТИКА" -->
-        <div id="themeFolder" class="window hidden">
-            <div class="window-header">
-                <div class="window-title">папка тематика</div>
-                <div class="window-controls">
-                    <button class="min-btn" onclick="minimizeWindow('themeFolder')">_</button>
-                    <button class="max-btn" onclick="toggleMaximize('themeFolder')">□</button>
-                    <button class="close-btn" onclick="closeWindow('themeFolder')">✕</button>
-                </div>
-            </div>
-            <div class="window-content folder-icons">
-                <div class="icon" onclick="openWindow('themeFile', 'тематика')">
-                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
-                    <span>тематика</span>
-                </div>
-                <div class="icon" onclick="openWindow('colorsGroupsFile', 'цвета/группы')">
-                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
-                    <span>цвета/группы</span>
-                </div>
-                <div class="icon" onclick="openWindow('participantsFile', 'участники')">
-                    <img src="https://img.icons8.com/color/96/document--v1.png" class="icon-img">
-                    <span>участники</span>
-                </div>
-                <div class="icon" onclick="openWindow('referenceFolder', 'референсы')">
-                    <img src="https://img.icons8.com/color/96/image-file.png" class="icon-img">
-                    <span>референсы</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- ОКНА ФАЙЛОВ (ТЕКСТ) -->
-        <div id="fileFolder" class="window windowed hidden">
-            <div class="window-header">
-                <div class="window-title">краткая инфа</div>
-                <div class="window-controls">
-                    <button class="min-btn" onclick="minimizeWindow('fileFolder')">_</button>
-                    <button class="max-btn" onclick="toggleMaximize('fileFolder')">□</button>
-                    <button class="close-btn" onclick="closeWindow('fileFolder')">✕</button>
-                </div>
-            </div>
-            <div class="window-content" id="textContent">Загрузка...</div>
-        </div>
-
-        <div id="historyFile" class="window windowed hidden">
-            <div class="window-header">
-                <div class="window-title">история</div>
-                <div class="window-controls">
-                    <button class="min-btn" onclick="minimizeWindow('historyFile')">_</button>
-                    <button class="max-btn" onclick="toggleMaximize('historyFile')">□</button>
-                    <button class="close-btn" onclick="closeWindow('historyFile')">✕</button>
-                </div>
-            </div>
-            <div class="window-content" id="historyContent">Загрузка...</div>
-        </div>
-
-        <div id="socialsFile" class="window windowed hidden">
-            <div class="window-header">
-                <div class="window-title">соцсети</div>
-                <div class="window-controls">
-                    <button class="min-btn" onclick="minimizeWindow('socialsFile')">_</button>
-                    <button class="max-btn" onclick="toggleMaximize('socialsFile')">□</button>
-                    <button class="close-btn" onclick="closeWindow('socialsFile')">✕</button>
-                </div>
-            </div>
-            <div class="window-content" id="socialsContent">Загрузка...</div>
-        </div>
-
-        <div id="themeFile" class="window windowed hidden">
-            <div class="window-header">
-                <div class="window-title">тематика</div>
-                <div class="window-controls">
-                    <button class="min-btn" onclick="minimizeWindow('themeFile')">_</button>
-                    <button class="max-btn" onclick="toggleMaximize('themeFile')">□</button>
-                    <button class="close-btn" onclick="closeWindow('themeFile')">✕</button>
-                </div>
-            </div>
-            <div class="window-content" id="themeContent">Загрузка...</div>
-        </div>
-
-        <div id="colorsGroupsFile" class="window windowed hidden">
-            <div class="window-header">
-                <div class="window-title">цвета/группы</div>
-                <div class="window-controls">
-                    <button class="min-btn" onclick="minimizeWindow('colorsGroupsFile')">_</button>
-                    <button class="max-btn" onclick="toggleMaximize('colorsGroupsFile')">□</button>
-                    <button class="close-btn" onclick="closeWindow('colorsGroupsFile')">✕</button>
-                </div>
-            </div>
-            <div class="window-content" id="colorsGroupsContent">Загрузка...</div>
-        </div>
-
-        <div id="participantsFile" class="window windowed hidden">
-            <div class="window-header">
-                <div class="window-title">участники</div>
-                <div class="window-controls">
-                    <button class="min-btn" onclick="minimizeWindow('participantsFile')">_</button>
-                    <button class="max-btn" onclick="toggleMaximize('participantsFile')">□</button>
-                    <button class="close-btn" onclick="closeWindow('participantsFile')">✕</button>
-                </div>
-            </div>
-            <div class="window-content" id="participantsContent">Загрузка...</div>
-        </div>
-
-        <!-- ОКНО: РЕФЕРЕНСЫ -->
-        <div id="referenceFolder" class="window windowed hidden">
-            <div class="window-header">
-                <div class="window-title" id="referenceTitle">референс1</div>
-                <div class="window-controls">
-                    <button class="min-btn" onclick="minimizeWindow('referenceFolder')">_</button>
-                    <button class="max-btn" onclick="toggleMaximize('referenceFolder')">□</button>
-                    <button class="close-btn" onclick="closeWindow('referenceFolder')">✕</button>
-                </div>
-            </div>
-            <div class="window-content" style="padding: 0; background: #000; position: relative; display: flex; justify-content: center; align-items: center;">
-                <button class="carousel-arrow left" onclick="prevReference()">❮</button>
-                <img id="main-reference" src="media/refer1TL.png" style="max-width: 90%; max-height: 90%; object-fit: contain;">
-                <button class="carousel-arrow right" onclick="nextReference()">❯</button>
-            </div>
-        </div>
-
-        <!-- ОКНО: ВИДЕО -->
-        <div id="videoFolder" class="window windowed hidden">
-            <div class="window-header">
-                <div class="window-title">шоукейс1</div>
-                <div class="window-controls">
-                    <button class="min-btn" onclick="minimizeWindow('videoFolder')">_</button>
-                    <button class="max-btn" onclick="toggleMaximize('videoFolder')">□</button>
-                    <button class="close-btn" onclick="closeWindow('videoFolder')">✕</button>
-                </div>
-            </div>
-            <div class="window-content" style="padding: 0; background: #000;">
-                <video controls style="width: 100%; height: 100%;" id="videoPlayer">
-                    <source src="media/video1TL.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-
-        <!-- ОКНО: СКРИНШОТЫ -->
-        <div id="screenshotFolder" class="window windowed hidden">
-            <div class="window-header">
-                <div class="window-title" id="screenshotTitle">скрин1</div>
-                <div class="window-controls">
-                    <button class="min-btn" onclick="minimizeWindow('screenshotFolder')">_</button>
-                    <button class="max-btn" onclick="toggleMaximize('screenshotFolder')">□</button>
-                    <button class="close-btn" onclick="closeWindow('screenshotFolder')">✕</button>
-                </div>
-            </div>
-            <div class="window-content" style="padding: 0; background: #000; position: relative; display: flex; justify-content: center; align-items: center;">
-                <button class="carousel-arrow left" onclick="prevScreenshot()">❮</button>
-                <img id="main-screenshot" src="media/image1TL.jpg" style="max-width: 90%; max-height: 90%; object-fit: contain;">
-                <button class="carousel-arrow right" onclick="nextScreenshot()">❯</button>
-            </div>
-        </div>
-
+        <footer class="main-footer">
+            <span class="footer-left">Обновлено: 10.11.26</span>
+            <span class="footer-center">@ME3EH</span>
+            <span class="footer-right"><span id="online-count">0</span> онлайн</span>
+        </footer>
     </div>
 
-    <!-- ПАНЕЛЬ ЗАДАЧ (WIN XP) -->
-    <div id="win-taskbar">
-        <!-- Зеленая кнопка ПУСК -->
-        <button class="start-btn" id="start-button" onclick="toggleStartMenu()">Пуск</button>
-        
-        <!-- Область для открытых окон -->
-        <div class="taskbar-apps" id="taskbarApps"></div>
-        
-        <!-- Трей -->
-        <div class="taskbar-tray">
-            <div id="online-counter"><span id="online-count">0</span></div>
+    <!-- СТРАНИЦА: ПОДРОБНОСТИ -->
+    <div id="details" class="page standalone-page">
+        <div class="fixed-carousel">
+            <button class="fixed-arrow left" onclick="prevDetail()">❮</button>
+            <div class="carousel-content">
+                <div class="carousel-slide active" id="slide-history">
+                    <h2>История</h2>
+                    <p class="soon-text">Скоро...</p>
+                </div>
+                <div class="carousel-slide" id="slide-theme">
+                    <h2>Тематика</h2>
+                    <p class="soon-text">Скоро...</p>
+                </div>
+                <div class="carousel-slide news-slide" id="slide-news">
+                    <h2>Новости</h2>
+                    <div class="news-container">
+                        <div class="news-item">
+                            <div class="news-date">01.11.26</div>
+                            <div class="news-title">Большое обновление сайта!</div>
+                            <div class="news-text">
+                                <p>Сайт Toasted Legacy получил масштабное обновление! Что нового:</p>
+                                <p>🎮 <b>Мини-игра Toast Catcher</b> — лови тосты в корзину, набирай очки и устанавливай рекорды. Рекорд сохраняется в браузере!</p>
+                                <p>📰 <b>Новости</b> — теперь все обновления проекта будут здесь.</p>
+                                <p>👥 <b>Участники</b> — полный список людей, которые работали над Toasted и Toasted Legacy.</p>
+                                <p>✨ <b>Новый дизайн</b> — тёмная тема, стеклянные панели, анимации, сплеши и многое другое.</p>
+                            </div>
+                            <img src="media/news2TL.png" alt="Обновление">
+                        </div>
+                        <div class="news-item">
+                            <div class="news-date">26.10.26</div>
+                            <div class="news-title">Toasted исполнилось 500 дней!</div>
+                            <div class="news-text">Со дня создания первой версии (12 июня 2025) прошло уже целых 500 дней вау</div>
+                            <img src="media/news1TL.png" alt="500 дней">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="fixed-arrow right" onclick="nextDetail()">❯</button>
         </div>
+    </div>
+
+    <!-- СТРАНИЦА: УЧАСТНИКИ -->
+    <div id="participants" class="page standalone-page">
+        <div class="fixed-carousel">
+            <button class="fixed-arrow left" onclick="prevParticipant()">❮</button>
+            <div class="carousel-content">
+                <div class="carousel-slide active" id="slide-p-toasted">
+                    <h2>Toasted Участники</h2>
+                    <div class="creators-container">
+                        <h3 class="creators-block-title">Главные создатели (Хосты + ГПшеры)</h3>
+                        <div class="creators-row">
+                            <div class="creator-card">
+                                <img class="creator-avatar" src="media/biivAVA.png" alt="Biiv">
+                                <div class="creator-nick">Biiv</div>
+                                <div class="creator-info">Начал Toasted</div>
+                                <img class="creator-work" src="media/biivIMAGEhost.png" alt="Работа">
+                            </div>
+                            <div class="creator-card">
+                                <img class="creator-avatar" src="media/vvaaxxAVA.png" alt="VvAaXx">
+                                <div class="creator-nick">VvAaXx</div>
+                                <div class="creator-name">(Админ)</div>
+                                <div class="creator-info">Продолжил Toasted и захоронил</div>
+                                <img class="creator-work" src="media/vvaaxxIMAGEhost.png" alt="Работа">
+                            </div>
+                            <div class="creator-card">
+                                <img class="creator-avatar" src="media/me3ehAVA.png" alt="ME3EH">
+                                <div class="creator-nick">ME3EH</div>
+                                <div class="creator-name">(Артём)</div>
+                                <div class="creator-info">Возродил Toasted</div>
+                                <img class="creator-work" src="media/me3ehIMAGEhost.png" alt="Работа">
+                            </div>
+                        </div>
+                        <h3 class="creators-block-title">ГПшеры (второстепенный)</h3>
+                        <div class="creators-row">
+                            <div class="creator-card">
+                                <img class="creator-avatar" src="media/blizzardAVA.png" alt="BlizzardXXL">
+                                <div class="creator-nick">BlizzardXXL</div>
+                                <div class="creator-name">(Ваня просто вилка)</div>
+                                <div class="creator-info">Сделал 1 гп парт</div>
+                                <img class="creator-work" src="media/blizzardIMAGEgp.png" alt="Работа">
+                            </div>
+                            <div class="creator-card">
+                                <img class="creator-avatar" src="media/keksAVA.png" alt="KeksPlay">
+                                <div class="creator-nick">KeksPlay</div>
+                                <div class="creator-info">Сделал 1 гп парт</div>
+                                <img class="creator-work" src="media/keksIMAGEgp.png" alt="Работа">
+                            </div>
+                        </div>
+                        <h3 class="creators-block-title">Декораторы</h3>
+                        <div class="creators-row">
+                            <div class="creator-card">
+                                <img class="creator-avatar" src="media/ferriumAVA.png" alt="XFerriumX">
+                                <div class="creator-nick">XFerriumX</div>
+                                <div class="creator-name">(Арслан)</div>
+                                <div class="creator-info">Делал 2 деко парта</div>
+                                <img class="creator-work" src="media/ferriumIMAGEdeco.png" alt="Работа">
+                            </div>
+                            <div class="creator-card">
+                                <img class="creator-avatar" src="media/keksAVA.png" alt="KeksPlay">
+                                <div class="creator-nick">KeksPlay</div>
+                                <div class="creator-info">Делал 2 деко парта</div>
+                                <img class="creator-work" src="media/keksIMAGEdeco.png" alt="Работа">
+                            </div>
+                            <div class="creator-card">
+                                <img class="creator-avatar" src="media/shtrihAVA.png" alt="Shtrihovsky">
+                                <div class="creator-nick">Shtrihovsky</div>
+                                <div class="creator-info">Делал 2 деко парта</div>
+                                <img class="creator-work" src="media/shtrihIMAGEdeco.png" alt="Работа">
+                            </div>
+                            <div class="creator-card">
+                                <img class="creator-avatar" src="media/ixsgorAVA.png" alt="iXsgor">
+                                <div class="creator-nick">iXsgor</div>
+                                <div class="creator-info">Делал 1 деко парт</div>
+                                <img class="creator-work" src="media/ixsgorIMAGEdeco.png" alt="Работа">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-slide" id="slide-p-legacy">
+                    <h2>Toasted Legacy Участники</h2>
+                    <div class="creators-container">
+                        <div class="creators-row">
+                            <div class="creator-card">
+                                <img class="creator-avatar" src="media/me3ehAVA.png" alt="ME3EH">
+                                <div class="creator-nick">ME3EH</div>
+                                <div class="creator-name">(Артём)</div>
+                                <div class="creator-info">Разработчик / Геймдизайнер</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-slide" id="slide-p-socials">
+                    <h2>Соцсети</h2>
+                    <div class="socials-list">
+                        <a href="https://youtube.com/@me3eh_gd" target="_blank">YouTube</a>
+                        <a href="https://t.me/ME3EHOB" target="_blank">Telegram</a>
+                        <a href="https://t.me/ToastGDTeam" target="_blank">Telegram команды</a>
+                    </div>
+                </div>
+            </div>
+            <button class="fixed-arrow right" onclick="nextParticipant()">❯</button>
+        </div>
+    </div>
+
+    <!-- МИНИ-ИГРА -->
+    <div id="toastgame" class="page game-page">
+        <button class="close-game-btn" onclick="closeGame()">✕</button>
+        <h2>Toast Catcher</h2>
+        <div class="game-start" id="game-start">
+            <p class="game-start-text">Лови тосты в корзину!</p>
+            <p class="game-start-hint">Пропустишь 5 тостов — игра окончена</p>
+            <button class="game-start-btn" onclick="startGame()">СТАРТ</button>
+        </div>
+        <div class="game-info" id="game-info" style="display:none;">
+            <div>Очки: <span id="game-score">0</span></div>
+            <div>Рекорд: <span id="game-record">0</span></div>
+            <div>Промахи: <span id="game-misses">0</span>/5</div>
+        </div>
+        <div class="game-area" id="game-area" style="display:none;">
+            <div class="player" id="player">🛒</div>
+            <div class="game-over" id="game-over" style="display:none;">
+                <div class="game-over-title">Игра окончена!</div>
+                <div class="game-over-score">Очки: <span id="final-score">0</span></div>
+                <div class="game-over-record" id="new-record" style="display:none;">🏆 Новый рекорд!</div>
+                <div class="game-buttons">
+                    <button onclick="startGame()">Начать заново</button>
+                    <button onclick="closeGame()">Выйти</button>
+                    <button onclick="shareRecord()">Поделиться</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- КНОПКА ИГРЫ (ПЛАВАЮЩАЯ) -->
+    <button id="game-button" onclick="openGame()">🍞</button>
+
+    <!-- ЛАЙТБОКС -->
+    <div id="lightbox">
+        <span id="lightbox-close">✕</span>
+        <img id="lightbox-img" src="" alt="">
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
-    <!-- ИКОНКА ИГРЫ (в правом верхнем углу) -->
-<div class="icon game-icon" onclick="openToastGame()">
-    <img src="https://img.icons8.com/color/96/bread.png" class="icon-img">
-    <span>Toast Catcher</span>
-</div>
-
-<!-- ОКНО: МИНИ-ИГРА -->
-<div id="toastGameWindow" class="window windowed hidden">
-    <div class="window-header">
-        <div class="window-title">Toast Catcher 🍞</div>
-        <div class="window-controls">
-            <button class="min-btn" onclick="minimizeWindow('toastGameWindow')">_</button>
-            <button class="max-btn" onclick="toggleMaximize('toastGameWindow')">□</button>
-            <button class="close-btn" onclick="closeToastGame()">✕</button>
-        </div>
-    </div>
-    <div class="window-content" style="padding: 0; overflow: hidden;">
-        <!-- Сюда загрузится игра -->
-    </div>
-</div>
 </body>
 </html>
