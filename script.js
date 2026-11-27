@@ -1,173 +1,392 @@
-// ---------- бургер-меню ----------
-const burger = document.getElementById('burger');
-const navLinks = document.getElementById('navLinks');
-burger.addEventListener('click', () => {
-  const open = navLinks.classList.toggle('open');
-  burger.setAttribute('aria-expanded', open);
-});
-navLinks.querySelectorAll('a').forEach(a =>
-  a.addEventListener('click', () => navLinks.classList.remove('open'))
-);
-
-// ---------- плавный скролл ----------
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    const t=document.querySelector(a.getAttribute('href'));
-    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
-  });
-});
-
-// ---------- parallax в hero ----------
-const heroGlow = document.getElementById('heroGlow');
-window.addEventListener('mousemove', e=>{
-  const x = (e.clientX / window.innerWidth - 0.5) * 40;
-  const y = (e.clientY / window.innerHeight - 0.5) * 40;
-  heroGlow.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-});
-window.addEventListener('touchmove', e=>{
-  const t = e.touches[0];
-  const x = (t.clientX / window.innerWidth - 0.5) * 40;
-  const y = (t.clientY / window.innerHeight - 0.5) * 40;
-  heroGlow.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-}, {passive:true});
-
-// ---------- звук + вибрация ----------
-const AC = window.AudioContext || window.webkitAudioContext;
-let audioCtx = null;
-function initAudio(){
-  if(!audioCtx && AC) audioCtx = new AC();
+// ===== СПЛЕШИ И ТЕКСТ =====
+async function loadSplash() {
+    const splashEl = document.getElementById("splash");
+    if (!splashEl) return;
+    try {
+        const res = await fetch("text/splashes.txt");
+        const text = await res.text();
+        const splashes = text.split("\n").map(l => l.trim()).filter(l => l);
+        if (splashes.length > 0) splashEl.textContent = splashes[Math.floor(Math.random() * splashes.length)];
+    } catch (e) { splashEl.textContent = "Error"; }
 }
-function beep(freq=520, dur=0.08, type='sine'){
-  if(!audioCtx) return;
-  const o = audioCtx.createOscillator();
-  const g = audioCtx.createGain();
-  o.type = type; o.frequency.value = freq;
-  g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.15, audioCtx.currentTime + 0.01);
-  g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
-  o.connect(g).connect(audioCtx.destination);
-  o.start(); o.stop(audioCtx.currentTime + dur);
-}
-function vibrate(ms){ if(navigator.vibrate) navigator.vibrate(ms); }
+loadSplash();
 
-// ---------- Toast Catcher ----------
-const canvas = document.getElementById('toastGame');
-const ctx = canvas.getContext('2d');
-const scoreEl = document.getElementById('score');
-const bestEl = document.getElementById('best');
-const livesEl = document.getElementById('lives');
-const overlay = document.getElementById('overlay');
-const overlayTitle = document.getElementById('overlayTitle');
-const overlayText = document.getElementById('overlayText');
-const startBtn = document.getElementById('startBtn');
-
-let W = 0, H = 0;
-let basketX = 0, basketW = 90, basketH = 24;
-let toasts = [], score = 0, lives = 5, running = false, spawnTimer = 0;
-let best = +(localStorage.getItem('toastBest') || 0);
-bestEl.textContent = best;
-
-function resize(){
-  const rect = canvas.parentElement.getBoundingClientRect();
-  W = rect.width;
-  H = Math.min(rect.width * 0.75, window.innerHeight * 0.6);
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = W * dpr;
-  canvas.height = H * dpr;
-  canvas.style.height = H + 'px';
-  ctx.setTransform(dpr,0,0,dpr,0,0);
-  if(!running) basketX = W/2 - basketW/2;
-  draw();
-}
-window.addEventListener('resize', resize);
-resize();
-
-function moveBasket(clientX){
-  const r = canvas.getBoundingClientRect();
-  const x = clientX - r.left;
-  basketX = Math.max(0, Math.min(W - basketW, x - basketW/2));
-  if(!running) draw();
-}
-canvas.addEventListener('touchmove', e=>{
-  e.preventDefault();
-  moveBasket(e.touches[0].clientX);
-}, {passive:false});
-canvas.addEventListener('touchstart', e=>{
-  e.preventDefault();
-  initAudio();
-  moveBasket(e.touches[0].clientX);
-}, {passive:false});
-canvas.addEventListener('mousemove', e=>moveBasket(e.clientX));
-canvas.addEventListener('mousedown', ()=>initAudio());
-
-function startGame(){
-  initAudio();
-  score = 0; lives = 5; toasts = []; spawnTimer = 0; running = true;
-  scoreEl.textContent = 0; livesEl.textContent = 5;
-  overlay.classList.add('hidden');
-  last = performance.now();
-  requestAnimationFrame(loop);
+async function loadTextIntoWindow(filePath, targetId) {
+    const content = document.getElementById(targetId);
+    if (!content || content.dataset.loaded) return;
+    try {
+        const res = await fetch(filePath);
+        const text = await res.text();
+        content.innerHTML = text.split("\n").filter(p => p.trim()).map(p => `<p style="margin-bottom: 8px; font-size: 13px; line-height: 1.5;">${p}</p>`).join("");
+        content.dataset.loaded = "true";
+    } catch (e) { content.innerHTML = "Ошибка загрузки текста."; }
 }
 
-function endGame(){
-  running = false;
-  if(score > best){ best = score; localStorage.setItem('toastBest', best); bestEl.textContent = best; }
-  overlayTitle.textContent = 'Игра окончена';
-  overlayText.textContent = `Счёт: ${score} · Рекорд: ${best}`;
-  startBtn.textContent = 'Ещё раз';
-  overlay.classList.remove('hidden');
-  beep(180, 0.3, 'sawtooth');
-  vibrate([60,40,60]);
-}
-
-let last = 0;
-function loop(now){
-  const dt = Math.min((now - last)/1000, 0.05);
-  last = now;
-  update(dt);
-  draw();
-  if(running) requestAnimationFrame(loop);
-}
-
-function update(dt){
-  spawnTimer -= dt;
-  if(spawnTimer <= 0){
-    spawnTimer = Math.max(0.35, 0.9 - score*0.02);
-    toasts.push({ x: 20 + Math.random()*(W-40), y: -20, r: 12, vy: 120 + Math.random()*80 });
-  }
-  for(let i = toasts.length-1; i>=0; i--){
-    const t = toasts[i];
-    t.y += t.vy * dt;
-    if(t.y + t.r >= H - basketH - 10 && t.y - t.r <= H - 10 &&
-       t.x > basketX && t.x < basketX + basketW){
-      toasts.splice(i,1); score++; scoreEl.textContent = score;
-      beep(560 + Math.min(score,20)*20, 0.07);
-      vibrate(15);
-      continue;
+// ===== ЗАЦИКЛИВАНИЕ ФОНОВОГО ВИДЕО =====
+document.addEventListener("DOMContentLoaded", () => {
+    const video = document.getElementById("bg-video-local");
+    if (video) {
+        video.addEventListener('loadedmetadata', () => {
+            video.currentTime = 3; video.play().catch(e => console.log(e));
+        });
+        video.addEventListener('timeupdate', () => {
+            if (video.currentTime >= 38) video.currentTime = 3;
+        });
     }
-    if(t.y - t.r > H){
-      toasts.splice(i,1); lives--; livesEl.textContent = lives;
-      beep(200, 0.12, 'triangle');
-      vibrate(40);
-      if(lives <= 0){ endGame(); return; }
+});
+
+// ===== СКРИНШОТЫ (КАРУСЕЛЬ) =====
+const screenshots = ["media/image1TL.jpg", "media/image2TL.jpg", "media/image3TL.jpg"];
+let currentScreenshotIndex = 0;
+
+function updateScreenshotUI() {
+    const img = document.getElementById("main-screenshot");
+    const title = document.getElementById("screenshotTitle");
+    if (img) img.src = screenshots[currentScreenshotIndex];
+    if (title) title.textContent = `скрин${currentScreenshotIndex + 1}`;
+}
+
+function nextScreenshot() {
+    currentScreenshotIndex = (currentScreenshotIndex + 1) % screenshots.length;
+    updateScreenshotUI();
+    adjustWindowSize("screenshotFolder", "main-screenshot");
+}
+
+function prevScreenshot() {
+    currentScreenshotIndex = (currentScreenshotIndex - 1 + screenshots.length) % screenshots.length;
+    updateScreenshotUI();
+    adjustWindowSize("screenshotFolder", "main-screenshot");
+}
+
+// ===== РЕФЕРЕНСЫ (КАРУСЕЛЬ) =====
+const references = ["media/refer1TL.png", "media/refer2TL.png", "media/refer3TL.png"];
+let currentReferenceIndex = 0;
+
+function updateReferenceUI() {
+    const img = document.getElementById("main-reference");
+    const title = document.getElementById("referenceTitle");
+    if (img) img.src = references[currentReferenceIndex];
+    if (title) title.textContent = `референс${currentReferenceIndex + 1}`;
+}
+
+function nextReference() {
+    currentReferenceIndex = (currentReferenceIndex + 1) % references.length;
+    updateReferenceUI();
+    adjustWindowSize("referenceFolder", "main-reference");
+}
+
+function prevReference() {
+    currentReferenceIndex = (currentReferenceIndex - 1 + references.length) % references.length;
+    updateReferenceUI();
+    adjustWindowSize("referenceFolder", "main-reference");
+}
+
+// ===== СКРИНШОТЫ ПАРТА (КАРУСЕЛЬ) =====
+const partScreenshotsList = ["media/screenshot1.jpg", "media/screenshot2.jpg", "media/screenshot3.jpg"];
+let currentPartIndex = 0;
+
+function updatePartUI() {
+    const img = document.getElementById("main-part-screenshot");
+    const title = document.getElementById("partTitle");
+    if (img) img.src = partScreenshotsList[currentPartIndex];
+    if (title) title.textContent = `скриншот парта ${currentPartIndex + 1}`;
+}
+
+function nextPartScreenshot() {
+    currentPartIndex = (currentPartIndex + 1) % partScreenshotsList.length;
+    updatePartUI();
+    adjustWindowSize("partScreenshots", "main-part-screenshot");
+}
+
+function prevPartScreenshot() {
+    currentPartIndex = (currentPartIndex - 1 + partScreenshotsList.length) % partScreenshotsList.length;
+    updatePartUI();
+    adjustWindowSize("partScreenshots", "main-part-screenshot");
+}
+
+// ===== ЛОГИКА ОКОН =====
+function openWindow(windowId, title) {
+    const win = document.getElementById(windowId);
+    if (!win) return;
+
+    win.classList.remove("hidden");
+    addTaskbarIcon(windowId, title);
+    focusWindow(windowId);
+
+    // Спец. загрузки
+    if (windowId === "fileFolder") loadTextIntoWindow("text/text1TL.txt", "textContent");
+    if (windowId === "historyFile") loadTextIntoWindow("text/text3TL.txt", "historyContent");
+    if (windowId === "socialsFile") loadTextIntoWindow("text/text4TL.txt", "socialsContent");
+    if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
+    if (windowId === "colorsGroupsFile") loadTextIntoWindow("text/text2TL_1.txt", "colorsGroupsContent");
+    if (windowId === "participantsFile") loadTextIntoWindow("text/text2TL_2.txt", "participantsContent");
+    
+    if (windowId === "screenshotFolder") {
+        updateScreenshotUI();
+        adjustWindowSize(windowId, "main-screenshot");
     }
-  }
+    if (windowId === "referenceFolder") {
+        updateReferenceUI();
+        adjustWindowSize(windowId, "main-reference");
+    }
+    if (windowId === "partScreenshots") {
+        updatePartUI();
+        adjustWindowSize(windowId, "main-part-screenshot");
+    }
+    if (windowId === "videoFolder") {
+        const vid = document.getElementById("videoPlayer");
+        if (vid) {
+            vid.pause();
+            if (vid.readyState >= 1) {
+                adjustWindowSize(windowId, vid);
+            } else {
+                vid.onloadedmetadata = () => adjustWindowSize(windowId, vid);
+            }
+        }
+    }
 }
 
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  ctx.fillStyle = '#0f0f18';
-  ctx.fillRect(0,0,W,H);
-  ctx.fillStyle = '#e8b06a';
-  toasts.forEach(t=>{
-    ctx.beginPath();
-    ctx.roundRect(t.x - t.r, t.y - t.r*0.8, t.r*2, t.r*1.6, 4);
-    ctx.fill();
-  });
-  ctx.fillStyle = '#ff8a00';
-  ctx.beginPath();
-  ctx.roundRect(basketX, H - basketH - 10, basketW, basketH, 8);
-  ctx.fill();
+function openFolder(windowId, title) {
+    openWindow(windowId, title);
 }
 
-startBtn.addEventListener('click', startGame);
+function minimizeWindow(windowId) {
+    const win = document.getElementById(windowId);
+    if (win) {
+        win.classList.add("hidden");
+        updateTaskbarActive(windowId, false);
+        if (windowId === "videoFolder") {
+            const vid = document.getElementById("videoPlayer");
+            if (vid) vid.pause();
+        }
+    }
+}
+
+function closeWindow(windowId) {
+    const win = document.getElementById(windowId);
+    if (win) {
+        win.classList.add("hidden");
+        const taskIcon = document.getElementById(`task-${windowId}`);
+        if (taskIcon) taskIcon.remove();
+        if (windowId === "videoFolder") {
+            const vid = document.getElementById("videoPlayer");
+            if (vid) vid.pause();
+        }
+    }
+}
+
+function toggleMaximize(windowId) {
+    const win = document.getElementById(windowId);
+    if (!win) return;
+
+    if (win.classList.contains("windowed")) {
+        win.classList.remove("windowed");
+        win.style.top = ''; win.style.left = '';
+        win.style.width = '100%'; win.style.height = '100%';
+        win.style.transform = 'none';
+    } else {
+        win.classList.add("windowed");
+        win.style.top = '100px'; win.style.left = '100px';
+        win.style.width = '700px'; win.style.height = '500px';
+        win.style.transform = 'none';
+    }
+}
+
+// ===== ПОДСТРОЙКА РАЗМЕРА ОКНА ПОД МЕДИА =====
+function adjustWindowSize(windowId, mediaElementOrId) {
+    const win = document.getElementById(windowId);
+    if (!win) return;
+
+    let media = typeof mediaElementOrId === 'string' ? document.getElementById(mediaElementOrId) : mediaElementOrId;
+    if (!media) return;
+
+    let mediaW, mediaH;
+
+    if (media.tagName === 'VIDEO') {
+        mediaW = media.videoWidth;
+        mediaH = media.videoHeight;
+    } else if (media.tagName === 'IMG') {
+        const tempImg = new Image();
+        tempImg.src = media.src;
+        if (tempImg.complete) {
+            mediaW = tempImg.width;
+            mediaH = tempImg.height;
+        } else {
+            tempImg.onload = () => {
+                applyWindowSize(win, tempImg.width, tempImg.height);
+            };
+            return;
+        }
+    } else {
+        return;
+    }
+
+    if (mediaW && mediaH) {
+        applyWindowSize(win, mediaW, mediaH);
+    }
+}
+
+function applyWindowSize(win, mediaW, mediaH) {
+    const maxW = window.innerWidth * 0.9;
+    const maxH = window.innerHeight * 0.9;
+
+    let newW = mediaW;
+    let newH = mediaH + 40;
+
+    if (newW > maxW) {
+        const ratio = maxW / newW;
+        newW = maxW;
+        newH = newH * ratio;
+    }
+    if (newH > maxH) {
+        const ratio = maxH / newH;
+        newH = maxH;
+        newW = newW * ratio;
+    }
+
+    win.classList.add('windowed'); 
+    
+    win.style.width = newW + 'px';
+    win.style.height = newH + 'px';
+    win.style.left = ((window.innerWidth - newW) / 2) + 'px';
+    win.style.top = ((window.innerHeight - newH) / 2) + 'px';
+    win.style.transform = 'none';
+}
+
+function addTaskbarIcon(windowId, title) {
+    const taskbarApps = document.getElementById("taskbarApps");
+    if (document.getElementById(`task-${windowId}`)) {
+        focusWindow(windowId);
+        return;
+    }
+
+    const shortTitle = title.length > 12 ? title.substring(0, 12) + "..." : title;
+
+    const iconDiv = document.createElement("div");
+    iconDiv.className = "taskbar-app";
+    iconDiv.id = `task-${windowId}`;
+    iconDiv.innerHTML = `<span style="font-size: 12px;">${shortTitle}</span>`;
+    
+    iconDiv.onclick = () => {
+        const win = document.getElementById(windowId);
+        if (win.classList.contains("hidden")) {
+            win.classList.remove("hidden");
+            focusWindow(windowId);
+            if (windowId === "fileFolder") loadTextIntoWindow("text/text1TL.txt", "textContent");
+            if (windowId === "historyFile") loadTextIntoWindow("text/text3TL.txt", "historyContent");
+            if (windowId === "socialsFile") loadTextIntoWindow("text/text4TL.txt", "socialsContent");
+            if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
+            if (windowId === "colorsGroupsFile") loadTextIntoWindow("text/text2TL_1.txt", "colorsGroupsContent");
+            if (windowId === "participantsFile") loadTextIntoWindow("text/text2TL_2.txt", "participantsContent");
+        } else {
+            minimizeWindow(windowId);
+        }
+    };
+
+    taskbarApps.appendChild(iconDiv);
+}
+
+function focusWindow(windowId) {
+    document.querySelectorAll(".taskbar-app").forEach(el => el.classList.remove("active"));
+    const taskIcon = document.getElementById(`task-${windowId}`);
+    if (taskIcon) taskIcon.classList.add("active");
+    
+    document.querySelectorAll(".window").forEach(win => win.style.zIndex = 100);
+    const win = document.getElementById(windowId);
+    if (win) win.style.zIndex = 101;
+}
+
+function updateTaskbarActive(windowId, isActive) {
+    const taskIcon = document.getElementById(`task-${windowId}`);
+    if (taskIcon) {
+        isActive ? taskIcon.classList.add("active") : taskIcon.classList.remove("active");
+    }
+}
+
+// ===== ПЕРЕТАСКИВАНИЕ ОКОН =====
+let isDragging = false;
+let currentWindow = null;
+let offsetX, offsetY;
+
+function startDrag(e, header) {
+    const parentWindow = header.closest(".window");
+    if (parentWindow && parentWindow.classList.contains("windowed")) {
+        isDragging = true;
+        currentWindow = parentWindow;
+        const rect = parentWindow.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        offsetX = clientX - rect.left;
+        offsetY = clientY - rect.top;
+    }
+}
+
+function doDrag(e) {
+    if (isDragging && currentWindow) {
+        if (e.cancelable) e.preventDefault(); 
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        currentWindow.style.left = (clientX - offsetX) + "px";
+        currentWindow.style.top = (clientY - offsetY) + "px";
+    }
+}
+
+function stopDrag() {
+    isDragging = false;
+    currentWindow = null;
+}
+
+document.addEventListener("mousedown", (e) => {
+    const header = e.target.closest(".window-header");
+    if (header) startDrag(e, header);
+});
+document.addEventListener("mousemove", doDrag);
+document.addEventListener("mouseup", stopDrag);
+
+document.addEventListener("touchstart", (e) => {
+    const header = e.target.closest(".window-header");
+    if (header) startDrag(e, header);
+}, { passive: false });
+document.addEventListener("touchmove", doDrag, { passive: false });
+document.addEventListener("touchend", stopDrag);
+
+document.addEventListener("mousedown", (e) => {
+    const windowEl = e.target.closest(".window");
+    if (windowEl && !windowEl.classList.contains("hidden")) {
+        focusWindow(windowEl.id);
+    }
+});
+
+document.addEventListener("touchstart", (e) => {
+    const windowEl = e.target.closest(".window");
+    if (windowEl && !windowEl.classList.contains("hidden")) {
+        focusWindow(windowEl.id);
+    }
+}, { passive: true });
+
+// ===== FIREBASE =====
+const firebaseConfig = {
+    apiKey: "AIzaSyBw35A-ZB5HX4l30bpcodb9xtUSnHIz70w",
+    authDomain: "toastedlegacy.firebaseapp.com",
+    databaseURL: "https://toastedlegacy-default-rtdb.firebaseio.com",
+    projectId: "toastedlegacy",
+    storageBucket: "toastedlegacy.firebasestorage.app",
+    messagingSenderId: "112141364154",
+    appId: "1:112141364154:web:d69afa42ecfe2a79b40b83"
+};
+
+try {
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const myId = "user_" + Math.random().toString(36).substr(2, 9);
+    const myRef = database.ref("online/" + myId);
+    myRef.set(true);
+    myRef.onDisconnect().remove();
+    database.ref("online").on("value", (snapshot) => {
+        const count = snapshot.numChildren();
+        const el = document.getElementById("online-count");
+        if (el) el.textContent = count;
+    });
+} catch (error) {
+    console.error("Firebase error:", error);
+      }
