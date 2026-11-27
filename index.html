@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Toasted Legacy</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -10,7 +10,10 @@
 
 <nav class="navbar">
   <a class="logo" href="#home">TOASTED<span>LEGACY</span></a>
-  <ul class="nav-links">
+  <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
     <li><a href="#home">Home</a></li>
     <li><a href="#news">News</a></li>
     <li><a href="#members">Участники</a></li>
@@ -67,8 +70,18 @@
 <section id="game" class="section">
   <h2>Toast Catcher</h2>
   <p>Лови тосты в корзину. Пропустишь 5 — игра окончена.</p>
-  <div id="game-area">
-    <!-- сюда вставим canvas/логику игры -->
+  <div class="game-wrap">
+    <canvas id="toastGame"></canvas>
+    <div class="game-hud">
+      <span>Счёт: <b id="score">0</b></span>
+      <span>Рекорд: <b id="best">0</b></span>
+      <span>Жизни: <b id="lives">5</b></span>
+    </div>
+    <div class="game-overlay" id="overlay">
+      <h3 id="overlayTitle">Готов?</h3>
+      <p id="overlayText">Двигай корзину пальцем или мышкой. Лови тосты!</p>
+      <button class="btn primary" id="startBtn">Играть</button>
+    </div>
   </div>
 </section>
 
