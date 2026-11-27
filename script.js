@@ -1,344 +1,171 @@
-// ===== СПЛЕШИ И ТЕКСТ =====
-async function loadSplash() {
+// ===== ФОНОВОЕ ВИДЕО (ОДНО, ЗАЦИКЛЕННОЕ С 3 ПО 38 СЕК) =====
+let player = null;
+const videoId = "5yPU29pTQDA"; 
+
+const tag = document.createElement("script");
+tag.src = "https://www.youtube.com/iframe_api";
+document.head.appendChild(tag);
+
+window.onYouTubeIframeAPIReady = function() {
+    const container = document.getElementById("bg-video");
+    if (!container) return;
+    
+    container.innerHTML = '<div id="yt-player"></div>';
+    
+    player = new YT.Player("yt-player", {
+        videoId: videoId,
+        playerVars: {
+            autoplay: 1, mute: 1, controls: 0, showinfo: 0, rel: 0,
+            modestbranding: 1, playsinline: 1, disablekb: 1, iv_load_policy: 3,
+            loop: 1, playlist: videoId
+        },
+        events: {
+            onReady: function(event) { 
+                event.target.playVideo(); 
+            }
+        }
+    });
+};
+
+// Зацикливание с 3 по 38 секунду (для YouTube)
+function checkVideoTime() {
+    if (player && player.getCurrentTime) {
+        const time = player.getCurrentTime();
+        if (time >= 38) {
+            player.seekTo(3);
+        }
+    }
+}
+setInterval(checkVideoTime, 500);
+
+// ===== СПЛЕШИ (Ч/Б) =====
+const splashes = [
+    "Eye?", "R. R. R.", "Ash...", "Error", "Error - reload the site", 
+    "Thank you!", "Soon...", "Again.", "Cyanotype?", "I am alone here", 
+    "He created a world for himself", ":(", "Darkness", "January 24."
+];
+
+function loadSplash() {
     const splashEl = document.getElementById("splash");
-    if (!splashEl) return;
-    try {
-        const res = await fetch("text/splashes.txt");
-        const text = await res.text();
-        const splashes = text.split("\n").map(l => l.trim()).filter(l => l);
-        if (splashes.length > 0) splashEl.textContent = splashes[Math.floor(Math.random() * splashes.length)];
-    } catch (e) { splashEl.textContent = "Error"; }
+    if (splashEl) {
+        const randomSplash = splashes[Math.floor(Math.random() * splashes.length)];
+        splashEl.textContent = randomSplash;
+    }
 }
 loadSplash();
 
-async function loadTextIntoWindow(filePath, targetId) {
-    const content = document.getElementById(targetId);
-    if (!content || content.dataset.loaded) return;
-    try {
-        const res = await fetch(filePath);
-        const text = await res.text();
-        content.innerHTML = text.split("\n").filter(p => p.trim()).map(p => `<p style="margin-bottom: 8px; font-size: 13px; line-height: 1.5;">${p}</p>`).join("");
-        content.dataset.loaded = "true";
-    } catch (e) { content.innerHTML = "Ошибка загрузки текста."; }
-}
-
-// ===== ЗАЦИКЛИВАНИЕ ФОНОВОГО ВИДЕО =====
-document.addEventListener("DOMContentLoaded", () => {
-    const video = document.getElementById("bg-video-local");
-    if (video) {
-        video.addEventListener('loadedmetadata', () => {
-            video.currentTime = 3; video.play().catch(e => console.log(e));
-        });
-        video.addEventListener('timeupdate', () => {
-            if (video.currentTime >= 38) video.currentTime = 3;
-        });
-    }
-});
-
-// ===== СКРИНШОТЫ (КАРУСЕЛЬ) =====
-const screenshots = ["media/image1TL.jpg", "media/image2TL.jpg", "media/image3TL.jpg"];
+// ===== КАРУСЕЛЬ СКРИНШОТОВ (ГЛАВНАЯ) =====
+const screenshots = [
+    "media/image1TL.jpg",
+    "media/image2TL.jpg",
+    "media/image3TL.jpg"
+];
 let currentScreenshotIndex = 0;
 
-function updateScreenshotUI() {
+function updateScreenshot() {
     const img = document.getElementById("main-screenshot");
-    const title = document.getElementById("screenshotTitle");
-    if (img) img.src = screenshots[currentScreenshotIndex];
-    if (title) title.textContent = `скрин${currentScreenshotIndex + 1}`;
+    if (img) {
+        img.src = screenshots[currentScreenshotIndex];
+    }
 }
 
 function nextScreenshot() {
     currentScreenshotIndex = (currentScreenshotIndex + 1) % screenshots.length;
-    updateScreenshotUI();
-    adjustWindowSize("screenshotFolder", "main-screenshot");
+    updateScreenshot();
 }
 
 function prevScreenshot() {
     currentScreenshotIndex = (currentScreenshotIndex - 1 + screenshots.length) % screenshots.length;
-    updateScreenshotUI();
-    adjustWindowSize("screenshotFolder", "main-screenshot");
+    updateScreenshot();
 }
 
-// ===== РЕФЕРЕНСЫ (КАРУСЕЛЬ) =====
-const references = ["media/refer1TL.png", "media/refer2TL.png", "media/refer3TL.png"];
-let currentReferenceIndex = 0;
+// ===== КАРУСЕЛИ НА СТРАНИЦАХ =====
+// Подробности
+const detailSlides = ["slide-history", "slide-theme", "slide-news"];
+let currentDetailIndex = 0;
 
-function updateReferenceUI() {
-    const img = document.getElementById("main-reference");
-    const title = document.getElementById("referenceTitle");
-    if (img) img.src = references[currentReferenceIndex];
-    if (title) title.textContent = `референс${currentReferenceIndex + 1}`;
-}
-
-function nextReference() {
-    currentReferenceIndex = (currentReferenceIndex + 1) % references.length;
-    updateReferenceUI();
-    adjustWindowSize("referenceFolder", "main-reference");
-}
-
-function prevReference() {
-    currentReferenceIndex = (currentReferenceIndex - 1 + references.length) % references.length;
-    updateReferenceUI();
-    adjustWindowSize("referenceFolder", "main-reference");
-}
-
-// ===== ЛОГИКА ОКОН =====
-function openWindow(windowId, title) {
-    const win = document.getElementById(windowId);
-    if (!win) return;
-
-    win.classList.remove("hidden");
-    addTaskbarIcon(windowId, title);
-    focusWindow(windowId);
-
-    // Спец. загрузки
-    if (windowId === "fileFolder") loadTextIntoWindow("text/text1TL.txt", "textContent");
-    if (windowId === "historyFile") loadTextIntoWindow("text/text3TL.txt", "historyContent");
-    if (windowId === "socialsFile") loadTextIntoWindow("text/text4TL.txt", "socialsContent");
-    if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
-    if (windowId === "colorsGroupsFile") loadTextIntoWindow("text/text2TL_1.txt", "colorsGroupsContent");
-    if (windowId === "participantsFile") loadTextIntoWindow("text/text2TL_2.txt", "participantsContent");
-    
-    if (windowId === "screenshotFolder") {
-        updateScreenshotUI();
-        adjustWindowSize(windowId, "main-screenshot");
-    }
-    if (windowId === "referenceFolder") {
-        updateReferenceUI();
-        adjustWindowSize(windowId, "main-reference");
-    }
-    if (windowId === "videoFolder") {
-        const vid = document.getElementById("videoPlayer");
-        if (vid) {
-            vid.pause();
-            if (vid.readyState >= 1) {
-                adjustWindowSize(windowId, vid);
+function updateDetailSlides() {
+    detailSlides.forEach((id, index) => {
+        const slide = document.getElementById(id);
+        if (slide) {
+            if (index === currentDetailIndex) {
+                slide.classList.add("active");
             } else {
-                vid.onloadedmetadata = () => adjustWindowSize(windowId, vid);
+                slide.classList.remove("active");
             }
         }
-    }
+    });
 }
 
-function openFolder(windowId, title) {
-    openWindow(windowId, title);
+function nextDetail() {
+    currentDetailIndex = (currentDetailIndex + 1) % detailSlides.length;
+    updateDetailSlides();
 }
 
-function minimizeWindow(windowId) {
-    const win = document.getElementById(windowId);
-    if (win) {
-        win.classList.add("hidden");
-        updateTaskbarActive(windowId, false);
-        if (windowId === "videoFolder") {
-            const vid = document.getElementById("videoPlayer");
-            if (vid) vid.pause();
+function prevDetail() {
+    currentDetailIndex = (currentDetailIndex - 1 + detailSlides.length) % detailSlides.length;
+    updateDetailSlides();
+}
+
+// Участники
+const participantSlides = ["slide-p-toasted", "slide-p-legacy", "slide-p-socials"];
+let currentParticipantIndex = 0;
+
+function updateParticipantSlides() {
+    participantSlides.forEach((id, index) => {
+        const slide = document.getElementById(id);
+        if (slide) {
+            if (index === currentParticipantIndex) {
+                slide.classList.add("active");
+            } else {
+                slide.classList.remove("active");
+            }
         }
-    }
+    });
 }
 
-function closeWindow(windowId) {
-    const win = document.getElementById(windowId);
-    if (win) {
-        win.classList.add("hidden");
-        const taskIcon = document.getElementById(`task-${windowId}`);
-        if (taskIcon) taskIcon.remove();
-        if (windowId === "videoFolder") {
-            const vid = document.getElementById("videoPlayer");
-            if (vid) vid.pause();
-        }
-    }
+function nextParticipant() {
+    currentParticipantIndex = (currentParticipantIndex + 1) % participantSlides.length;
+    updateParticipantSlides();
 }
 
-function toggleMaximize(windowId) {
-    const win = document.getElementById(windowId);
-    if (!win) return;
-
-    if (win.classList.contains("windowed")) {
-        win.classList.remove("windowed");
-        win.style.top = ''; win.style.left = '';
-        win.style.width = '100%'; win.style.height = '100%';
-        win.style.transform = 'none';
-    } else {
-        win.classList.add("windowed");
-        win.style.top = '100px'; win.style.left = '100px';
-        win.style.width = '700px'; win.style.height = '500px';
-        win.style.transform = 'none';
-    }
+function prevParticipant() {
+    currentParticipantIndex = (currentParticipantIndex - 1 + participantSlides.length) % participantSlides.length;
+    updateParticipantSlides();
 }
 
-// ===== ПОДСТРОЙКА РАЗМЕРА ОКНА ПОД МЕДИА =====
-function adjustWindowSize(windowId, mediaElementOrId) {
-    const win = document.getElementById(windowId);
-    if (!win) return;
-
-    let media = typeof mediaElementOrId === 'string' ? document.getElementById(mediaElementOrId) : mediaElementOrId;
-    if (!media) return;
-
-    let mediaW, mediaH;
-
-    if (media.tagName === 'VIDEO') {
-        mediaW = media.videoWidth;
-        mediaH = media.videoHeight;
-    } else if (media.tagName === 'IMG') {
-        const tempImg = new Image();
-        tempImg.src = media.src;
-        if (tempImg.complete) {
-            mediaW = tempImg.width;
-            mediaH = tempImg.height;
-        } else {
-            tempImg.onload = () => {
-                applyWindowSize(win, tempImg.width, tempImg.height);
-            };
-            return;
-        }
-    } else {
-        return;
-    }
-
-    if (mediaW && mediaH) {
-        applyWindowSize(win, mediaW, mediaH);
-    }
+// ===== ЛАЙТБОКС =====
+function openLightbox(src) {
+    const lb = document.getElementById("lightbox");
+    const img = document.getElementById("lightbox-img");
+    if (!lb || !img) return;
+    img.src = src;
+    lb.classList.add("active");
 }
 
-function applyWindowSize(win, mediaW, mediaH) {
-    const maxW = window.innerWidth * 0.9;
-    const maxH = window.innerHeight * 0.9;
-
-    let newW = mediaW;
-    let newH = mediaH + 40; // 40px на шапку и рамки
-
-    if (newW > maxW) {
-        const ratio = maxW / newW;
-        newW = maxW;
-        newH = newH * ratio;
-    }
-    if (newH > maxH) {
-        const ratio = maxH / newH;
-        newH = maxH;
-        newW = newW * ratio;
-    }
-
-    // Оставляем окно перетаскиваемым (класс windowed)
-    win.classList.add('windowed'); 
-    
-    win.style.width = newW + 'px';
-    win.style.height = newH + 'px';
-    win.style.left = ((window.innerWidth - newW) / 2) + 'px';
-    win.style.top = ((window.innerHeight - newH) / 2) + 'px';
-    win.style.transform = 'none';
+function closeLightbox() {
+    const lb = document.getElementById("lightbox");
+    if (lb) lb.classList.remove("active");
 }
 
-function addTaskbarIcon(windowId, title) {
-    const taskbarApps = document.getElementById("taskbarApps");
-    if (document.getElementById(`task-${windowId}`)) {
-        focusWindow(windowId);
-        return;
+document.addEventListener("DOMContentLoaded", () => {
+    const lb = document.getElementById("lightbox");
+    const closeBtn = document.getElementById("lightbox-close");
+
+    if (lb) {
+        lb.addEventListener("click", (e) => {
+            if (e.target === lb) closeLightbox();
+        });
     }
-
-    const shortTitle = title.length > 12 ? title.substring(0, 12) + "..." : title;
-
-    const iconDiv = document.createElement("div");
-    iconDiv.className = "taskbar-app";
-    iconDiv.id = `task-${windowId}`;
-    iconDiv.innerHTML = `<span style="font-size: 12px;">${shortTitle}</span>`;
-    
-    iconDiv.onclick = () => {
-        const win = document.getElementById(windowId);
-        if (win.classList.contains("hidden")) {
-            win.classList.remove("hidden");
-            focusWindow(windowId);
-            if (windowId === "fileFolder") loadTextIntoWindow("text/text1TL.txt", "textContent");
-            if (windowId === "historyFile") loadTextIntoWindow("text/text3TL.txt", "historyContent");
-            if (windowId === "socialsFile") loadTextIntoWindow("text/text4TL.txt", "socialsContent");
-            if (windowId === "themeFile") loadTextIntoWindow("text/text2TL.txt", "themeContent");
-            if (windowId === "colorsGroupsFile") loadTextIntoWindow("text/text2TL_1.txt", "colorsGroupsContent");
-            if (windowId === "participantsFile") loadTextIntoWindow("text/text2TL_2.txt", "participantsContent");
-        } else {
-            minimizeWindow(windowId);
-        }
-    };
-
-    taskbarApps.appendChild(iconDiv);
-}
-
-function focusWindow(windowId) {
-    document.querySelectorAll(".taskbar-app").forEach(el => el.classList.remove("active"));
-    const taskIcon = document.getElementById(`task-${windowId}`);
-    if (taskIcon) taskIcon.classList.add("active");
-    
-    document.querySelectorAll(".window").forEach(win => win.style.zIndex = 100);
-    const win = document.getElementById(windowId);
-    if (win) win.style.zIndex = 101;
-}
-
-function updateTaskbarActive(windowId, isActive) {
-    const taskIcon = document.getElementById(`task-${windowId}`);
-    if (taskIcon) {
-        isActive ? taskIcon.classList.add("active") : taskIcon.classList.remove("active");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", closeLightbox);
     }
-}
-
-// ===== ПЕРЕТАСКИВАНИЕ ОКОН =====
-let isDragging = false;
-let currentWindow = null;
-let offsetX, offsetY;
-
-function startDrag(e, header) {
-    const parentWindow = header.closest(".window");
-    if (parentWindow && parentWindow.classList.contains("windowed")) {
-        isDragging = true;
-        currentWindow = parentWindow;
-        const rect = parentWindow.getBoundingClientRect();
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        offsetX = clientX - rect.left;
-        offsetY = clientY - rect.top;
-    }
-}
-
-function doDrag(e) {
-    if (isDragging && currentWindow) {
-        if (e.cancelable) e.preventDefault(); 
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        currentWindow.style.left = (clientX - offsetX) + "px";
-        currentWindow.style.top = (clientY - offsetY) + "px";
-    }
-}
-
-function stopDrag() {
-    isDragging = false;
-    currentWindow = null;
-}
-
-document.addEventListener("mousedown", (e) => {
-    const header = e.target.closest(".window-header");
-    if (header) startDrag(e, header);
-});
-document.addEventListener("mousemove", doDrag);
-document.addEventListener("mouseup", stopDrag);
-
-document.addEventListener("touchstart", (e) => {
-    const header = e.target.closest(".window-header");
-    if (header) startDrag(e, header);
-}, { passive: false });
-document.addEventListener("touchmove", doDrag, { passive: false });
-document.addEventListener("touchend", stopDrag);
-
-document.addEventListener("mousedown", (e) => {
-    const windowEl = e.target.closest(".window");
-    if (windowEl && !windowEl.classList.contains("hidden")) {
-        focusWindow(windowEl.id);
-    }
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+    });
 });
 
-document.addEventListener("touchstart", (e) => {
-    const windowEl = e.target.closest(".window");
-    if (windowEl && !windowEl.classList.contains("hidden")) {
-        focusWindow(windowEl.id);
-    }
-}, { passive: true });
-
-// ===== FIREBASE =====
+// ===== FIREBASE (СЧЁТЧИК ОНЛАЙНА) =====
 const firebaseConfig = {
     apiKey: "AIzaSyBw35A-ZB5HX4l30bpcodb9xtUSnHIz70w",
     authDomain: "toastedlegacy.firebaseapp.com",
@@ -363,49 +190,4 @@ try {
     });
 } catch (error) {
     console.error("Firebase error:", error);
-}
-// ===== МИНИ-ИГРА =====
-async function openToastGame() {
-    const win = document.getElementById("toastGameWindow");
-    if (!win) return;
-
-    win.classList.remove("hidden");
-    addTaskbarIcon("toastGameWindow", "Toast Catcher");
-    focusWindow("toastGameWindow");
-
-    const content = win.querySelector(".window-content");
-
-    // Загружаем HTML игры, если ещё не загружали
-    if (!content.dataset.loaded) {
-        const res = await fetch("game/toast.html");
-        content.innerHTML = await res.text();
-        content.dataset.loaded = "true";
-
-        // Подгружаем CSS игры (один раз)
-        if (!document.getElementById("toast-css")) {
-            const link = document.createElement("link");
-            link.id = "toast-css";
-            link.rel = "stylesheet";
-            link.href = "game/toast.css";
-            document.head.appendChild(link);
-        }
-
-        // Подгружаем JS игры (один раз)
-        if (!document.getElementById("toast-js")) {
-            const script = document.createElement("script");
-            script.id = "toast-js";
-            script.src = "game/toast.js";
-            document.body.appendChild(script);
-        }
-    }
-
-    // Сбрасываем состояние игры
-    if (typeof showGameStart === 'function') {
-        showGameStart();
-    }
-}
-
-function closeToastGame() {
-    if (typeof stopGame === 'function') stopGame();
-    closeWindow("toastGameWindow");
 }
